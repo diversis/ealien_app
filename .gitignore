@@ -18,14 +18,23 @@
 # misc
 .DS_Store
 *.pem
+.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+nosync
 
 # debug
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
+.pnpm-debug.log*
 
 # local env files
 .env*.local
+.env
 
 # vercel
 .vercel
@@ -33,3 +42,19 @@ yarn-error.log*
 # typescript
 *.tsbuildinfo
 next-env.d.ts
+
+#cypress env
+cypress.env.json
+
+#
+dist
+dist-ssr
+*.local
+
+.prettierignore
+
+README-template.md
+style-guide.md
+design
+
+.react-email
