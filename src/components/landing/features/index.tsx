@@ -1,4 +1,9 @@
-import { AnimatePresence, m, useInView, useScroll } from "framer-motion";
+import {
+    AnimatePresence,
+    m,
+    useInView,
+    useScroll,
+} from "framer-motion";
 import { useRef } from "react";
 
 import Feature from "./feature";

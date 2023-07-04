@@ -10,13 +10,19 @@ import {
     useSpring,
     useTransform,
 } from "framer-motion";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import Image from "next/image";
 
 import { OPACITY_VARIANTS } from "@/lib/constants";
 
 import heroImage from "@public/images/hero/1024.webp";
 import useWindowSize from "@/lib/hooks/use-window-size";
+import debounce from "lodash.debounce";
 
 const imageSizes =
     "(max-width:480px) 60vw, (max-width: 768px) 60vw, 600px";
@@ -24,12 +30,13 @@ const imageSizes =
 export default function Hero({
     mousePosition,
 }: {
-    mousePosition: { x: number, y: number }
+    mousePosition: { x: number; y: number };
     // mouseX: number;
     // mouseY: number;
 }) {
     const ref = useRef<HTMLDivElement>(null);
-    const displacementRef = useRef<SVGAnimationElement>(null);
+    const displacementRef =
+        useRef<SVGAnimationElement>(null);
     const turbulenceRef = useRef<SVGAnimationElement>(null);
     const { windowSize } = useWindowSize();
     const { scrollY, scrollYProgress } = useScroll();
@@ -39,33 +46,68 @@ export default function Hero({
     });
     const isInView = useInView(ref);
 
-
-
     // const [imagePosition, setImagePosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 })
-    const mouseX = useMotionValue(mousePosition.x)
-    const mouseY = useMotionValue(mousePosition.y)
-    const resX = useTransform(mouseX, latest => Math.cos(-((windowSize.width || 1) / 2 - mousePosition.x) / (windowSize.width || 1)) * 10)
-    const resY = useTransform(mouseY, latest => Math.sin(-((windowSize.height || 1) / 2 - mousePosition.y) / (windowSize.height || 1)) * 10)
+    const mouseX = useMotionValue(mousePosition.x);
+    const mouseY = useMotionValue(mousePosition.y);
+    const resX = useTransform(
+        mouseX,
+        (latest) =>
+            Math.tanh(
+                -(
+                    (windowSize.width || 1) / 2 -
+                    mousePosition.x
+                ) / (windowSize.width || 1),
+            ) * 50,
+    );
+    const resY = useTransform(
+        mouseY,
+        (latest) =>
+            Math.sin(
+                -(
+                    (windowSize.height || 1) / 2 -
+                    mousePosition.y
+                ) / (windowSize.height || 1),
+            ) * 50,
+    );
 
-    const x = useSpring(resX, { stiffness: 250, damping: 150 });
-    const y = useSpring(resY, { stiffness: 250, damping: 150 });
+    const x = useSpring(resX, {
+        stiffness: 250,
+        damping: 150,
+    });
+    const y = useSpring(resY, {
+        stiffness: 250,
+        damping: 150,
+    });
 
-    const onMouseMove = useCallback((mousePosition: { x: number, y: number }): { x: number, y: number } => {
-        const width = windowSize.width || 1
-        const height = windowSize.height || 1
+    const onMouseMove = useCallback(
+        (mousePosition: {
+            x: number;
+            y: number;
+        }): { x: number; y: number } => {
+            const width = windowSize.width || 1;
+            const height = windowSize.height || 1;
 
-        const resX = Math.cos(-(width / 2 - mousePosition.x) / width) * 10
-        const resY = Math.sin(-(height / 2 - mousePosition.y) / height) * 10
+            const resX =
+                Math.cos(
+                    -(width / 2 - mousePosition.x) / width,
+                ) * 10;
+            const resY =
+                Math.sin(
+                    -(height / 2 - mousePosition.y) /
+                        height,
+                ) * 10;
 
-        if (typeof resX !== "number" || typeof resY !== "number") {
-            console.log(resX, resY);
-            return { x: 0, y: 0 };
-        }
-        return { x: resX, y: resY };
-    }, [windowSize]);
-
-
-
+            if (
+                typeof resX !== "number" ||
+                typeof resY !== "number"
+            ) {
+                console.log(resX, resY);
+                return { x: 0, y: 0 };
+            }
+            return { x: resX, y: resY };
+        },
+        [windowSize],
+    );
 
     // useEffect(() => {
     //     if (isInView) {
@@ -82,18 +124,27 @@ export default function Hero({
     useEffect(() => {
         {
             // console.log(scrollYProgress.get())
-            const playAnimation = async () => {
-                if (isInView && displacementRef.current && turbulenceRef.current) {
-
-                    await displacementRef.current.beginElement()
-                    await turbulenceRef.current.beginElement()
-                    await displacementRef.current.endElement()
-                    await turbulenceRef.current.endElement()
+            const playAnimation = debounce(async () => {
+                if (
+                    isInView &&
+                    displacementRef.current &&
+                    turbulenceRef.current
+                ) {
+                    await displacementRef.current.beginElement();
+                    await turbulenceRef.current.beginElement();
+                    await displacementRef.current.endElement();
+                    await turbulenceRef.current.endElement();
                 }
-            }
-            playAnimation()
+            }, 500);
+            playAnimation.cancel();
+            playAnimation();
         }
-    }, [displacementRef, isInView, springScroll, mousePosition]);
+    }, [
+        displacementRef,
+        isInView,
+        springScroll,
+        mousePosition,
+    ]);
     return (
         <m.div
             data-test="hero-section-image"
@@ -104,10 +155,10 @@ export default function Hero({
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
-        // style={{
-        //     x,
-        //     transition: "transform 100ms ease-out",
-        // }}
+            // style={{
+            //     x,
+            //     transition: "transform 100ms ease-out",
+            // }}
         >
             <svg
                 style={{
@@ -120,7 +171,7 @@ export default function Hero({
                 }}
             >
                 <defs>
-                    <filter id="noise">
+                    <filter id="hero-noise">
                         <feTurbulence
                             baseFrequency="0.6,0.8"
                             seed="0"
@@ -130,8 +181,15 @@ export default function Hero({
                             <animate
                                 ref={turbulenceRef}
                                 attributeName="seed"
-                                values={`0;${springScroll.get()};0`}
-                                dur="700ms"
+                                values={`0;${
+                                    30 + Math.random() * 50
+                                };0`}
+                                dur={`${
+                                    Math.floor(
+                                        Math.random() *
+                                            1000,
+                                    ) + 250
+                                }ms`}
                                 repeatCount="1"
                                 begin="indefinite"
                             />
@@ -143,8 +201,15 @@ export default function Hero({
                             <animate
                                 ref={displacementRef}
                                 attributeName="scale"
-                                values={`0;${springScroll.get() / 5 + Math.random() * 15};0`}
-                                dur="700ms"
+                                values={`0;${
+                                    10 + Math.random() * 10
+                                };0`}
+                                dur={`${
+                                    Math.floor(
+                                        Math.random() *
+                                            1000,
+                                    ) + 250
+                                }ms`}
                                 repeatCount="1"
                                 begin="indefinite"
                             />
@@ -154,15 +219,29 @@ export default function Hero({
             </svg>
             <div className="relative isolate flex aspect-square  max-h-full w-full">
                 {/* <div className="radial-mask absolute -bottom-[10%] -left-[10%] -right-[10%] -top-[10%] isolate -z-[1] bg-black bg-gradient-to-t from-tertiary-200 to-primary-100"></div> */}
-                <div className="relative isolate z-10 h-auto w-full aspect-[640/951]">
-                    <span className="text-[10vw] radial-mask absolute inset-0 font-bold text-transparent text-stroke">{Math.floor(springScroll.get() * 1000000) + x.get() * y.get() * 100}</span>
+                <div className="relative isolate z-10 aspect-[640/951] h-auto w-full">
+                    <m.span
+                        style={{
+                            fontSize: "20vmin",
+                            x,
+                            y,
+                        }}
+                        className="radial-mask text-stroke absolute inset-0 break-all font-bold text-transparent"
+                    >
+                        {Math.abs(
+                            Math.floor(
+                                x.get() *
+                                    y.get() *
+                                    10000000,
+                            ),
+                        )}
+                    </m.span>
                     <Image
-
                         fill
                         sizes={imageSizes}
                         src={heroImage}
                         alt="Site Hero"
-                        className="absolute inset-0 radial-mask filter-noise aspect-[640/951] h-auto w-full object-contain"
+                        className="radial-mask absolute inset-0 aspect-[640/951] h-auto w-full object-contain [filter:url(#hero-noise)]"
                         priority
                     />
                 </div>

@@ -1,4 +1,9 @@
-import { AnimatePresence, m, useInView, useScroll } from "framer-motion";
+import {
+    AnimatePresence,
+    m,
+    useInView,
+    useScroll,
+} from "framer-motion";
 import { useRef } from "react";
 
 import TestimonialsCard from "./card";
@@ -33,9 +38,13 @@ export default function TestimonialsSection() {
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
-            className="relative flex  w-full flex-col items-center"
+            className="relative flex  min-h-screen w-full flex-col items-center md:min-h-[calc(100vh_-_6rem)]"
         >
-            <Typography variant="h2" tabIndex={0} className="h2 text-center">
+            <Typography
+                variant="h2"
+                tabIndex={0}
+                className="h2 text-center"
+            >
                 Testimonials
             </Typography>
             <div className="flex h-1/2 w-full flex-1">
@@ -44,18 +53,20 @@ export default function TestimonialsSection() {
                         0: {
                             slidesPerView: 1,
                             spaceBetween: 0,
-                        }
+                        },
                     }}
                     autoplayDelay={20000}
+                    controls={false}
                 >
                     {TESTIMONIALS.map((item) => (
-
                         <TestimonialsCard
-                            key={`testimonials-${item.name.replace(" ", "-")}`}
+                            key={`testimonials-${item.name.replace(
+                                " ",
+                                "-",
+                            )}`}
                             name={item.name}
                             photo={item.photo}
                         />
-
                     ))}
                 </Carousel>
             </div>

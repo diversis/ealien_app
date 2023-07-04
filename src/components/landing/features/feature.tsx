@@ -1,5 +1,10 @@
-"use client"
-import { m, useInView, useScroll, useTransform } from "framer-motion";
+"use client";
+import {
+    m,
+    useInView,
+    useScroll,
+    useTransform,
+} from "framer-motion";
 import { useRef } from "react";
 
 import { OPACITY_VARIANTS } from "@/lib/constants";
@@ -56,7 +61,10 @@ export default function Feature({
                 <h2 tabIndex={0} className="h2">
                     {title}
                 </h2>
-                <p tabIndex={0} className="text-shadow  text-lg xl:text-xl">
+                <p
+                    tabIndex={0}
+                    className="text-shadow  text-lg xl:text-xl"
+                >
                     <Balancer ratio={0.5}>{text}</Balancer>
                 </p>
             </article>
@@ -64,7 +72,7 @@ export default function Feature({
                 data-test={`feature-${id}-photo`}
                 className="flex aspect-square h-auto max-h-[50dvh] w-full justify-center xl:sticky xl:top-0 xl:mb-[25rem] xl:self-start xl:pt-40 xl:[grid-area:1/1/2/6]"
             >
-                <div className="w-full aspect-square h-auto">
+                <div className="aspect-square h-auto w-full">
                     <Photo imgSrc={photo} />
                 </div>
             </div>

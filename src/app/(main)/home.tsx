@@ -13,6 +13,7 @@ import ProductCard from "@/components/catalogue/productCard";
 import Carousel from "@/components/shared/carousel/carousel";
 import FeaturesSection from "@/components/landing/features";
 import TestimonialsSection from "@/components/landing/testimonials";
+import CTABottom from "@/components/landing/cta-bottom";
 // import dynamic from "next/dynamic";
 // import Social from "@/components/shared/social";
 
@@ -42,14 +43,18 @@ export default function Home({
             <div className=" mb-8 flex w-full flex-col items-center justify-center gap-y-4 lg:gap-y-8 xl:mb-16 xl:gap-y-16">
                 <AnimatePresence>
                     {/* <Social /> */}
-                    <HeroSection key='hero-section' />
-                    <FeaturesSection key='features-section' />
-                    <TestimonialsSection key='testimonials-section' />
-                    <Carousel key='carousel-section'>
+                    <HeroSection key="hero-section" />
+                    <FeaturesSection key="features-section" />
+                    <TestimonialsSection key="testimonials-section" />
+                    <Carousel key="carousel-section">
                         {products.map((product) => (
-                            <ProductCard key={`card-${product.id}`} product={product} />
+                            <ProductCard
+                                key={`card-${product.id}`}
+                                product={product}
+                            />
                         ))}
                     </Carousel>
+                    <CTABottom key="cta-bottom-section" />
                 </AnimatePresence>
             </div>
         </>

@@ -13,6 +13,8 @@ import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 import Balancer from "react-wrap-balancer";
 import Photo from "@/components/shared/photo";
 import { Typography } from "@mui/material";
+import { SLIDE_Y_VARIANTS } from "@/lib/constants";
+import { SLIDE_Y_P_VARIANTS } from "@/components/shared/animatedDiv";
 
 export default function TestimonialsCard({
     name,
@@ -46,9 +48,13 @@ export default function TestimonialsCard({
                     {name}
                 </Typography>
                 <div className="flex flex-col items-center gap-0">
-                    <blockquote
+                    <m.blockquote
+                        variants={SLIDE_Y_P_VARIANTS}
+                        initial="hidden"
+                        animate={isInView ? "visible" : "hidden"}
+                        exit="hidden"
                         tabIndex={isInView ? 0 : undefined}
-                        className="flex w-full items-center  text-base text-primary-900 dark:text-primary-50 xl:text-lg"
+                        className="flex w-full items-center relative text-base text-primary-900 dark:text-primary-50 xl:text-lg"
                     >
                         <Balancer ratio={0.5} className="break-all w-full text-justify">
                             <em className="mr-2" />
@@ -60,8 +66,8 @@ export default function TestimonialsCard({
                             tincidunt ornare massa eget
                             egestas purus viverra.
                         </Balancer>
-                        <FormatQuoteIcon className="absolute left-0 top-0 z-[-1] h-12 w-12 fill-surface-500" />
-                    </blockquote>
+                        <FormatQuoteIcon className="absolute left-0 -top-12 z-[-1] h-12 w-12 fill-surface-500" />
+                    </m.blockquote>
                 </div>
             </article>
         </m.section>
