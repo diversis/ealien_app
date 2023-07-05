@@ -1,18 +1,28 @@
 import type { Product, Category } from "@prisma/client";
 import prisma from "./prisma";
 import { Decimal } from "@prisma/client/runtime/library";
-import { CompactProduct, SerializableCompactProduct } from "./types";
+import {
+    CompactProduct,
+    SerializableCompactProduct,
+} from "./types";
 export type { Product, Category } from "@prisma/client";
+
 const logger = require("@/lib/utils/logger");
-const productLogger = logger.child({ origin: "prisma product" });
+const productLogger = logger.child({
+    origin: "prisma product",
+});
 
-export type ProductWithCategories = SerializableCompactProduct & {
-    categories: { name: string }[];
-};
+export type ProductWithCategories =
+    SerializableCompactProduct & {
+        categories: { name: string }[];
+    };
 
-export async function getProduct(
-    id: string,
-): Promise<(Product & { categories: { name: Category["name"] }[] }) | null> {
+export async function getProduct(id: string): Promise<
+    | (Product & {
+          categories: { name: Category["name"] }[];
+      })
+    | null
+> {
     let prod;
     try {
         prod = await prisma.product.findUnique({
@@ -32,21 +42,36 @@ export async function getProduct(
     return null;
 }
 
-export async function getProductListItems(
-    page: number | undefined,
-    searchKey: string | undefined,
-    category: string | undefined,
-    brand: string | undefined,
-    color: string | undefined,
-    priceRange: string | undefined,
-) {
+export async function getProductListItems({
+    page = 1,
+    searchKey,
+    category,
+    brand,
+    color,
+    minPrice,
+    maxPrice,
+}: {
+    page?: number;
+    searchKey?: string;
+    category?: string;
+    brand?: string;
+    color?: string;
+    minPrice?: number;
+    maxPrice?: number;
+}): Promise<{
+    productListItems: Product[];
+    page: number;
+    hasMore: boolean;
+    count: number;
+}> {
     const reqColor = color;
     const reqBrand = brand;
     const reqCategory = category;
-    const reqHighPrice = priceRange?.split("-")[1] || undefined;
-    const reqLowPrice = priceRange?.split("-")[0] || 0;
+    const reqHighPrice = maxPrice || undefined;
+    const reqLowPrice = minPrice || 0;
     const reqPage = page ? (page < 1 ? 1 : page) : 1;
     let data: Product[] = [];
+    let count = 0;
     let searchString = "";
     // productLogger.info(
     //     "GET PRODUCT LIST  page   " +
@@ -60,7 +85,13 @@ export async function getProductListItems(
     //         "   color   " +
     //         reqColor +
     //         "   price   " +
-    //         priceRange,
+    //         reqLowPrice +
+    //         "-" +
+    //         reqHighPrice +
+    //         "price range: " +
+    //         minPrice +
+    //         "-" +
+    //         maxPrice,
     // );
     if (typeof searchKey === "string" && searchKey) {
         searchString = searchKey.trim();
@@ -81,46 +112,104 @@ export async function getProductListItems(
     //   });
     //   productLogger.info(data);
     // }
-    data = await prisma.product.findMany({
+    count = await prisma.product.count({
         where: {
-            name: {
-                contains: searchString,
-                mode: "insensitive",
-            },
-            color: reqColor
+            ...(searchString
                 ? {
-                      equals: reqColor,
+                      name: {
+                          contains: searchString,
+                          mode: "insensitive",
+                      },
                   }
-                : {
-                      contains: "",
-                  },
-            brand: reqBrand
+                : {}),
+            ...(reqColor
                 ? {
-                      equals: reqBrand,
+                      color: {
+                          equals: reqColor,
+                      },
                   }
-                : {
-                      contains: "",
-                  },
-            price: reqHighPrice
+                : {}),
+            ...(reqBrand
                 ? {
-                      lte: reqHighPrice,
-                      gte: reqLowPrice,
+                      brand: {
+                          equals: reqBrand,
+                      },
                   }
-                : {
-                      gte: reqLowPrice,
-                  },
-            categories: reqCategory
+                : {}),
+            ...(reqHighPrice
                 ? {
-                      some: {
-                          name: {
-                              contains: reqCategory,
-                              mode: "insensitive",
-                          },
+                      price: {
+                          lte: reqHighPrice,
+                          gte: reqLowPrice,
                       },
                   }
                 : {
-                      none: {},
-                  },
+                      price: {
+                          gte: reqLowPrice,
+                      },
+                  }),
+            ...(reqCategory
+                ? {
+                      categories: {
+                          some: {
+                              name: {
+                                  contains: reqCategory,
+                                  mode: "insensitive",
+                              },
+                          },
+                      },
+                  }
+                : {}),
+        },
+    });
+    data = await prisma.product.findMany({
+        where: {
+            ...(searchString
+                ? {
+                      name: {
+                          contains: searchString,
+                          mode: "insensitive",
+                      },
+                  }
+                : {}),
+            ...(reqColor
+                ? {
+                      color: {
+                          equals: reqColor,
+                      },
+                  }
+                : {}),
+            ...(reqBrand
+                ? {
+                      brand: {
+                          equals: reqBrand,
+                      },
+                  }
+                : {}),
+            ...(reqHighPrice
+                ? {
+                      price: {
+                          lte: reqHighPrice,
+                          gte: reqLowPrice,
+                      },
+                  }
+                : {
+                      price: {
+                          gte: reqLowPrice,
+                      },
+                  }),
+            ...(reqCategory
+                ? {
+                      categories: {
+                          some: {
+                              name: {
+                                  contains: reqCategory,
+                                  mode: "insensitive",
+                              },
+                          },
+                      },
+                  }
+                : {}),
         },
         // select: {
         //   id: true,
@@ -137,38 +226,46 @@ export async function getProductListItems(
     if (data.length === 16) {
         hasMore = true;
     }
-    // productLogger.info(data);
-    return { productListItems: data, page: reqPage, hasMore };
+    // productLogger.info({ data });
+    return {
+        productListItems: data,
+        page: reqPage,
+        hasMore,
+        count,
+    };
 }
 
 export async function getBrandProducts(): Promise<{
     productListItems: CompactProduct[];
 }> {
     // productLogger.info("best products get \n ");
-    let data: CompactProduct[] = await prisma.product.findMany({
-        where: {
-            brand: {
-                equals: "AAlien",
+    let data: CompactProduct[] =
+        await prisma.product.findMany({
+            where: {
+                brand: {
+                    equals: "AAlien",
+                },
             },
-        },
-        select: {
-            id: true,
-            name: true,
-            price: true,
-            image: true,
-            countInStock: true,
-            rating: true,
-            currencyId: true,
-        },
-        orderBy: { rating: "desc" },
-    });
+            select: {
+                id: true,
+                name: true,
+                price: true,
+                image: true,
+                countInStock: true,
+                rating: true,
+                currencyId: true,
+            },
+            orderBy: { rating: "desc" },
+        });
     // productLogger.info("aalien products: ", data);
     return { productListItems: data };
 }
 
 // : Promise<{ [id: string]: Pick<Product, "countInStock"> } | number|null>
 
-export async function getProductsListCountInStock(id: string | string[]) {
+export async function getProductsListCountInStock(
+    id: string | string[],
+) {
     // let data: { [id: string]: Pick<Product, "countInStock"> } = {};
     if (Array.isArray(id)) {
         try {
@@ -212,28 +309,31 @@ export async function getBestProducts(): Promise<{
     productListItems: CompactProduct[];
 }> {
     // productLogger.info("best products get \n ");
-    let data: CompactProduct[] = await prisma.product.findMany({
-        where: {
-            rating: {
-                gte: new Decimal(4),
+    let data: CompactProduct[] =
+        await prisma.product.findMany({
+            where: {
+                rating: {
+                    gte: new Decimal(4),
+                },
             },
-        },
-        select: {
-            id: true,
-            name: true,
-            price: true,
-            image: true,
-            countInStock: true,
-            rating: true,
-            currencyId: true,
-        },
-        orderBy: { rating: "desc" },
-    });
+            select: {
+                id: true,
+                name: true,
+                price: true,
+                image: true,
+                countInStock: true,
+                rating: true,
+                currencyId: true,
+            },
+            orderBy: { rating: "desc" },
+        });
     // productLogger.info("best products: ", data);
     return { productListItems: data };
 }
 
-export async function getCategoryProducts(category: string): Promise<{
+export async function getCategoryProducts(
+    category: string,
+): Promise<{
     productListItems: CompactProduct[];
 }> {
     const data = await prisma.product.findMany({
