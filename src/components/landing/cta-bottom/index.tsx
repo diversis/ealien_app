@@ -27,7 +27,7 @@ export default function CTABottom() {
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
             ref={ref}
-            className="container relative flex h-[80dvh]  w-full flex-col items-center justify-center gap-y-24"
+            className="container relative flex h-[100vh]  w-full flex-col items-center justify-center gap-y-24"
         >
             <Typography
                 variant="h2"

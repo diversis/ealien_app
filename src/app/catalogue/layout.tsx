@@ -1,10 +1,11 @@
-"use client"
+"use client";
 import { Suspense } from "react";
-import { CircularProgress } from "@mui/material"
+import { CircularProgress } from "@mui/material";
 import PageTransition from "../pageTransition";
 import Footer from "@/components/layout/footer";
+import Header from "@/components/layout/header";
 
-export default function MainLayout({
+export default function CatalogueLayout({
     // Layouts must accept a children prop.
     // This will be populated with nested layouts or pages
     children,
@@ -13,22 +14,16 @@ export default function MainLayout({
 }) {
     return (
         <>
-
-            <a
-                href="#main"
-                className="fixed top-0 z-[9000] mx-auto -translate-y-full bg-white px-4 py-2 transition-transform focus:translate-y-0"
-            >
-                Skip to content
-            </a>
-
-
+            <Header />
             <main
                 key="main"
                 id="main"
-                className="mb-16 w-screen flex min-h-screen flex-col md:mt-24 md:min-h-[calc(100vh_-_6rem)] lg:mb-20 xl:mb-24"
+                className="mb-16 flex min-h-screen w-screen flex-col md:mt-24 md:min-h-[calc(100vh_-_6rem)] lg:mb-20 xl:mb-24"
             >
                 <Suspense fallback={<CircularProgress />}>
-                    <PageTransition> {children}</PageTransition>
+                    <PageTransition>
+                        {children}
+                    </PageTransition>
                 </Suspense>
             </main>
             <Footer />

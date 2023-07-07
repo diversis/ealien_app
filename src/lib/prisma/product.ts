@@ -17,7 +17,11 @@ export type ProductWithCategories =
         categories: { name: string }[];
     };
 
-export async function getProduct(id: string): Promise<
+export async function getProduct({
+    id,
+}: {
+    id: string;
+}): Promise<
     | (Product & {
           categories: { name: Category["name"] }[];
       })

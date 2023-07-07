@@ -17,6 +17,13 @@ export default function RootLayout({
         <html lang="en" suppressHydrationWarning>
             <body>
                 <Filters />
+                <a
+                    key="skip-to-content"
+                    href="#main"
+                    className="fixed top-0 z-[9000] mx-auto -translate-y-full bg-surface-50 px-4 py-2 transition-transform focus:translate-y-0 dark:bg-surface-900"
+                >
+                    Skip to content
+                </a>
                 <Providers session={session}>
                     {children}
                 </Providers>

@@ -2,7 +2,7 @@ import Catalogue from "./catalogue";
 import { getServerSession } from "next-auth/next";
 import { authOptions } from "../api/auth/[...nextauth]/route";
 
-import { Metadata } from "next";
+import { Metadata, ResolvingMetadata } from "next";
 
 import {
     Product,
@@ -19,6 +19,33 @@ const logger = require("@/lib/utils/logger");
 const catalogueLogger = logger.child({
     origin: "Catalogue Page",
 });
+
+export async function generateMetadata(
+    {
+        searchParams,
+    }: {
+        searchParams: {
+            [key: string]: string | string[] | undefined;
+        };
+    },
+    parent: ResolvingMetadata,
+): Promise<Metadata> {
+    // read route params
+    const previousImages =
+        (await parent)?.openGraph?.images || [];
+
+    // optionally access and extend (rather than replace) parent metadata
+
+    return {
+        title: "AAlien | Catalogue",
+        // openGraph: {
+        // 	images: [
+        // 		getImageLink({ feature }) || "",
+        // 		...previousImages,
+        // 	],
+        // },
+    };
+}
 
 export default async function Page({
     searchParams,

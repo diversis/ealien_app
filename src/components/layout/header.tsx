@@ -2,16 +2,17 @@
 import { AnimatePresence, m } from "framer-motion";
 import { useState } from "react";
 import useScrolled from "@/lib/hooks/use-scrolled";
-import useScreenSize from "@/lib/hooks/use-screen-size";
 
 import Link from "next/link";
 import Social from "../shared/social";
 import MobileMenu from "./mobileMenu";
 import { OPACITY_VARIANTS } from "@/lib/constants";
+import useWindowSize from "@/lib/hooks/use-window-size";
+import SwitchTheme from "../shared/switch-theme";
 
 const Header = () => {
     // const IsClient = useIsClient();
-    const { isMobile, isDesktop } = useScreenSize();
+    const { isMobile, isDesktop } = useWindowSize();
     const [menuOpen, setMenuOpen] = useState(false);
     const scrolled = useScrolled(300);
 
@@ -30,27 +31,21 @@ const Header = () => {
                     <m.div
                         variants={OPACITY_VARIANTS}
                         key="menu"
-                        className={`fixed left-0 top-0 z-30 flex h-24  w-screen flex-row items-center justify-between  px-8 backdrop-blur-[8px] transition-colors duration-300 ${scrolled
-                            ? "bg-surface-50/50 dark:bg-surface-900/50"
-                            : ""
-                            }`}
+                        className={`fixed left-0 top-0 z-30 flex h-24  w-screen flex-row items-center justify-between  px-8 backdrop-blur-[8px] transition-colors duration-300 ${
+                            scrolled
+                                ? "bg-surface-50/50 dark:bg-surface-900/50"
+                                : ""
+                        }`}
                     >
                         <m.div>
                             <Link href="/">
                                 <div className="flex place-items-center gap-x-6">
-                                    <div className="h-12 w-12 place-self-center">
-                                        <LogoMini />
-                                    </div>
-                                    <p className="h5">
-                                        <HeroText quotes={false}>
-                                            Живой Дом
-                                        </HeroText>
-                                    </p>
+                                    LOGO
                                 </div>
                             </Link>
                         </m.div>
                         {/* <MainNav className="flex flex-row" /> */}
-                        <Contacts />
+                        {/* <Contacts /> */}
                         <Social />
                         <SwitchTheme />
                     </m.div>
