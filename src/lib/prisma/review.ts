@@ -2,7 +2,9 @@ import type { Review } from "@prisma/client";
 import prisma from "./prisma";
 export type { Review } from "@prisma/client";
 const logger = require("@/lib/utils/logger");
-const productLogger = logger.child({ origin: "prisma product" });
+const productLogger = logger.child({
+    origin: "prisma product",
+});
 
 export async function createProductReviews({
     userId,
@@ -16,23 +18,25 @@ export async function createProductReviews({
     rating: number;
 }) {
     try {
-        const oldReview = await prisma.review.findFirstOrThrow({
-            where: {
-                AND: [
-                    {
-                        userId: {
-                            equals: userId,
+        const oldReview =
+            await prisma.review.findFirstOrThrow({
+                where: {
+                    AND: [
+                        {
+                            userId: {
+                                equals: userId,
+                            },
+                            productId: {
+                                equals: productId,
+                            },
                         },
-                        productId: {
-                            equals: productId,
-                        },
-                    },
-                ],
-            },
-        });
+                    ],
+                },
+            });
         return {
             error: {
-                message: "You have already posted a review for this product ",
+                message:
+                    "You have already posted a review for this product ",
             },
             data: oldReview.content,
         };
@@ -49,10 +53,13 @@ export async function createProductReviews({
     }
 }
 
-export async function getProductReviews(
-    productId: string,
-    reqPage: number | undefined,
-): Promise<
+export async function getProductReviews({
+    productId,
+    reqPage=1,
+}: {
+    productId: string;
+    reqPage?: number;
+}): Promise<
     (Review & {
         user: {
             name: string | null;

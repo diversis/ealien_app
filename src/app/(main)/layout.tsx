@@ -13,8 +13,6 @@ export default function MainLayout({
 }) {
     return (
         <>
-            
-
             <main
                 key="main"
                 id="main"
@@ -22,7 +20,6 @@ export default function MainLayout({
             >
                 <Suspense fallback={<CircularProgress />}>
                     <PageTransition>
-                        {" "}
                         {children}
                     </PageTransition>
                 </Suspense>

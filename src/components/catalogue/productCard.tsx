@@ -36,6 +36,7 @@ export default function ProductCard({
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
+            className="w-full"
         >
             <MoCard className="relative">
                 <Link

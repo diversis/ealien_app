@@ -2,8 +2,13 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { useIsomorphicLayoutEffect } from "usehooks-ts";
+// import {
+//     useTheme as useMUITheme,
+//     ThemeProvider,
+//     createTheme,
+// } from "@mui/material/styles";
 
-import { AnimatePresence, m } from "framer-motion";
+// import { AnimatePresence, m } from "framer-motion";
 // import { FaMoon, FaSun } from "react-icons/fa";
 
 import {
@@ -18,14 +23,21 @@ const SwitchTheme = () => {
     const [checked, setChecked] = useState(false);
     const [mounted, setMounted] = useState(false);
 
-    const currentTheme =
-        theme === "system" ? systemTheme : theme;
-
     useEffect(() => {
         setMounted(true);
     }, []);
     useIsomorphicLayoutEffect(() => {
         setChecked(resolvedTheme === "light");
+        // if (
+        //     resolvedTheme === "light" ||
+        //     resolvedTheme === "dark"
+        // ) {
+        //     createTheme({
+        //         palette: {
+        //             mode: resolvedTheme,
+        //         },
+        //     });
+        // }
     }, [resolvedTheme]);
 
     if (!mounted) return null;
@@ -36,7 +48,7 @@ const SwitchTheme = () => {
                     ? "Сменить тему на темную"
                     : "Сменить тему на светлую"
             }
-            checked={theme === "dark"}
+            checked={resolvedTheme === "dark"}
             className="h-10"
             onChange={async () =>
                 await setTheme(

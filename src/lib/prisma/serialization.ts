@@ -75,9 +75,9 @@ export const serializeOrder = (
     return null;
 };
 
-export const serializeReview = (
-    review: Review,
-): SerializableNext<Review> | null => {
+export const serializeReview = <T extends Review>(
+    review: T ,
+) => {
     try {
         const serializableReview = {
             ...review,

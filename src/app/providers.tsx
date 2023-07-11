@@ -11,8 +11,11 @@ import {
 } from "framer-motion";
 
 import { Provider as RWBProvider } from "react-wrap-balancer";
-import { SnackbarProvider, enqueueSnackbar } from 'notistack';
-
+import {
+    SnackbarProvider,
+    enqueueSnackbar,
+} from "notistack";
+import MUIThemeProvider from "@/components/layout/mui-theme-provider";
 
 export function Providers({
     children,
@@ -23,21 +26,28 @@ export function Providers({
 }) {
     return (
         <SessionProvider session={session}>
-            <ThemeProvider attribute="class" defaultTheme="light">
-                <SnackbarProvider >
-                    <LazyMotion features={domMax} strict>
-                        <MotionConfig reducedMotion="user">
-
-                            <RWBProvider>
-                                {/* <Suspense fallback={<NextNProgress />}> */}
-                                {children}
-                                {/* </Suspense> */}
-                            </RWBProvider>
-
-                        </MotionConfig>
-
-                    </LazyMotion>
-                </SnackbarProvider>
+            <ThemeProvider
+                attribute="class"
+                defaultTheme="system"
+                enableSystem={true}
+                themes={["light", "dark"]}
+            >
+                <MUIThemeProvider>
+                    <SnackbarProvider>
+                        <LazyMotion
+                            features={domMax}
+                            strict
+                        >
+                            <MotionConfig reducedMotion="user">
+                                <RWBProvider>
+                                    {/* <Suspense fallback={<NextNProgress />}> */}
+                                    {children}
+                                    {/* </Suspense> */}
+                                </RWBProvider>
+                            </MotionConfig>
+                        </LazyMotion>
+                    </SnackbarProvider>
+                </MUIThemeProvider>
             </ThemeProvider>
         </SessionProvider>
     );
