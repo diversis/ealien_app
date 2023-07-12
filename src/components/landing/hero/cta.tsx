@@ -1,19 +1,26 @@
-"use client"
+"use client";
 import {
     OPACITY_VARIANTS,
     SUBTITLE_VARIANTS,
     TITLE_VARIANTS,
 } from "@/lib/constants";
-import { useCallback, useEffect, useRef, useState } from "react";
+import {
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import {
     AnimatePresence,
     m,
     useInView,
-    useSpring, useMotionValue, useTransform
+    useSpring,
+    useMotionValue,
+    useTransform,
 } from "framer-motion";
 import Link from "next/link";
 
-import CTALink from "../cta/cta-link";
+import CTALink from "../cta/ctaLink";
 import Balancer from "react-wrap-balancer";
 import AnimatedDiv from "@/components/shared/animatedDiv";
 import useWindowSize from "@/lib/hooks/use-window-size";
@@ -23,7 +30,7 @@ export default function CTA({
     mousePosition,
 }: {
     containerVisible: boolean;
-    mousePosition: { x: number, y: number }
+    mousePosition: { x: number; y: number };
     // mouseX: number;
     // mouseY: number;
 }) {
@@ -37,26 +44,49 @@ export default function CTA({
     // const x = useMotionValue(0);
     // const y = useMotionValue(0);
 
+    const onMouseMove = useCallback(
+        (mousePosition: {
+            x: number;
+            y: number;
+        }): { x: number; y: number } => {
+            const width = windowSize.width || 1;
+            const height = windowSize.height || 1;
 
+            const resX =
+                -(width / 2 - mousePosition.x) / width;
+            const resY =
+                -(height / 2 - mousePosition.y) / height;
 
-    const onMouseMove = useCallback((mousePosition: { x: number, y: number }): { x: number, y: number } => {
-        const width = windowSize.width || 1
-        const height = windowSize.height || 1
+            if (
+                typeof resX !== "number" ||
+                typeof resY !== "number"
+            ) {
+                console.log(resX, resY);
+                return { x: 0, y: 0 };
+            }
+            return { x: resX, y: resY };
+        },
+        [windowSize],
+    );
 
-        const resX = -(width / 2 - mousePosition.x) / width
-        const resY = -(height / 2 - mousePosition.y) / height
-
-        if (typeof resX !== "number" || typeof resY !== "number") {
-            console.log(resX, resY);
-            return { x: 0, y: 0 };
-        }
-        return { x: resX, y: resY };
-    }, [windowSize]);
-
-    const mouseX = useMotionValue(mousePosition.x)
-    const mouseY = useMotionValue(mousePosition.y)
-    const resX = useTransform(mouseX, latest => -((windowSize.width || 1) / 2 - mousePosition.x) / (windowSize.width || 1))
-    const resY = useTransform(mouseY, latest => -((windowSize.height || 1) / 2 - mousePosition.y) / (windowSize.height || 1))
+    const mouseX = useMotionValue(mousePosition.x);
+    const mouseY = useMotionValue(mousePosition.y);
+    const resX = useTransform(
+        mouseX,
+        (latest) =>
+            -(
+                (windowSize.width || 1) / 2 -
+                mousePosition.x
+            ) / (windowSize.width || 1),
+    );
+    const resY = useTransform(
+        mouseY,
+        (latest) =>
+            -(
+                (windowSize.height || 1) / 2 -
+                mousePosition.y
+            ) / (windowSize.height || 1),
+    );
 
     // const x = useSpring(resX, { stiffness: 550, damping: 20 });
     // const y = useSpring(resY, { stiffness: 550, damping: 20 });
@@ -90,9 +120,15 @@ export default function CTA({
         >
             <AnimatedDiv variants={TITLE_VARIANTS}>
                 <m.h1
-                    style={{ translateZ: 0, transform: 'none', backgroundPosition: `${resX.get() * 10 + 50}% ${resY.get() * 10 + 50}%` }}
+                    style={{
+                        translateZ: 0,
+                        transform: "none",
+                        backgroundPosition: `${
+                            resX.get() * 10 + 50
+                        }% ${resY.get() * 10 + 50}%`,
+                    }}
                     tabIndex={0}
-                    className="text-[15vw] transition-[background-position] delay-100 duration-[2s] ease-out will-change-[background-position] lg:text-[12vw] text-stroke title-bg text-transparent bg-clip-text linear-mask-heading relative mb-[0.15em] bg-[size:200%_200%] bg-no-repeat  font-black tracking-widest "
+                    className="text-stroke title-bg linear-mask-heading relative mb-[0.15em] bg-[size:200%_200%] bg-clip-text bg-no-repeat text-[15vw] font-black tracking-widest text-transparent transition-[background-position] delay-100 duration-[2s] ease-out  will-change-[background-position] lg:text-[12vw] "
                 >
                     AALIEN
                 </m.h1>
@@ -103,12 +139,13 @@ export default function CTA({
                     className="text-shadow max-w-[50ch] bg-white bg-clip-text text-center text-lg text-transparent mix-blend-difference  xl:text-left xl:text-xl"
                 >
                     <Balancer ratio={0.5}>
-                        Lorem ipsum dolor sit amet, consectetur
-                        adipiscing elit, sed do eiusmod tempor
-                        incididunt ut labore et dolore magna
-                        aliqua
+                        Lorem ipsum dolor sit amet,
+                        consectetur adipiscing elit, sed do
+                        eiusmod tempor incididunt ut labore
+                        et dolore magna aliqua
                     </Balancer>
-                </m.p></AnimatedDiv>
+                </m.p>
+            </AnimatedDiv>
             <CTALink />
         </m.div>
         // </AnimatePresence>

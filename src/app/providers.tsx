@@ -15,7 +15,7 @@ import {
     SnackbarProvider,
     enqueueSnackbar,
 } from "notistack";
-import MUIThemeProvider from "@/components/layout/mui-theme-provider";
+import MUIThemeProvider from "@/components/layout/muiThemeProvider";
 
 export function Providers({
     children,

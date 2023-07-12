@@ -8,7 +8,7 @@ import Social from "../shared/social";
 import MobileMenu from "./mobileMenu";
 import { OPACITY_VARIANTS } from "@/lib/constants";
 import useWindowSize from "@/lib/hooks/use-window-size";
-import SwitchTheme from "../shared/switch-theme";
+import SwitchTheme from "../shared/switchTheme";
 
 const Header = () => {
     // const IsClient = useIsClient();

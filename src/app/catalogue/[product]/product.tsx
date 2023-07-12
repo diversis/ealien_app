@@ -21,8 +21,8 @@ import { OPACITY_VARIANTS } from "@/lib/constants";
 import ImageMagnifier from "@/components/shared/magnifier";
 
 import Reviews from "@/components/catalogue/reviews";
-import ReviewModal from "@/components/catalogue/review-modal";
-import SignInModal from "@/components/auth/sign-in-modal";
+import ReviewModal from "@/components/catalogue/reviewModal";
+import SignInModal from "@/components/auth/signInModal";
 
 export default function ProductPage({
     product,
@@ -92,7 +92,7 @@ export default function ProductPage({
                     </div>
                 </div>
                 <div className="flex w-full flex-col">
-                    <div className="flex w-full flex-row justify-between">
+                    <div className="my-2 flex w-full flex-row justify-between">
                         <Button
                             variant="outlined"
                             disabled={
@@ -107,10 +107,7 @@ export default function ProductPage({
                         </Button>
                         {email ? (
                             <ReviewModal
-                                productName={product.name}
-                                classNames={{
-                                    trigger: "ml-auto",
-                                }}
+                                product={product}
                             />
                         ) : (
                             <SignInModal></SignInModal>

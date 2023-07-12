@@ -3,7 +3,7 @@ import { Variants, m } from "framer-motion";
 import { useRef, Dispatch, SetStateAction } from "react";
 import Social from "../shared/social";
 import Link from "next/link";
-import SwitchTheme from "../shared/switch-theme";
+import SwitchTheme from "../shared/switchTheme";
 
 export default function MobileMenuContainer({
     toggle,

@@ -3,7 +3,7 @@ import { signIn } from "next-auth/react";
 import { ComponentPropsWithoutRef, useState } from "react";
 
 import LoaderDots from "../shared/loaderDots";
-import MUIBaseModal from "../shared/muibase-modal";
+import MUIBaseModal from "../shared/muibaseModal";
 
 interface SignInModalProps
     extends ComponentPropsWithoutRef<"div"> {

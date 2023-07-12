@@ -6,7 +6,7 @@ const productLogger = logger.child({
     origin: "prisma product",
 });
 
-export async function createProductReviews({
+export async function createProductReview({
     userId,
     content,
     productId,
@@ -49,13 +49,13 @@ export async function createProductReviews({
                 rating,
             },
         });
-        return { review: review.id };
+        return { reviewId: review.id };
     }
 }
 
 export async function getProductReviews({
     productId,
-    reqPage=1,
+    reqPage = 1,
 }: {
     productId: string;
     reqPage?: number;

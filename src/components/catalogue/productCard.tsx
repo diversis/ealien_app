@@ -10,7 +10,7 @@ import {
     CardMedia,
     Typography,
 } from "@mui/material";
-import Star from "@mui/icons-material/star";
+import Star from "@mui/icons-material/Star";
 import { m, useInView } from "framer-motion";
 
 import {
@@ -63,20 +63,19 @@ export default function ProductCard({
                             >
                                 {product.name}
                             </Typography>
-                            
                         </div>
                         <div className="flex flex-row">
-                                <Typography
-                                    variant="subtitle2"
-                                    gutterBottom
-                                >
-                                    {product.rating}
-                                </Typography>
-                                <Star
-                                    strokeWidth="1"
-                                    className="h-4 w-4 fill-accent-400 stroke-surface-900 "
-                                />
-                            </div>
+                            <Typography
+                                variant="subtitle2"
+                                gutterBottom
+                            >
+                                {product.rating}
+                            </Typography>
+                            <Star
+                                strokeWidth="1"
+                                className="h-4 w-4 fill-accent-400 stroke-surface-900 "
+                            />
+                        </div>
                         <Typography
                             variant="body1"
                             gutterBottom

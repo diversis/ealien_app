@@ -7,7 +7,7 @@ import {
 } from "framer-motion";
 import { useRef } from "react";
 import BG from "@/components/shared/bg";
-import CTALink from "../cta/cta-link";
+import CTALink from "../cta/ctaLink";
 import { Typography } from "@mui/material";
 import { OPACITY_VARIANTS } from "@/lib/constants";
 

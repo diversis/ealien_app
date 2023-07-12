@@ -1,5 +1,11 @@
 import { SerializableNext } from "@/lib/prisma/types";
-import { Typography } from "@mui/material";
+import {
+    Box,
+    Divider,
+    Paper,
+    Rating,
+    Typography,
+} from "@mui/material";
 import { Review } from "@prisma/client";
 import { m, AnimatePresence } from "framer-motion";
 import Image from "next/image";
@@ -17,38 +23,80 @@ export default function Reviews({
     >[];
 }) {
     return (
-        <div className="flex w-full flex-col items-center">
+        <div className="flex w-full flex-col items-center gap-y-4">
             <AnimatePresence>
-                {reviews.map((review) => (
-                    <m.div
-                        key={`review-${review.id}`}
-                        className="grid w-full grid-cols-[min-content_1fr]"
-                    >
-                        <div className="flex flex-col">
-                            <Image
-                                alt={`avatar-${review.user.name}`}
-                                width={100}
-                                height={100}
-                                src={`${
-                                    review.user.image ||
-                                    "/logo2.png"
-                                }`}
+                {reviews.map((review) => {
+                    const date = new Date(review.createdAt);
+                    const options: Intl.DateTimeFormatOptions =
+                        {
+                            weekday: "short",
+                            year: "numeric",
+                            month: "numeric",
+                            day: "numeric",
+                            hour: "numeric",
+                            minute: "numeric",
+                        };
+                    return (
+                        <Paper
+                            key={`review-${review.id}`}
+                            className="grid w-full grid-cols-[auto_2px_1fr] items-center gap-4 p-2"
+                            component={m.div}
+                        >
+                            <Box className="flex flex-col gap-2">
+                                <Box>
+                                    <Rating
+                                        readOnly
+                                        value={
+                                            review.rating
+                                        }
+                                    />
+                                </Box>
+                                <Box className="overflow-hidden rounded">
+                                    <Image
+                                        alt={`avatar-${review.user.name}`}
+                                        width={100}
+                                        height={100}
+                                        src={`${
+                                            review.user
+                                                .image ||
+                                            "/logo2.png"
+                                        }`}
+                                        className="h-auto w-24 object-cover"
+                                    />
+                                </Box>
+                                <div>
+                                    <Typography variant="body2">
+                                        {review.user.name}
+                                    </Typography>
+                                </div>
+                            </Box>
+                            <Divider
+                                variant="middle"
+                                orientation="vertical"
                             />
-                            <div>
-                                <Typography variant="body2">
-                                    {review.user.name}
-                                </Typography>
-                            </div>
-                        </div>
-                        <div className="flex flex-col">
-                            <div className="flex flex-row gap-y-2">
-                                <Typography variant="body2">
-                                    {review.createdAt}
-                                </Typography>
-                            </div>
-                        </div>
-                    </m.div>
-                ))}
+                            <Box className="grid h-full grid-cols-1 grid-rows-[auto_1fr] gap-2 self-start">
+                                <Box className="flex flex-row items-center gap-y-2">
+                                    <div className="px-1">
+                                        🕛
+                                    </div>
+                                    <div className="">
+                                        <Typography variant="body2">
+                                            {date.toLocaleDateString(
+                                                "en-US",
+                                                options,
+                                            )}
+                                        </Typography>
+                                    </div>
+                                </Box>
+                                <Box className="">
+                                    <Typography variant="body2">
+                                        {review.content}
+                                    </Typography>
+                                </Box>
+                            </Box>
+                        </Paper>
+                    );
+                })}
             </AnimatePresence>
         </div>
     );

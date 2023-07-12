@@ -8,34 +8,65 @@ import {
 } from "zod";
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
+import { createProductReview } from "@/lib/prisma/review";
 
 const logger = require("@/lib/utils/logger");
 const reviewLogger = logger.child({ origin: "API review" });
 
-const formSchema = z
-    .string()
-    .min(3, "Review must include at least 3 characters")
-    .max(1200, "Review too long (1200 characters max)");
+const formSchema = z.object({
+    review: z
+        .string()
+        .min(3, "Review must include at least 3 characters")
+        .max(1200, "Review too long (1200 characters max)"),
+    productId: z.string(),
+});
 
-export async function POST(
-    request: NextRequest,
-    response: NextResponse,
-) {
+export async function POST(request: NextRequest) {
+    reviewLogger.info("request: ");
+    reviewLogger.info({ request });
     const req = await request.json();
-    const res = await response.json();
-    logger.info("POST data: ");
-    logger.info(req.body);
-    const session = await getServerSession(
-        req,
-        res,
-        authOptions,
-    );
+
+    reviewLogger.info("POST data: ");
+    reviewLogger.info({ req });
+    reviewLogger.info(req.review);
+    const session = await getServerSession(authOptions);
     if (!session)
-        return res
-            .status(401)
-            .json({ message: "session was not provided" });
+        return NextResponse.json(
+            { message: "session was not provided" },
+            { status: 401 },
+        );
+    try {
+        formSchema.parse(req);
 
-    formSchema.parse(req.body);
+        reviewLogger.info("CREATE REVIEW", req);
+        const review = await createProductReview({
+            userId: session.user.id,
+            content: req.review,
+            rating: 5,
+            productId: req.productId,
+        });
+        if ("error" in review) {
+            return NextResponse.json(review.error, {
+                status: 400,
+            });
+        }
+        return NextResponse.json(
+            { data: { review: review.reviewId } },
+            { status: 200 },
+        );
+    } catch (e: unknown) {
+        if (e instanceof ZodError) {
+            reviewLogger.error(e.errors);
 
-    logger.info("CREATE REVIEW", req.body);
+            // reviewLogger.info([...Object.values(e.errors)]);
+            return NextResponse.json(e, { status: 400 });
+        }
+        reviewLogger.error(e);
+        return NextResponse.json(
+            { error: e },
+            { status: 400 },
+        );
+
+        return;
+    }
 }
