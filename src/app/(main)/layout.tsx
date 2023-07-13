@@ -3,6 +3,7 @@ import { Suspense } from "react";
 import { CircularProgress } from "@mui/material";
 import PageTransition from "../pageTransition";
 import Footer from "@/components/layout/footer";
+import Header from "@/components/layout/header";
 
 export default function MainLayout({
     // Layouts must accept a children prop.
@@ -13,6 +14,7 @@ export default function MainLayout({
 }) {
     return (
         <>
+            <Header />
             <main
                 key="main"
                 id="main"

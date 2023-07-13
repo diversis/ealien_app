@@ -4,11 +4,16 @@ import { useState } from "react";
 import useScrolled from "@/lib/hooks/use-scrolled";
 
 import Link from "next/link";
+
+import Fab from "@mui/material/Fab";
+import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+
 import Social from "../shared/social";
 import MobileMenu from "./mobileMenu";
 import { OPACITY_VARIANTS } from "@/lib/constants";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import SwitchTheme from "../shared/switchTheme";
+import ScrollTop from "./scrollTop";
 
 const Header = () => {
     // const IsClient = useIsClient();
@@ -51,6 +56,14 @@ const Header = () => {
                     </m.div>
                 )}
             </AnimatePresence>
+            <ScrollTop>
+                <Fab
+                    size="small"
+                    aria-label="scroll back to top"
+                >
+                    <KeyboardArrowUpIcon />
+                </Fab>
+            </ScrollTop>
         </header>
     );
 };

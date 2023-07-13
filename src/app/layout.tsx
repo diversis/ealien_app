@@ -3,6 +3,7 @@ import type { Session } from "next-auth";
 
 import { Providers } from "./providers";
 import Filters from "@/components/shared/filters";
+import Header from "@/components/layout/header";
 
 export default function RootLayout({
     // Layouts must accept a children prop.
@@ -24,6 +25,9 @@ export default function RootLayout({
                 >
                     Skip to content
                 </a>
+
+                <div id="page-top" />
+
                 <Providers session={session}>
                     {children}
                 </Providers>

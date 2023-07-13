@@ -15,6 +15,7 @@ export default function CatalogueLayout({
     return (
         <>
             <Header />
+
             <main
                 key="main"
                 id="main"

@@ -113,7 +113,9 @@ export default function Catalogue({
         <>
             <div className="container flex flex-col gap-y-4 px-4  lg:gap-y-8">
                 <Breadcrumbs className="self-start">
-                    {/* <Link href={`/catalogue/`}>Catalogue</Link> */}
+                    <Link href={`/catalogue/`}>
+                        Catalogue
+                    </Link>
                     {category ? (
                         <Link
                             href={`/catalogue/?category=${category}`}

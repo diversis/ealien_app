@@ -5,6 +5,24 @@ import {
 } from "@mui/material/styles";
 import { useTheme } from "next-themes";
 
+const fontFamily = [
+    "Orbitron",
+    "ui-sans-serif",
+    "system-ui",
+    "-apple-system",
+    "BlinkMacSystemFont",
+    "Segoe UI",
+    "Roboto",
+    "Helvetica Neue",
+    "Arial",
+    "Noto Sans",
+    "sans-serif",
+    "Apple Color Emoji",
+    "Segoe UI Emoji",
+    "Segoe UI Symbol",
+    "Noto Color Emoji",
+].join(",");
+
 const darkTheme = createTheme({
     palette: {
         mode: "dark",
@@ -18,6 +36,9 @@ const darkTheme = createTheme({
             light: "#A3F5F5",
             dark: "#084949",
         },
+    },
+    typography: {
+        fontFamily: fontFamily,
     },
 });
 
@@ -34,6 +55,9 @@ const lightTheme = createTheme({
             light: "#A3F5F5",
             dark: "#084949",
         },
+    },
+    typography: {
+        fontFamily: fontFamily,
     },
 });
 
