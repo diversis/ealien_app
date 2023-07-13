@@ -9,9 +9,13 @@ import {
     Typography,
     Box,
     Divider,
+    Snackbar,
+    Alert,
+    FormGroup,
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
+import { SnackbarProvider, useSnackbar } from "notistack";
 import {
     Controller,
     SubmitHandler,
@@ -36,6 +40,7 @@ import Slide from "@mui/material/Slide";
 import { ControlledTextField } from "../form/fields/controlledTextField";
 import { Product } from "@prisma/client";
 import { SerializableNext } from "@/lib/prisma/types";
+import { ControlledRating } from "../form/fields/controlledRating";
 
 const endpoint = "/api/review";
 
@@ -50,6 +55,7 @@ const Transition = forwardRef(function Transition(
 
 interface ReviewFields {
     review: string;
+    rating: number;
 }
 
 interface ReviewModalProps
@@ -67,6 +73,13 @@ const schema = z.object({
         .string()
         .min(3, "Review must include at least 3 characters")
         .max(1200, "Review too long (1200 characters max)"),
+    rating: z.preprocess(
+        (s) => Number(s),
+        z
+            .number()
+            .min(0, "Rating can't be lower than 0")
+            .max(5, "Rating can't be higher than 5"),
+    ),
 });
 
 async function sendFormData({
@@ -89,6 +102,8 @@ export default function ReviewModal({
     ...rest
 }: ReviewModalProps) {
     const [open, setOpen] = useState(false);
+    const { enqueueSnackbar, closeSnackbar } =
+        useSnackbar();
 
     const handleOpen = () => {
         setOpen(true);
@@ -118,6 +133,7 @@ export default function ReviewModal({
         resolver: zodResolver(schema),
         defaultValues: {
             review: "",
+            rating: 0,
         },
     });
 
@@ -136,9 +152,20 @@ export default function ReviewModal({
                     "response.status ",
                     response.status,
                 );
+                enqueueSnackbar({
+                    message: "Your review was posted",
+                    variant: "success",
+                    autoHideDuration: 6000,
+                });
                 handleClose();
             }
         } catch (error) {
+            if (error instanceof AxiosError) {
+                enqueueSnackbar({
+                    message: error.response?.data?.message,
+                    variant: "error",
+                });
+            }
             console.log(error);
             const res = {
                 error: error,
@@ -150,7 +177,6 @@ export default function ReviewModal({
         { review },
         e,
     ) => {
-        console.error("onError errors: ", errors);
         try {
             const errorFields = Object.entries(
                 errors,
@@ -161,11 +187,15 @@ export default function ReviewModal({
                     ", ",
                 "",
             );
+            enqueueSnackbar({
+                message: errorFields,
+                variant: "error",
+            });
         } catch (e) {
             console.log(errors, e);
         }
     };
-    // console.log(getValues());
+    // console.log(errors);
     return (
         <>
             <Button
@@ -185,7 +215,7 @@ export default function ReviewModal({
                 className=""
                 {...rest}
             >
-                <form
+                <FormGroup
                     className="relative flex w-[30vw] min-w-[20rem] flex-col gap-y-4  px-6 py-4 lg:min-w-[30rem]"
                     onSubmit={handleSubmit(
                         onSubmit,
@@ -224,6 +254,16 @@ export default function ReviewModal({
                             {product.name}
                             &quot;{product.rating || 0}
                         </Typography>
+                        <Box className="flex flex-row">
+                            <Typography component={"label"}>
+                                Rating
+                            </Typography>
+                            <ControlledRating
+                                name="rating"
+                                control={control}
+                                label="rating"
+                            />
+                        </Box>
                         <ControlledTextField
                             name="review"
                             control={control}
@@ -273,7 +313,7 @@ export default function ReviewModal({
                             Submit
                         </Button>
                     </div>
-                </form>
+                </FormGroup>
             </Dialog>
         </>
     );

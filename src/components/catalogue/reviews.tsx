@@ -51,7 +51,7 @@ export default function Reviews({
                                         }
                                     />
                                 </Box>
-                                <Box className="overflow-hidden rounded">
+                                <Box className="overflow-hidden">
                                     <Image
                                         alt={`avatar-${review.user.name}`}
                                         width={100}
@@ -61,7 +61,7 @@ export default function Reviews({
                                                 .image ||
                                             "/logo2.png"
                                         }`}
-                                        className="h-auto w-24 object-cover"
+                                        className="h-auto  w-24 rounded object-cover"
                                     />
                                 </Box>
                                 <div>
@@ -74,7 +74,7 @@ export default function Reviews({
                                 variant="middle"
                                 orientation="vertical"
                             />
-                            <Box className="grid h-full grid-cols-1 grid-rows-[auto_1fr] gap-2 self-start">
+                            <Box className="grid h-full grid-cols-1 grid-rows-[auto_2px_1fr] gap-2 self-start">
                                 <Box className="flex flex-row items-center gap-y-2">
                                     <div className="px-1">
                                         🕛
@@ -88,6 +88,7 @@ export default function Reviews({
                                         </Typography>
                                     </div>
                                 </Box>
+                                <Divider />
                                 <Box className="">
                                     <Typography variant="body2">
                                         {review.content}

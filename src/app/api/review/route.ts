@@ -18,17 +18,19 @@ const formSchema = z.object({
         .string()
         .min(3, "Review must include at least 3 characters")
         .max(1200, "Review too long (1200 characters max)"),
+    rating: z.preprocess(
+        (s) => Number(s),
+        z
+            .number()
+            .min(0, "Rating can't be lower than 0")
+            .max(5, "Rating can't be higher than 5"),
+    ),
     productId: z.string(),
 });
 
 export async function POST(request: NextRequest) {
-    reviewLogger.info("request: ");
-    reviewLogger.info({ request });
     const req = await request.json();
 
-    reviewLogger.info("POST data: ");
-    reviewLogger.info({ req });
-    reviewLogger.info(req.review);
     const session = await getServerSession(authOptions);
     if (!session)
         return NextResponse.json(
@@ -42,7 +44,7 @@ export async function POST(request: NextRequest) {
         const review = await createProductReview({
             userId: session.user.id,
             content: req.review,
-            rating: 5,
+            rating: req.rating,
             productId: req.productId,
         });
         if ("error" in review) {

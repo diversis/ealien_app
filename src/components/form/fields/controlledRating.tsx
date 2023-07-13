@@ -7,12 +7,13 @@ import type {
     FieldPath,
     UseControllerProps,
 } from "react-hook-form";
+import { Rating } from "@mui/material";
 type InputProps<
     TFieldValues extends FieldValues,
     TName extends FieldPath<TFieldValues>,
 > = UseControllerProps<TFieldValues, TName>;
 
-export const ControlledTextField = <
+export const ControlledRating = <
     TFieldValues extends FieldValues,
     TName extends FieldPath<TFieldValues>,
 >({
@@ -32,19 +33,13 @@ export const ControlledTextField = <
                 fieldState: { error },
                 formState,
             }) => (
-                <TextField
-                    helperText={
-                        error ? error.message : null
-                    }
-                    size="small"
-                    error={!!error}
-                    onChange={onChange}
-                    value={value}
-                    label={"" + label}
-                    fullWidth
-                    variant="outlined"
-                    className="rounded-md"
+                <Rating
+                    onChange={onChange as any}
+                    value={Number(value)}
+                    className=""
+                    precision={0.5}
                 />
+                // {!!error ? (<Typography>{error.message}</Typography>) : null}
             )}
         />
     );
