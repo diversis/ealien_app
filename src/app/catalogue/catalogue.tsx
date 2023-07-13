@@ -1,5 +1,6 @@
 "use client";
 import {
+    Breadcrumbs,
     Button,
     Pagination,
     PaginationItem,
@@ -47,7 +48,7 @@ export default function Catalogue({
         typeof Number(searchParams.get("page")) === "number"
             ? Number(searchParams.get("page"))
             : 1;
-
+    const category = searchParams.get("category") ?? null;
     // const nextLink = hasMore
     //     ? `${pathname}?${new URLSearchParams(
     //           searchParams.toString(),
@@ -111,6 +112,16 @@ export default function Catalogue({
     return (
         <>
             <div className="container flex flex-col gap-y-4 px-4  lg:gap-y-8">
+                <Breadcrumbs className="self-start">
+                    {/* <Link href={`/catalogue/`}>Catalogue</Link> */}
+                    {category ? (
+                        <Link
+                            href={`/catalogue/?category=${category}`}
+                        >
+                            {category}
+                        </Link>
+                    ) : null}
+                </Breadcrumbs>
                 <div className="flex flex-row justify-center ">
                     <Pagination
                         count={Math.ceil(count / 16)}

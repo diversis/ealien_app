@@ -13,7 +13,11 @@ import {
     useForm,
 } from "react-hook-form";
 import { useSession } from "next-auth/react";
-import { Button, Typography } from "@mui/material";
+import {
+    Breadcrumbs,
+    Button,
+    Typography,
+} from "@mui/material";
 
 import { SerializableNext } from "@/lib/prisma/types";
 import { Category, Product, Review } from "@prisma/client";
@@ -23,6 +27,7 @@ import ImageMagnifier from "@/components/shared/magnifier";
 import Reviews from "@/components/catalogue/reviews";
 import ReviewModal from "@/components/catalogue/reviewModal";
 import SignInModal from "@/components/auth/signInModal";
+import Link from "next/link";
 
 export default function ProductPage({
     product,
@@ -57,6 +62,16 @@ export default function ProductPage({
             className="grid w-full place-items-center"
         >
             <div className="container flex flex-col items-center gap-y-4 lg:gap-y-8">
+                <Breadcrumbs className="self-start">
+                    <Link href={`/catalogue/`}>
+                        Catalogue
+                    </Link>
+                    <Link
+                        href={`/catalogue/?category=${product.categories[0].name}`}
+                    >
+                        {product.categories[0].name}
+                    </Link>
+                </Breadcrumbs>
                 <div className="grid w-full grid-cols-1 place-items-center lg:grid-cols-3">
                     <div className="flex h-full w-full max-w-[20rem] flex-col">
                         <ImageMagnifier
