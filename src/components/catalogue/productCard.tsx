@@ -1,5 +1,5 @@
 "use client";
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
@@ -48,6 +48,7 @@ export default function ProductCard({
             autoHideDuration: 6000,
         });
     }
+
     return (
         <m.div
             ref={ref}
@@ -55,9 +56,9 @@ export default function ProductCard({
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
-            className="aspect-square w-full place-self-center"
+            className="z-0 aspect-square w-full transform-none place-self-center transition-[z-index] duration-500 ease-[cubic-bezier(1,0,1,0)] [&:is(:hover,:focus,:focus-within)]:z-20 [&:is(:hover,:focus,:focus-within)]:duration-0"
         >
-            <MoCard className="group/card relative grid aspect-square w-full grid-cols-1 grid-rows-[1fr_auto] !overflow-visible bg-transparent">
+            <MoCard className="group/card relative  z-0 grid aspect-square w-full grid-cols-1 grid-rows-[1fr_auto] !overflow-visible bg-transparent ">
                 <Link
                     href={`/catalogue/${product.id}`}
                     className="group/link peer/link relative  aspect-square w-full max-w-full  border-2 border-transparent [grid-area:1/1/3/2]"
@@ -72,7 +73,7 @@ export default function ProductCard({
                         />
                     </CardMedia>
                 </Link>
-                <CardContent className="relative flex w-full flex-col rounded-b bg-surface-50/50 backdrop-blur-sm transition-all duration-500 ease-out [grid-area:2/1/3/2] after:absolute after:inset-0 after:rounded-b after:opacity-0 after:shadow-md after:shadow-surface-500 after:transition-opacity after:duration-500 after:ease-out group-focus-within/card:z-20 group-focus-within/card:translate-y-full group-focus-within/card:bg-surface-50 group-focus-within/card:after:opacity-100 group-hover/card:z-20 group-hover/card:translate-y-full group-hover/card:bg-surface-50 group-hover/card:after:opacity-100 group-focus/card:z-20 group-focus/card:translate-y-full group-focus/card:bg-surface-50 group-focus/card:after:opacity-100 dark:bg-surface-900/50 dark:group-focus-within/card:bg-surface-900  dark:group-hover/card:bg-surface-900 dark:group-focus/card:bg-surface-900">
+                <CardContent className="transtion-all relative flex w-full flex-col rounded-b bg-surface-50/50 backdrop-blur-sm duration-500 ease-out [grid-area:2/1/3/2] after:absolute after:inset-0 after:rounded-b after:opacity-0 after:shadow-md after:shadow-surface-500 after:transition-opacity after:duration-500 after:ease-out group-focus-within/card:translate-y-full group-focus-within/card:bg-surface-50 group-focus-within/card:after:opacity-100 group-hover/card:translate-y-full group-hover/card:bg-surface-50 group-hover/card:after:opacity-100 group-focus/card:translate-y-full group-focus/card:bg-surface-50 group-focus/card:after:opacity-100 dark:bg-surface-900/50 dark:group-focus-within/card:bg-surface-900  dark:group-hover/card:bg-surface-900 dark:group-focus/card:bg-surface-900">
                     <Box className="text-shadow flex flex-col flex-wrap justify-between gap-y-2">
                         <div className="flex flex-row items-center justify-between">
                             <Typography
