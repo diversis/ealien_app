@@ -47,11 +47,11 @@ export default function Carousel({
                                   spaceBetween: 0,
                               },
                               768: {
-                                  slidesPerView: 2,
+                                  slidesPerView: 3,
                                   spaceBetween: 0,
                               },
                               1280: {
-                                  slidesPerView: 3,
+                                  slidesPerView: 5,
                                   spaceBetween: "80px",
                               },
                           }

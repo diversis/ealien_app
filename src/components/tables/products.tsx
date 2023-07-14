@@ -1,4 +1,3 @@
-"use client";
 import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -44,14 +43,9 @@ export default function ProductTable({
         setQty?: boolean | undefined,
     ) => void;
 }) {
-    const [render, setRender] = useState(false);
-    useEffect(() => {
-        setRender(true);
-    }, []);
-    console.log("items: ", items);
     return (
         <TableContainer>
-            {render && !!items && (
+            {items ? (
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>
@@ -243,8 +237,8 @@ export default function ProductTable({
                         )}
                     </TableBody>
                 </Table>
-            )}
-            {!items && <div> Cart is Empty</div>}
+            ) : null}
+            {items ? null : <div> Cart is Empty</div>}
         </TableContainer>
     );
 }

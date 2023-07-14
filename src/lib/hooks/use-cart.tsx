@@ -9,9 +9,9 @@ import {
     createJSONStorage,
 } from "zustand/middleware";
 import {
-    SerializableCompactProduct,
     CartItem,
-    SerializableProduct,
+    CompactProduct,
+    SerializableNext,
 } from "../prisma/types";
 
 type Logger = <
@@ -33,10 +33,10 @@ const loggerImpl: LoggerImpl =
         type T = ReturnType<typeof f>;
         const loggedSet: typeof set = (...a) => {
             set(...a);
-            console.log(
-                ...(name ? [`${name}:`] : []),
-                get(),
-            );
+            // console.log(
+            //     ...(name ? [`${name}:`] : []),
+            //     get(),
+            // );
         };
         store.setState = loggedSet;
 
@@ -57,8 +57,8 @@ type CartState = {
 type CartAction = {
     addItem: (
         product:
-            | SerializableProduct
-            | SerializableCompactProduct,
+            | SerializableNext<Product>
+            | SerializableNext<CompactProduct>,
         qty: number,
         setQty?: boolean,
     ) => void;
@@ -95,8 +95,8 @@ export const useCart = create<CartState & CartAction>()(
 
                 addItem: (
                     product:
-                        | SerializableProduct
-                        | SerializableCompactProduct,
+                        | SerializableNext<Product>
+                        | SerializableNext<CompactProduct>,
                     qty: number,
                     setQty: boolean = false,
                 ) => {

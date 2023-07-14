@@ -77,7 +77,7 @@ export default function ProductCard({
                     <Box className="text-shadow flex flex-col flex-wrap justify-between gap-y-2">
                         <div className="flex flex-row items-center justify-between">
                             <Typography
-                                variant="h4"
+                                variant="body1"
                                 className="text-bold"
                                 gutterBottom
                             >
