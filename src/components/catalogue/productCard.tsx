@@ -4,10 +4,12 @@ import Link from "next/link";
 import Image from "next/image";
 import {
     Box,
+    Button,
     Card,
     CardActionArea,
     CardContent,
     CardMedia,
+    Rating,
     Typography,
 } from "@mui/material";
 import Star from "@mui/icons-material/Star";
@@ -18,6 +20,8 @@ import {
     SerializableNext,
 } from "@/lib/prisma/types";
 import { OPACITY_VARIANTS } from "@/lib/constants";
+import { useCart } from "@/lib/hooks/use-cart";
+import { useSnackbar } from "notistack";
 
 export default function ProductCard({
     product,
@@ -29,6 +33,21 @@ export default function ProductCard({
     const ref = useRef(null);
     const isInView = useInView(ref);
     const MoCard = m(Card);
+    const { enqueueSnackbar, closeSnackbar } =
+        useSnackbar();
+    const { addItem } = useCart((state) => ({
+        addItem: state.addItem,
+    }));
+
+    function handleAddToCartClick() {
+        addItem(product, 1, false);
+
+        enqueueSnackbar({
+            message: `Added  to cart: ${product.name} for $${product.price}`,
+            variant: "success",
+            autoHideDuration: 6000,
+        });
+    }
     return (
         <m.div
             ref={ref}
@@ -49,12 +68,12 @@ export default function ProductCard({
                             height={400}
                             alt={product.name}
                             src={`/images/catalogue/${product.image}/512.webp`}
-                            className="w-full  rounded object-cover transition-transform duration-300 group-focus-within/link:scale-105 group-hover/link:scale-105 group-focus/link:scale-105"
+                            className="w-full  rounded object-cover transition-transform duration-500 group-focus-within/link:scale-105 group-hover/link:scale-105 group-focus/link:scale-105"
                         />
                     </CardMedia>
                 </Link>
-                <CardContent className="z-20 flex w-full flex-col rounded-b border-x border-b  border-transparent bg-surface-50/50 backdrop-blur-sm transition-all duration-500 ease-out [grid-area:2/1/3/2] group-focus-within/card:z-20 group-focus-within/card:translate-y-full group-focus-within/card:border-surface-700/20 group-focus-within/card:bg-surface-50 group-hover/card:z-20 group-hover/card:translate-y-full group-hover/card:border-surface-700/20 group-hover/card:bg-surface-50 group-focus/card:z-20 group-focus/card:translate-y-full group-focus/card:border-surface-700/20 group-focus/card:bg-surface-50 dark:bg-surface-900/50 dark:group-focus-within/card:border-surface-300/20 dark:group-focus-within/card:bg-surface-900 dark:group-hover/card:border-surface-300/20 dark:group-hover/card:bg-surface-900 dark:group-focus/card:border-surface-300/20 dark:group-focus/card:bg-surface-900">
-                    <Box className="text-shadow flex flex-col flex-wrap justify-between">
+                <CardContent className="relative flex w-full flex-col rounded-b bg-surface-50/50 backdrop-blur-sm transition-all duration-500 ease-out [grid-area:2/1/3/2] after:absolute after:inset-0 after:rounded-b after:opacity-0 after:shadow-md after:shadow-surface-500 after:transition-opacity after:duration-500 after:ease-out group-focus-within/card:z-20 group-focus-within/card:translate-y-full group-focus-within/card:bg-surface-50 group-focus-within/card:after:opacity-100 group-hover/card:z-20 group-hover/card:translate-y-full group-hover/card:bg-surface-50 group-hover/card:after:opacity-100 group-focus/card:z-20 group-focus/card:translate-y-full group-focus/card:bg-surface-50 group-focus/card:after:opacity-100 dark:bg-surface-900/50 dark:group-focus-within/card:bg-surface-900  dark:group-hover/card:bg-surface-900 dark:group-focus/card:bg-surface-900">
+                    <Box className="text-shadow flex flex-col flex-wrap justify-between gap-y-2">
                         <div className="flex flex-row items-center justify-between">
                             <Typography
                                 variant="h4"
@@ -64,24 +83,28 @@ export default function ProductCard({
                                 {product.name}
                             </Typography>
                         </div>
-                        <div className="flex flex-row">
+                        <div className="flex flex-row items-center gap-2">
                             <Typography
-                                variant="subtitle2"
-                                gutterBottom
+                                variant="body2"
+                                className="align-middle !leading-none"
                             >
                                 {product.rating}
                             </Typography>
-                            <Star
-                                strokeWidth="1"
-                                className="h-4 w-4 fill-accent-400 stroke-surface-900 "
+                            <Rating
+                                value={product.rating}
+                                precision={0.1}
+                                readOnly
                             />
                         </div>
-                        <Typography
-                            variant="body1"
-                            gutterBottom
-                        >
+                        <Typography variant="body1">
                             ${product.price}
                         </Typography>
+                        <Button
+                            onClick={handleAddToCartClick}
+                            variant="contained"
+                        >
+                            Add to Cart
+                        </Button>
                     </Box>
                 </CardContent>
             </MoCard>
