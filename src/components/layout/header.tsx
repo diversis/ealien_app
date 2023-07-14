@@ -22,14 +22,14 @@ const Header = () => {
     // const IsClient = useIsClient();
     const { isMobile, isDesktop } = useWindowSize();
     const [menuOpen, setMenuOpen] = useState(false);
-    // const scrolled = useScrolled(300);
+    const scrolled = useScrolled(100);
     // const trigger = useScrollTrigger({
     //     target: window ? window : undefined,
     //     threshold: 300,
     // });
     const MAppBar = m(AppBar);
     return (
-        <>
+        <header>
             <AnimatePresence mode="sync">
                 {isMobile ? (
                     <m.div
@@ -40,11 +40,14 @@ const Header = () => {
                         <MobileMenu />
                     </m.div>
                 ) : (
-                    <MAppBar
+                    <m.div
                         variants={OPACITY_VARIANTS}
                         key="menu"
-                        color="transparent"
-                        className={`fixed left-0 top-0 z-30 flex !h-24  w-screen items-center backdrop-blur-[8px] transition-colors duration-300 `}
+                        className={`${
+                            scrolled
+                                ? "bg-surface-50/60 after:opacity-100 dark:bg-surface-900/60"
+                                : "after:opacity-0"
+                        } fixed left-0 top-0 z-30 flex !h-24  w-screen items-center backdrop-blur-[8px] transition-colors duration-300 after:absolute after:inset-0  after:shadow-md after:shadow-surface-500/50 after:transition-opacity after:duration-500 `}
                     >
                         <div
                             className={`flex h-full w-full flex-row items-center justify-between  px-8 transition-colors duration-300 `}
@@ -64,7 +67,7 @@ const Header = () => {
                                 <SwitchTheme />
                             </div>
                         </div>
-                    </MAppBar>
+                    </m.div>
                 )}
             </AnimatePresence>
             <ScrollTop>
@@ -75,7 +78,7 @@ const Header = () => {
                     <KeyboardArrowUpIcon />
                 </Fab>
             </ScrollTop>
-        </>
+        </header>
     );
 };
 

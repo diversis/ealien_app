@@ -96,7 +96,7 @@ export default function Cart() {
             </SwipeableDrawer>
             <Badge
                 badgeContent={cartTotal.toFixed(2) || 0}
-                className="mr-8"
+                className="mr-8 font-bold "
                 max={99999.999}
             >
                 <Button
