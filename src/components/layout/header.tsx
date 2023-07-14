@@ -1,6 +1,7 @@
 "use client";
 import { AnimatePresence, m } from "framer-motion";
 import { useState } from "react";
+import useScrollTrigger from "@mui/material/useScrollTrigger";
 import useScrolled from "@/lib/hooks/use-scrolled";
 
 import Link from "next/link";
@@ -14,15 +15,21 @@ import { OPACITY_VARIANTS } from "@/lib/constants";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import SwitchTheme from "../shared/switchTheme";
 import ScrollTop from "./scrollTop";
+import { AppBar, Box } from "@mui/material";
+import Cart from "../cart/cart";
 
 const Header = () => {
     // const IsClient = useIsClient();
     const { isMobile, isDesktop } = useWindowSize();
     const [menuOpen, setMenuOpen] = useState(false);
-    const scrolled = useScrolled(300);
-
+    // const scrolled = useScrolled(300);
+    // const trigger = useScrollTrigger({
+    //     target: window ? window : undefined,
+    //     threshold: 300,
+    // });
+    const MAppBar = m(AppBar);
     return (
-        <header className="">
+        <>
             <AnimatePresence mode="sync">
                 {isMobile ? (
                     <m.div
@@ -33,27 +40,31 @@ const Header = () => {
                         <MobileMenu />
                     </m.div>
                 ) : (
-                    <m.div
+                    <MAppBar
                         variants={OPACITY_VARIANTS}
                         key="menu"
-                        className={`fixed left-0 top-0 z-30 flex h-24  w-screen flex-row items-center justify-between  px-8 backdrop-blur-[8px] transition-colors duration-300 ${
-                            scrolled
-                                ? "bg-surface-50/50 dark:bg-surface-900/50"
-                                : ""
-                        }`}
+                        color="transparent"
+                        className={`fixed left-0 top-0 z-30 flex !h-24  w-screen items-center backdrop-blur-[8px] transition-colors duration-300 `}
                     >
-                        <m.div>
-                            <Link href="/">
-                                <div className="flex place-items-center gap-x-6">
-                                    LOGO
-                                </div>
-                            </Link>
-                        </m.div>
-                        {/* <MainNav className="flex flex-row" /> */}
-                        {/* <Contacts /> */}
-                        <Social />
-                        <SwitchTheme />
-                    </m.div>
+                        <div
+                            className={`flex h-full w-full flex-row items-center justify-between  px-8 transition-colors duration-300 `}
+                        >
+                            <m.div>
+                                <Link href="/">
+                                    <div className="flex place-items-center gap-x-6">
+                                        AALIEN
+                                    </div>
+                                </Link>
+                            </m.div>
+                            {/* <MainNav className="flex flex-row" /> */}
+                            {/* <Contacts /> */}
+                            <div className="flex flex-row gap-2">
+                                <Cart />
+                                <Social />
+                                <SwitchTheme />
+                            </div>
+                        </div>
+                    </MAppBar>
                 )}
             </AnimatePresence>
             <ScrollTop>
@@ -64,7 +75,7 @@ const Header = () => {
                     <KeyboardArrowUpIcon />
                 </Fab>
             </ScrollTop>
-        </header>
+        </>
     );
 };
 

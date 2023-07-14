@@ -35,7 +35,7 @@ export default function Carousel({
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref);
     return (
-        <m.section ref={ref} className="w-full">
+        <m.section ref={ref} className="relative w-full">
             <Swiper
                 breakpoints={
                     breakpoints
@@ -52,11 +52,11 @@ export default function Carousel({
                               },
                               1280: {
                                   slidesPerView: 3,
-                                  spaceBetween: 0,
+                                  spaceBetween: "80px",
                               },
                           }
                 }
-                className="h-full w-full !overflow-y-visible"
+                className="relative h-full w-full !overflow-y-visible"
                 spaceBetween={50}
                 // slidesPerView={isMobile ? 1 : 2}
                 onSlideChange={(swiper) => {

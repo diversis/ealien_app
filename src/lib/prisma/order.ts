@@ -1,12 +1,17 @@
 import { CompactProduct } from "./types";
-import { SerializableCartItem } from "@/lib/prisma/types";
+import { CartItem } from "@/lib/prisma/types";
 import prisma from "./prisma";
 import { getProduct } from "./product";
-import { getUserByID, getUserByIDWithShippingAddress } from "./user";
+import {
+    getUserByID,
+    getUserByIDWithShippingAddress,
+} from "./user";
 import { Order, OrderItem, User } from "@prisma/client";
 
 const logger = require("@/lib/utils/logger");
-const orderLogger = logger.child({ origin: "prisma order" });
+const orderLogger = logger.child({
+    origin: "prisma order",
+});
 
 export async function createOrder({
     userId,
@@ -29,20 +34,31 @@ export async function createOrder({
     paymentMethod: string;
     shippingPrice: number;
     customerName?: string;
-    items: SerializableCartItem[];
+    items: CartItem[];
 }) {
     const totalPrice = items.reduce(
-        (sum, item) => sum + Number(((item.price || 0) * item.qty).toFixed(2)),
+        (sum, item) =>
+            sum +
+            Number(
+                ((item.price || 0) * item.qty).toFixed(2),
+            ),
         0,
     );
 
     if (userId) {
         let errors: { [key: string]: string }[] = [];
         try {
-            const user = await getUserByIDWithShippingAddress(userId);
-            logger.info("user with shipping address: ", user);
+            const user =
+                await getUserByIDWithShippingAddress(
+                    userId,
+                );
+            logger.info(
+                "user with shipping address: ",
+                user,
+            );
             const shippingAddress =
-                user?.shippingAddress && user?.shippingAddress.length > 0
+                user?.shippingAddress &&
+                user?.shippingAddress.length > 0
                     ? user.shippingAddress[0]
                     : await prisma.shippingAddress.create({
                           data: {
@@ -61,9 +77,12 @@ export async function createOrder({
 
             if (!shippingAddress) {
                 errors.push({
-                    shippingAddress: "shipping address processing error",
+                    shippingAddress:
+                        "shipping address processing error",
                 });
-                throw new Error("shipping address processing error");
+                throw new Error(
+                    "shipping address processing error",
+                );
             }
 
             const newOrder = await prisma.order.create({
@@ -81,38 +100,45 @@ export async function createOrder({
                     // },
                 },
             });
-            const orderItems = await items.map(async ({ id, qty, name }) => {
-                const product = await getProduct(id);
-                if (!product) {
-                    errors.push({
-                        id: `product from cart not found. name= ${name}`,
-                    });
-                    return null;
-                }
+            const orderItems = await items.map(
+                async ({ id, qty, name }) => {
+                    const product = await getProduct(id);
+                    if (!product) {
+                        errors.push({
+                            id: `product from cart not found. name= ${name}`,
+                        });
+                        return null;
+                    }
 
-                if (!product.countInStock || product.countInStock < 1) {
-                    errors.push({
-                        id: `product from cart not available. name= ${name}`,
+                    if (
+                        !product.countInStock ||
+                        product.countInStock < 1
+                    ) {
+                        errors.push({
+                            id: `product from cart not available. name= ${name}`,
+                        });
+                    }
+                    const { price } = product;
+                    if (!price) {
+                        errors.push({
+                            [product.name]:
+                                "product's price not specified",
+                        });
+                        throw new Error(
+                            "product's price not specified " +
+                                product.name,
+                        );
+                    }
+                    return await prisma.orderItem.create({
+                        data: {
+                            price,
+                            qty,
+                            orderId: newOrder.id,
+                            productId: product.id,
+                        },
                     });
-                }
-                const { price } = product;
-                if (!price) {
-                    errors.push({
-                        [product.name]: "product's price not specified",
-                    });
-                    throw new Error(
-                        "product's price not specified " + product.name,
-                    );
-                }
-                return await prisma.orderItem.create({
-                    data: {
-                        price,
-                        qty,
-                        orderId: newOrder.id,
-                        productId: product.id,
-                    },
-                });
-            });
+                },
+            );
             return errors?.length > 0
                 ? { orderId: newOrder.id, errors: errors }
                 : { orderId: newOrder.id };
@@ -129,21 +155,25 @@ export async function createOrder({
     }
     let errors: { [key: string]: string }[] = [];
     try {
-        const shippingAddress = await prisma.shippingAddress.create({
-            data: {
-                shippingPrice,
-                address,
-                city,
-                postalCode,
-                country,
-            },
-        });
+        const shippingAddress =
+            await prisma.shippingAddress.create({
+                data: {
+                    shippingPrice,
+                    address,
+                    city,
+                    postalCode,
+                    country,
+                },
+            });
 
         if (!shippingAddress) {
             errors.push({
-                shippingAddress: "shipping address processing error",
+                shippingAddress:
+                    "shipping address processing error",
             });
-            throw new Error("shipping address processing error");
+            throw new Error(
+                "shipping address processing error",
+            );
         }
 
         const newOrder = await prisma.order.create({
@@ -162,38 +192,45 @@ export async function createOrder({
                 // },
             },
         });
-        const orderItems = await items.map(async ({ id, qty, name }) => {
-            const product = await getProduct(id);
-            if (!product) {
-                errors.push({
-                    id: `product from cart not found. name= ${name}`,
-                });
-                return null;
-            }
+        const orderItems = await items.map(
+            async ({ id, qty, name }) => {
+                const product = await getProduct(id);
+                if (!product) {
+                    errors.push({
+                        id: `product from cart not found. name= ${name}`,
+                    });
+                    return null;
+                }
 
-            if (!product.countInStock || product.countInStock < 1) {
-                errors.push({
-                    id: `product from cart not available. name= ${name}`,
+                if (
+                    !product.countInStock ||
+                    product.countInStock < 1
+                ) {
+                    errors.push({
+                        id: `product from cart not available. name= ${name}`,
+                    });
+                }
+                const { price } = product;
+                if (!price) {
+                    errors.push({
+                        [product.name]:
+                            "product's price not specified",
+                    });
+                    throw new Error(
+                        "product's price not specified " +
+                            product.name,
+                    );
+                }
+                return await prisma.orderItem.create({
+                    data: {
+                        price,
+                        qty,
+                        orderId: newOrder.id,
+                        productId: product.id,
+                    },
                 });
-            }
-            const { price } = product;
-            if (!price) {
-                errors.push({
-                    [product.name]: "product's price not specified",
-                });
-                throw new Error(
-                    "product's price not specified " + product.name,
-                );
-            }
-            return await prisma.orderItem.create({
-                data: {
-                    price,
-                    qty,
-                    orderId: newOrder.id,
-                    productId: product.id,
-                },
-            });
-        });
+            },
+        );
         return errors?.length > 0
             ? { orderId: newOrder.id, errors: errors }
             : { orderId: newOrder.id };
@@ -211,7 +248,9 @@ export async function createOrder({
 
 export async function getOrderById(id: Order["id"]) {
     try {
-        const order = await prisma.order.findUniqueOrThrow({ where: { id } });
+        const order = await prisma.order.findUniqueOrThrow({
+            where: { id },
+        });
         return order;
     } catch (e) {
         orderLogger.error(e);
@@ -219,7 +258,9 @@ export async function getOrderById(id: Order["id"]) {
     }
 }
 
-export async function getOrderWithItemsById(id: Order["id"]): Promise<
+export async function getOrderWithItemsById(
+    id: Order["id"],
+): Promise<
     | (Order & {
           orderItems: (OrderItem & {
               product: CompactProduct;
@@ -243,7 +284,9 @@ export async function getOrderWithItemsById(id: Order["id"]): Promise<
                                 countInStock: true,
                                 rating: true,
                                 currencyId: true,
-                                categories: { select: { name: true } },
+                                categories: {
+                                    select: { name: true },
+                                },
                             },
                         },
                     },
@@ -259,7 +302,9 @@ export async function getOrderWithItemsById(id: Order["id"]): Promise<
 
 export async function getOrdersByUserId(id: User["id"]) {
     try {
-        const orders = await prisma.order.findMany({ where: { userId: id } });
+        const orders = await prisma.order.findMany({
+            where: { userId: id },
+        });
         return orders;
     } catch (e) {
         orderLogger.error(e);

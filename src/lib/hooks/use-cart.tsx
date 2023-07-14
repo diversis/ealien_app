@@ -1,9 +1,16 @@
 import { Product } from "@prisma/client";
-import { create, StateCreator, StoreMutatorIdentifier } from "zustand";
-import { persist, createJSONStorage } from "zustand/middleware";
+import {
+    create,
+    StateCreator,
+    StoreMutatorIdentifier,
+} from "zustand";
+import {
+    persist,
+    createJSONStorage,
+} from "zustand/middleware";
 import {
     SerializableCompactProduct,
-    SerializableCartItem,
+    CartItem,
     SerializableProduct,
 } from "../prisma/types";
 
@@ -21,21 +28,25 @@ type LoggerImpl = <T>(
     name?: string,
 ) => StateCreator<T, [], []>;
 
-const loggerImpl: LoggerImpl = (f, name) => (set, get, store) => {
-    type T = ReturnType<typeof f>;
-    const loggedSet: typeof set = (...a) => {
-        set(...a);
-        console.log(...(name ? [`${name}:`] : []), get());
-    };
-    store.setState = loggedSet;
+const loggerImpl: LoggerImpl =
+    (f, name) => (set, get, store) => {
+        type T = ReturnType<typeof f>;
+        const loggedSet: typeof set = (...a) => {
+            set(...a);
+            console.log(
+                ...(name ? [`${name}:`] : []),
+                get(),
+            );
+        };
+        store.setState = loggedSet;
 
-    return f(loggedSet, get, store);
-};
+        return f(loggedSet, get, store);
+    };
 
 export const logger = loggerImpl as unknown as Logger;
 
 type CartState = {
-    items: SerializableCartItem[] | never;
+    items: CartItem[] | never;
 
     editable: boolean;
 
@@ -45,11 +56,17 @@ type CartState = {
 
 type CartAction = {
     addItem: (
-        product: SerializableProduct | SerializableCompactProduct,
+        product:
+            | SerializableProduct
+            | SerializableCompactProduct,
         qty: number,
         setQty?: boolean,
     ) => void;
-    addQty: (id: string, qty: number, setQty?: boolean) => void;
+    addQty: (
+        id: string,
+        qty: number,
+        setQty?: boolean,
+    ) => void;
     removeItem: (id: string) => void;
     setEditable: (state: boolean) => void;
 
@@ -59,8 +76,11 @@ type CartAction = {
     setTotal: (total: number) => void;
 };
 
-const calculateTotal = ({ items }: { items: SerializableCartItem[] }) =>
-    items.reduce((sum, i) => sum + Number(i.price) * i.qty, 0);
+const calculateTotal = ({ items }: { items: CartItem[] }) =>
+    items.reduce(
+        (sum, i) => sum + Number(i.price) * i.qty,
+        0,
+    );
 
 export const useCart = create<CartState & CartAction>()(
     logger(
@@ -74,16 +94,19 @@ export const useCart = create<CartState & CartAction>()(
                 total: 0,
 
                 addItem: (
-                    product: SerializableProduct | SerializableCompactProduct,
+                    product:
+                        | SerializableProduct
+                        | SerializableCompactProduct,
                     qty: number,
                     setQty: boolean = false,
                 ) => {
                     if (!get().editable) {
                         return;
                     }
-                    set((state): { items: SerializableCartItem[] } => {
+                    set((state): { items: CartItem[] } => {
                         const itemInCart = state.items.find(
-                            (item) => item.id === product.id,
+                            (item) =>
+                                item.id === product.id,
                         );
 
                         if (itemInCart) {
@@ -95,15 +118,18 @@ export const useCart = create<CartState & CartAction>()(
                             //         ),
                             //     };
                             return {
-                                items: state.items.map((item) =>
-                                    item.id === product.id
-                                        ? {
-                                              ...item,
-                                              qty: setQty
-                                                  ? qty
-                                                  : item.qty + qty,
-                                          }
-                                        : item,
+                                items: state.items.map(
+                                    (item) =>
+                                        item.id ===
+                                        product.id
+                                            ? {
+                                                  ...item,
+                                                  qty: setQty
+                                                      ? qty
+                                                      : item.qty +
+                                                        qty,
+                                              }
+                                            : item,
                                 ),
                             };
                         }
@@ -117,25 +143,34 @@ export const useCart = create<CartState & CartAction>()(
                                     price: product.price,
                                     image: product.image,
                                     rating: product.rating,
-                                    countInStock: product.countInStock,
+                                    countInStock:
+                                        product.countInStock,
                                     qty: 1,
                                 },
                             ],
                         };
                     });
                 },
-                addQty: (id: string, qty: number, setQty?: boolean) => {
+                addQty: (
+                    id: string,
+                    qty: number,
+                    setQty?: boolean,
+                ) => {
                     if (!get().editable) {
                         return;
                     }
-                    set((state): { items: SerializableCartItem[] } => {
-                        const itemInCart = state.items.findIndex(
-                            (item) => item.id === id,
-                        );
+                    set((state): { items: CartItem[] } => {
+                        const itemInCart =
+                            state.items.findIndex(
+                                (item) => item.id === id,
+                            );
                         if (itemInCart >= 0) {
                             if (
                                 (setQty && qty <= 0) ||
-                                state.items[itemInCart].qty + qty <= 0
+                                state.items[itemInCart]
+                                    .qty +
+                                    qty <=
+                                    0
                             )
                                 // return {
                                 //     items: state.items.filter(
@@ -144,27 +179,36 @@ export const useCart = create<CartState & CartAction>()(
                                 //     ),
                                 // };
                                 return {
-                                    items: state.items.map((item) => {
-                                        return item.id === id
-                                            ? {
-                                                  ...item,
-                                                  qty: 0,
-                                              }
-                                            : { ...item };
-                                    }),
+                                    items: state.items.map(
+                                        (item) => {
+                                            return item.id ===
+                                                id
+                                                ? {
+                                                      ...item,
+                                                      qty: 0,
+                                                  }
+                                                : {
+                                                      ...item,
+                                                  };
+                                        },
+                                    ),
                                 };
 
                             return {
-                                items: state.items.map((item) => {
-                                    return item.id === id
-                                        ? {
-                                              ...item,
-                                              qty: setQty
-                                                  ? qty
-                                                  : item.qty + qty,
-                                          }
-                                        : { ...item };
-                                }),
+                                items: state.items.map(
+                                    (item) => {
+                                        return item.id ===
+                                            id
+                                            ? {
+                                                  ...item,
+                                                  qty: setQty
+                                                      ? qty
+                                                      : item.qty +
+                                                        qty,
+                                              }
+                                            : { ...item };
+                                    },
+                                ),
                             };
                         }
                         return {
@@ -177,9 +221,10 @@ export const useCart = create<CartState & CartAction>()(
                     if (!get().editable) {
                         return;
                     }
-                    set((state): { items: SerializableCartItem[] } => ({
+                    set((state): { items: CartItem[] } => ({
                         items: state.items.filter(
-                            (item: SerializableCartItem) => item.id !== id,
+                            (item: CartItem) =>
+                                item.id !== id,
                         ),
                     }));
                 },
@@ -188,7 +233,8 @@ export const useCart = create<CartState & CartAction>()(
                         editable: editableState,
                     })),
 
-                clearCart: () => set((state) => ({ items: [] })),
+                clearCart: () =>
+                    set((state) => ({ items: [] })),
 
                 toggleCart: (showState: boolean) => {
                     set({ show: showState });
@@ -199,7 +245,9 @@ export const useCart = create<CartState & CartAction>()(
             }),
             {
                 name: "cart-storage", // name of the item in the storage (must be unique)
-                storage: createJSONStorage(() => localStorage),
+                storage: createJSONStorage(
+                    () => localStorage,
+                ),
                 partialize: (state) => ({
                     items: state.items,
                 }),

@@ -100,7 +100,7 @@ export default function ProductPage({
                         </Typography>
                         <Button
                             variant="contained"
-                            className="bg-primary-300"
+                            className=""
                         >
                             Add to Cart
                         </Button>

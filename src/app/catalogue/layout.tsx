@@ -19,7 +19,7 @@ export default function CatalogueLayout({
             <main
                 key="main"
                 id="main"
-                className="mb-16 flex min-h-screen w-screen flex-col md:mt-24 md:min-h-[calc(100vh_-_6rem)] lg:mb-20 xl:mb-24"
+                className="mb-16 mt-20 flex min-h-screen w-screen flex-col md:mt-24 md:min-h-[calc(100vh_-_6rem)] lg:mb-20 lg:mt-24 xl:mb-24 xl:mt-32"
             >
                 <Suspense fallback={<CircularProgress />}>
                     <PageTransition>
