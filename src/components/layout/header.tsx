@@ -1,28 +1,74 @@
 "use client";
 import { AnimatePresence, m } from "framer-motion";
 import { useState } from "react";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
-import useScrolled from "@/lib/hooks/use-scrolled";
-
 import Link from "next/link";
-
+import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
+import MenuIcon from "@mui/icons-material/Menu";
+import { useSession } from "next-auth/react";
 
+import useScrolled from "@/lib/hooks/use-scrolled";
 import Social from "../shared/social";
 import MobileMenu from "./mobileMenu";
 import { OPACITY_VARIANTS } from "@/lib/constants";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import SwitchTheme from "../shared/switchTheme";
 import ScrollTop from "./scrollTop";
-import { AppBar, Box } from "@mui/material";
+import {
+    AppBar,
+    Avatar,
+    Box,
+    Button,
+    Container,
+    IconButton,
+    Menu,
+    MenuItem,
+    Toolbar,
+    Tooltip,
+    Typography,
+} from "@mui/material";
 import Cart from "../cart/cart";
+import Image from "next/image";
+
+const pages = ["Catalogue", "Pricing", "Blog"];
+const settings = [
+    "Profile",
+    "Account",
+    "Dashboard",
+    "Logout",
+];
 
 const Header = () => {
+    const { data: session, status } = useSession();
+    const { email, image, name } = session?.user || {};
     // const IsClient = useIsClient();
+    const [anchorElNav, setAnchorElNav] =
+        useState<null | HTMLElement>(null);
+    const [anchorElUser, setAnchorElUser] =
+        useState<null | HTMLElement>(null);
     const { isMobile, isDesktop } = useWindowSize();
     const [menuOpen, setMenuOpen] = useState(false);
     const scrolled = useScrolled(100);
+
+    const handleOpenNavMenu = (
+        event: React.MouseEvent<HTMLElement>,
+    ) => {
+        setAnchorElNav(event.currentTarget);
+    };
+    const handleOpenUserMenu = (
+        event: React.MouseEvent<HTMLElement>,
+    ) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseNavMenu = () => {
+        setAnchorElNav(null);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
     // const trigger = useScrollTrigger({
     //     target: window ? window : undefined,
     //     threshold: 300,
@@ -49,24 +95,107 @@ const Header = () => {
                                 : "after:opacity-0"
                         } fixed left-0 top-0 z-30 flex !h-24  w-screen items-center backdrop-blur-[8px] transition-colors duration-300 after:absolute after:inset-0  after:shadow-md after:shadow-surface-500/50 after:transition-opacity after:duration-500 `}
                     >
-                        <div
-                            className={`flex h-full w-full flex-row items-center justify-between  px-8 transition-colors duration-300 `}
-                        >
-                            <m.div>
-                                <Link href="/">
-                                    <div className="flex place-items-center gap-x-6">
+                        <Container maxWidth="xl">
+                            <Toolbar disableGutters>
+                                <m.div>
+                                    <Typography
+                                        variant="h6"
+                                        noWrap
+                                        component={Link}
+                                        href="/"
+                                    >
                                         AALIEN
-                                    </div>
-                                </Link>
-                            </m.div>
-                            {/* <MainNav className="flex flex-row" /> */}
-                            {/* <Contacts /> */}
-                            <div className="flex flex-row gap-2">
-                                <Cart />
-                                <Social />
-                                <SwitchTheme />
-                            </div>
-                        </div>
+                                    </Typography>
+                                </m.div>
+                                <Box
+                                    sx={{
+                                        flexGrow: 1,
+                                        ml: "3rem",
+                                        display: "flex",
+                                        columnGap: "8px",
+                                    }}
+                                >
+                                    {pages.map((page) => (
+                                        <Link
+                                            key={page}
+                                            href={`/${page.toLowerCase()}`}
+                                        >
+                                            {page}
+                                        </Link>
+                                    ))}
+                                </Box>
+
+                                {/* <Contacts /> */}
+                                <div className="flex flex-row gap-2">
+                                    <Cart />
+                                    <Social />
+                                    <SwitchTheme />
+                                </div>
+                                <Box sx={{ flexGrow: 0 }}>
+                                    <Tooltip title="Open settings">
+                                        <IconButton
+                                            onClick={
+                                                handleOpenUserMenu
+                                            }
+                                        >
+                                            <Avatar
+                                                alt={
+                                                    name ||
+                                                    "User"
+                                                }
+                                                src={
+                                                    image ||
+                                                    "/images/logo2.png"
+                                                }
+                                            />
+                                        </IconButton>
+                                    </Tooltip>
+                                    <Menu
+                                        sx={{ mt: "45px" }}
+                                        id="menu-appbar"
+                                        anchorEl={
+                                            anchorElUser
+                                        }
+                                        anchorOrigin={{
+                                            vertical: "top",
+                                            horizontal:
+                                                "right",
+                                        }}
+                                        keepMounted
+                                        transformOrigin={{
+                                            vertical: "top",
+                                            horizontal:
+                                                "right",
+                                        }}
+                                        open={Boolean(
+                                            anchorElUser,
+                                        )}
+                                        onClose={
+                                            handleCloseUserMenu
+                                        }
+                                    >
+                                        {settings.map(
+                                            (setting) => (
+                                                <Link
+                                                    key={
+                                                        setting
+                                                    }
+                                                    href={
+                                                        "#"
+                                                    }
+                                                >
+                                                    <Typography textAlign="center">
+                                                        {
+                                                            setting
+                                                        }
+                                                    </Typography>
+                                                </Link>
+                                            ),
+                                        )}
+                                    </Menu>
+                                </Box>
+                            </Toolbar>
+                        </Container>
                     </m.div>
                 )}
             </AnimatePresence>

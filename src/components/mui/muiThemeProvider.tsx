@@ -3,7 +3,13 @@ import {
     createTheme,
     ThemeProvider,
 } from "@mui/material/styles";
+import CssBaseline from "@mui/material/CssBaseline";
+import {
+    CacheProvider,
+    EmotionCache,
+} from "@emotion/react";
 import { useTheme } from "next-themes";
+import NextAppDirEmotionCacheProvider from "./EmotionCache";
 
 const fontFamily = [
     "Orbitron",
@@ -70,14 +76,19 @@ export default function MUIThemeProvider({
         useTheme();
 
     return (
-        <ThemeProvider
-            theme={
-                resolvedTheme === "light"
-                    ? lightTheme
-                    : darkTheme
-            }
+        <NextAppDirEmotionCacheProvider
+            options={{ key: "mui" }}
         >
-            {children}
-        </ThemeProvider>
+            <ThemeProvider
+                theme={
+                    resolvedTheme === "light"
+                        ? lightTheme
+                        : darkTheme
+                }
+            >
+                <CssBaseline />
+                {children}
+            </ThemeProvider>
+        </NextAppDirEmotionCacheProvider>
     );
 }

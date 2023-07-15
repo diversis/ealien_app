@@ -1,3 +1,4 @@
+"use client";
 import { useEffect, useMemo, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
@@ -49,7 +50,9 @@ export default function Cart() {
     useEffect(() => {
         setTotal(cartTotal);
     }, [cartTotal, setTotal]);
-
+    useEffect(() => {
+        setRender(true);
+    }, []);
     return (
         <>
             <SwipeableDrawer
@@ -94,19 +97,21 @@ export default function Cart() {
                     <p>Cart is empty</p>
                 )}
             </SwipeableDrawer>
-            <Badge
-                badgeContent={cartTotal.toFixed(2) || 0}
-                className="mr-8 font-bold "
-                max={99999.999}
-            >
-                <Button
-                    onClick={() => {
-                        toggle(true);
-                    }}
+            {render ? (
+                <Badge
+                    badgeContent={cartTotal.toFixed(2) || 0}
+                    className="mr-8 font-bold "
+                    max={99999.999}
                 >
-                    <ShoppingCartIcon />
-                </Button>
-            </Badge>
+                    <Button
+                        onClick={() => {
+                            toggle(true);
+                        }}
+                    >
+                        <ShoppingCartIcon />
+                    </Button>
+                </Badge>
+            ) : null}
         </>
     );
 }

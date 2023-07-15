@@ -7,6 +7,7 @@ import {
     Button,
     Card,
     CardActionArea,
+    CardActions,
     CardContent,
     CardMedia,
     Rating,
@@ -69,11 +70,11 @@ export default function ProductCard({
                             height={400}
                             alt={product.name}
                             src={`/images/catalogue/${product.image}/512.webp`}
-                            className="w-full  rounded object-cover transition-transform duration-500 group-focus-within/link:scale-105 group-hover/link:scale-105 group-focus/link:scale-105"
+                            className="w-full  rounded object-cover transition-transform duration-500 group-focus-within/card:scale-105 group-hover/card:scale-105 group-focus/card:scale-105"
                         />
                     </CardMedia>
                 </Link>
-                <CardContent className="transtion-all relative flex w-full flex-col rounded-b bg-surface-50/50 backdrop-blur-sm duration-500 ease-out [grid-area:2/1/3/2] after:absolute after:inset-0 after:rounded-b after:opacity-0 after:shadow-md after:shadow-surface-500 after:transition-opacity after:duration-500 after:ease-out group-focus-within/card:translate-y-full group-focus-within/card:bg-surface-50 group-focus-within/card:after:opacity-100 group-hover/card:translate-y-full group-hover/card:bg-surface-50 group-hover/card:after:opacity-100 group-focus/card:translate-y-full group-focus/card:bg-surface-50 group-focus/card:after:opacity-100 dark:bg-surface-900/50 dark:group-focus-within/card:bg-surface-900  dark:group-hover/card:bg-surface-900 dark:group-focus/card:bg-surface-900">
+                <CardContent className="transtion-all relative flex h-min w-full flex-col rounded-t bg-surface-50/50 backdrop-blur-sm duration-500 ease-out [grid-area:1/1/2/2] after:absolute after:inset-0 after:rounded-t after:opacity-0 after:shadow-inner after:shadow-surface-500 after:transition-opacity after:duration-500 after:ease-out group-focus-within/card:-translate-y-full group-focus-within/card:bg-surface-50 group-focus-within/card:after:opacity-100 group-hover/card:-translate-y-full group-hover/card:bg-surface-50 group-hover/card:after:opacity-100 group-focus/card:-translate-y-full group-focus/card:bg-surface-50 group-focus/card:after:opacity-100 dark:bg-surface-900/50 dark:group-focus-within/card:bg-surface-900  dark:group-hover/card:bg-surface-900 dark:group-focus/card:bg-surface-900">
                     <Box className="text-shadow flex flex-col flex-wrap justify-between gap-y-2">
                         <div className="flex flex-row items-center justify-between">
                             <Typography
@@ -100,14 +101,17 @@ export default function ProductCard({
                         <Typography variant="body1">
                             ${product.price}
                         </Typography>
-                        <Button
-                            onClick={handleAddToCartClick}
-                            variant="contained"
-                        >
-                            Add to Cart
-                        </Button>
                     </Box>
                 </CardContent>
+                <CardActions>
+                    <Button
+                        onClick={handleAddToCartClick}
+                        variant="contained"
+                        color="primary"
+                    >
+                        Add to Cart
+                    </Button>
+                </CardActions>
             </MoCard>
         </m.div>
     );
