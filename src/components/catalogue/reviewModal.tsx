@@ -15,7 +15,7 @@ import {
 } from "@mui/material";
 import IconButton from "@mui/material/IconButton";
 import CloseIcon from "@mui/icons-material/Close";
-import { SnackbarProvider, useSnackbar } from "notistack";
+import { useSnackbar } from "notistack";
 import {
     Controller,
     SubmitHandler,
@@ -34,7 +34,6 @@ import {
     forwardRef,
     useState,
 } from "react";
-import MUIBaseModal from "../shared/muibaseModal";
 import { TransitionProps } from "@mui/material/transitions";
 import Slide from "@mui/material/Slide";
 import { ControlledTextField } from "../form/fields/controlledTextField";

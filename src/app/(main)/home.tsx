@@ -46,7 +46,10 @@ export default function Home({
                     <HeroSection key="hero-section" />
                     <FeaturesSection key="features-section" />
                     <TestimonialsSection key="testimonials-section" />
-                    <Carousel key="carousel-section">
+                    <Carousel
+                        key="carousel-section"
+                        className="!overflow-y-visible"
+                    >
                         {products.map((product) => (
                             <ProductCard
                                 key={`card-${product.id}`}

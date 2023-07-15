@@ -98,7 +98,7 @@ const Header = () => {
                         <Container maxWidth="xl">
                             <Toolbar
                                 disableGutters
-                                // className="text-surface-900 dark:text-surface-50"
+                                className="gap-x-4"
                             >
                                 <m.div>
                                     <Typography
@@ -129,9 +129,9 @@ const Header = () => {
                                 </Box>
 
                                 {/* <Contacts /> */}
-                                <div className="flex flex-row gap-2">
+                                <div className="flex flex-row gap-4">
                                     <Cart />
-                                    <Social />
+
                                     <SwitchTheme />
                                 </div>
                                 <Box sx={{ flexGrow: 0 }}>

@@ -23,6 +23,7 @@ export default function Carousel({
     breakpoints,
     autoplayDelay = 5000,
     controls = true,
+    className,
 }: {
     children: ReactNode[];
     breakpoints?: {
@@ -31,11 +32,12 @@ export default function Carousel({
     };
     autoplayDelay?: number;
     controls?: boolean;
+    className?: string;
 }) {
     const ref = useRef<HTMLDivElement>(null);
     const isInView = useInView(ref);
     return (
-        <m.section ref={ref} className="relative w-full">
+        <m.div ref={ref} className="relative w-full">
             <Swiper
                 breakpoints={
                     breakpoints
@@ -51,13 +53,14 @@ export default function Carousel({
                                   spaceBetween: 0,
                               },
                               1280: {
-                                  slidesPerView: 5,
-                                  spaceBetween: "80px",
+                                  slidesPerView: 4,
+                                  spaceBetween: "100px",
                               },
                           }
                 }
-                className="relative h-full w-full !overflow-y-visible"
-                spaceBetween={50}
+                className={`relative w-full ${
+                    className || ""
+                }`}
                 // slidesPerView={isMobile ? 1 : 2}
                 onSlideChange={(swiper) => {
                     // console.log(swiper.activeIndex);
@@ -74,32 +77,20 @@ export default function Carousel({
                 }}
                 direction="horizontal"
                 loop={true}
-                centeredSlides={false}
+                centeredSlides={true}
             >
                 {children.map((child: ReactNode, el) => {
                     return (
                         <SwiperSlide
                             key={`slide-${el}`}
-                            className="grid h-full w-full max-w-full place-items-center place-self-center "
+                            className="!grid max-h-full w-full max-w-full place-items-center place-self-center py-8 "
                         >
-                            <m.div
-                                initial="hidden"
-                                animate={
-                                    isInView
-                                        ? "visible"
-                                        : "hidden"
-                                }
-                                variants={OPACITY_VARIANTS}
-                                exit="exit"
-                                className="relative grid h-full  max-h-full w-full max-w-full place-items-center"
-                            >
-                                {child}
-                            </m.div>
+                            {child}
                         </SwiperSlide>
                     );
                 })}
                 {controls ? <SwiperNav /> : null}
             </Swiper>
-        </m.section>
+        </m.div>
     );
 }

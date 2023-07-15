@@ -47,29 +47,29 @@ export default function TestimonialsSection() {
             >
                 Testimonials
             </Typography>
-            <div className="flex h-1/2 w-full flex-1">
-                <Carousel
-                    breakpoints={{
-                        0: {
-                            slidesPerView: 1,
-                            spaceBetween: 0,
-                        },
-                    }}
-                    autoplayDelay={20000}
-                    controls={false}
-                >
-                    {TESTIMONIALS.map((item) => (
-                        <TestimonialsCard
-                            key={`testimonials-${item.name.replace(
-                                " ",
-                                "-",
-                            )}`}
-                            name={item.name}
-                            photo={item.photo}
-                        />
-                    ))}
-                </Carousel>
-            </div>
+
+            <Carousel
+                breakpoints={{
+                    0: {
+                        slidesPerView: 1,
+                        spaceBetween: 0,
+                    },
+                }}
+                autoplayDelay={20000}
+                controls={false}
+                className="h-min"
+            >
+                {TESTIMONIALS.map((item) => (
+                    <TestimonialsCard
+                        key={`testimonials-${item.name.replace(
+                            " ",
+                            "-",
+                        )}`}
+                        name={item.name}
+                        photo={item.photo}
+                    />
+                ))}
+            </Carousel>
         </m.section>
     );
 }
