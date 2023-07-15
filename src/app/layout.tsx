@@ -1,9 +1,14 @@
 import "./globals.css";
 import type { Session } from "next-auth";
-
+import { Orbitron } from "next/font/google";
 import { Providers } from "./providers";
 import Filters from "@/components/shared/filters";
 import Header from "@/components/layout/header";
+
+const orbitron = Orbitron({
+    weight: ["400", "500", "700", "800"],
+    subsets: ["latin"],
+});
 
 export default function RootLayout({
     // Layouts must accept a children prop.
@@ -16,7 +21,7 @@ export default function RootLayout({
 }) {
     return (
         <html lang="en" suppressHydrationWarning>
-            <body>
+            <body className={orbitron.className}>
                 <Filters />
                 <a
                     key="skip-to-content"

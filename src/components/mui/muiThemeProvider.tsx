@@ -33,14 +33,21 @@ const darkTheme = createTheme({
     palette: {
         mode: "dark",
         primary: {
-            main: "#846CEF",
-            light: "#B2A3F5",
-            dark: "#140849",
+            main: "#6547EB",
+            contrastText: "#EDFDFD",
         },
         secondary: {
-            main: "#18DCDC",
-            light: "#A3F5F5",
-            dark: "#084949",
+            main: "#0C6E6E",
+            contrastText: "#EAD9FC",
+        },
+        background: {
+            default: "#141414",
+            paper: "#292929",
+        },
+        text: {
+            primary: "#EBEBEB",
+            secondary: "#EAD9FC",
+            disabled: "#C2C2C2",
         },
     },
     typography: {
@@ -52,14 +59,21 @@ const lightTheme = createTheme({
     palette: {
         mode: "light",
         primary: {
-            main: "#4723E7",
-            light: "#B2A3F5",
-            dark: "#140849",
+            main: "#B2A3F5",
+            contrastText: "#141414",
         },
         secondary: {
             main: "#18DCDC",
-            light: "#A3F5F5",
-            dark: "#084949",
+            contrastText: "#141414",
+        },
+        background: {
+            default: "#F0EDFD",
+            paper: "#EBEBEB",
+        },
+        text: {
+            primary: "#141414",
+            secondary: "#28064B",
+            disabled: "#3D3D3D",
         },
     },
     typography: {
@@ -81,9 +95,9 @@ export default function MUIThemeProvider({
         >
             <ThemeProvider
                 theme={
-                    resolvedTheme === "light"
-                        ? lightTheme
-                        : darkTheme
+                    resolvedTheme === "dark"
+                        ? darkTheme
+                        : lightTheme
                 }
             >
                 <CssBaseline />

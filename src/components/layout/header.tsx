@@ -96,7 +96,10 @@ const Header = () => {
                         } fixed left-0 top-0 z-30 flex !h-24  w-screen items-center backdrop-blur-[8px] transition-colors duration-300 after:absolute after:inset-0  after:shadow-md after:shadow-surface-500/50 after:transition-opacity after:duration-500 `}
                     >
                         <Container maxWidth="xl">
-                            <Toolbar disableGutters>
+                            <Toolbar
+                                disableGutters
+                                // className="text-surface-900 dark:text-surface-50"
+                            >
                                 <m.div>
                                     <Typography
                                         variant="h6"
@@ -133,7 +136,7 @@ const Header = () => {
                                 </div>
                                 <Box sx={{ flexGrow: 0 }}>
                                     <Tooltip title="Open settings">
-                                        <IconButton
+                                        <button
                                             onClick={
                                                 handleOpenUserMenu
                                             }
@@ -148,7 +151,7 @@ const Header = () => {
                                                     "/images/logo2.png"
                                                 }
                                             />
-                                        </IconButton>
+                                        </button>
                                     </Tooltip>
                                     <Menu
                                         sx={{ mt: "45px" }}
