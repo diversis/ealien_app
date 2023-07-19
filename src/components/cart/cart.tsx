@@ -82,7 +82,7 @@ export default function Cart() {
                             .length > 0 && (
                             <Button
                                 LinkComponent={Link}
-                                href="/order/new"
+                                href="/order/create"
                                 onClick={() => {
                                     toggle(false);
                                 }}

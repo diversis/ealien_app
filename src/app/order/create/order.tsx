@@ -1,10 +1,16 @@
+"use client";
 import ProductTable from "@/components/tables/products";
 import { useCart } from "@/lib/hooks/use-cart";
 import { useEffect, useMemo, useState } from "react";
 
-import { AnimatePresence, LayoutGroup, motion } from "framer-motion";
-import OrderForm from "@/components/forms/orderForm";
+import {
+    AnimatePresence,
+    LayoutGroup,
+    m,
+} from "framer-motion";
+import OrderForm from "@/components/form/order/create/orderForm";
 import Link from "next/link";
+import { Typography } from "@mui/material";
 
 export default function NewOrder() {
     const {
@@ -38,14 +44,16 @@ export default function NewOrder() {
     if (!render) return null;
     return (
         <>
-            <div className="container flex grid-cols-2 flex-col-reverse gap-8 overflow-hidden  px-4 xl:grid">
-                <motion.div
+            <div className="container flex grid-cols-2 flex-col-reverse gap-8  px-4 xl:grid">
+                <m.div
                     layout
                     className="flex flex-col items-center rounded-xl bg-primary-50/20 dark:bg-primary-900/20"
                 >
                     {items.length > 0 ? (
                         <>
-                            <h3>Your Order</h3>
+                            <Typography variant="h3">
+                                Your Order
+                            </Typography>
                             <ProductTable
                                 editable={editable}
                                 items={items}
@@ -56,7 +64,9 @@ export default function NewOrder() {
                         </>
                     ) : (
                         <div>
-                            <h5>Your cart is empty</h5>
+                            <Typography variant="h5">
+                                Your cart is empty
+                            </Typography>
                             <Link
                                 href="/catalogue"
                                 className="link-border font-semi-bold lg:nase p-1 text-sm xl:text-lg"
@@ -65,14 +75,14 @@ export default function NewOrder() {
                             </Link>
                         </div>
                     )}
-                </motion.div>
+                </m.div>
 
-                <motion.div
+                <m.div
                     layout
-                    className="grid h-min w-full grid-cols-1 place-items-start justify-items-center"
+                    className="sticky top-24 grid h-min w-full grid-cols-1 place-items-start justify-items-center"
                 >
                     <OrderForm></OrderForm>
-                </motion.div>
+                </m.div>
             </div>
         </>
     );

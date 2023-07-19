@@ -7,6 +7,7 @@ const nextConfig = {
             "avatars.githubusercontent.com",
             "avatars.mds.yandex.net",
             "sun1.userapi.com",
+            "flagcdn.com",
         ],
     },
     async redirects() {

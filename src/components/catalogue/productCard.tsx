@@ -59,7 +59,7 @@ export default function ProductCard({
             exit="hidden"
             className="z-0 aspect-square w-full transform-none place-self-center transition-[z-index] duration-500 ease-[cubic-bezier(1,0,1,0)] [&:is(:hover,:focus,:focus-within)]:z-20 [&:is(:hover,:focus,:focus-within)]:duration-0"
         >
-            <MoCard className="group/card relative  z-0 grid aspect-square w-full grid-cols-1 grid-rows-[1fr_auto] !overflow-visible bg-transparent ">
+            <MoCard className="group/card relative z-0 grid aspect-square w-full grid-cols-1 grid-rows-[1fr_auto] !overflow-visible bg-transparent ">
                 <Link
                     href={`/catalogue/${product.id}`}
                     className="group/link peer/link relative grid aspect-square w-full max-w-full place-items-center border-2  border-transparent !p-0 [grid-area:1/1/3/2]"

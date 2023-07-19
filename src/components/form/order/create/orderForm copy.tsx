@@ -1,0 +1,540 @@
+"use client";
+import { useEffect, useState } from "react";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { AnimatePresence, m } from "framer-motion";
+import { useSession } from "next-auth/react";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import {
+    Controller,
+    FieldValues,
+    FormProvider,
+    SubmitErrorHandler,
+    SubmitHandler,
+    useForm,
+} from "react-hook-form";
+import z, { ZodError, ZodIssue } from "zod";
+import { zodResolver } from "@hookform/resolvers/zod";
+import { useSnackbar } from "notistack";
+import Stepper from "@mui/material/Stepper";
+import Button from "@mui/material/Button";
+
+import { useCart } from "@/lib/hooks/use-cart";
+import COUNTRIES_DATA from "@/lib/rest-countries/countries.json";
+import useWindowSize from "@/lib/hooks/use-window-size";
+// import SelectCountryItem from "./selectCountryItem";
+import { CartItem } from "@/lib/prisma/types";
+import { useShowSignInModal } from "@/lib/hooks/show-sign-in-modal";
+
+import { OPACITY_VARIANTS } from "@/lib/constants";
+import { ControlledTextField } from "../../fields/controlledTextField";
+import { ControlledCountrySelect } from "../../fields/controlledCountrySelect";
+import { ControlledRadioGroup } from "../../fields/controlledRadioGroup";
+import {
+    Step,
+    StepContent,
+    StepLabel,
+} from "@mui/material";
+
+const schema = z.object({
+    name: z
+        .string()
+        .min(3, "Name must include at least 3 characters")
+        .max(40, "Name too long"),
+    email: z
+        .string()
+        .email("Invalid email")
+        .nonempty("Email is required"),
+    address: z.string().nonempty("Address is required"),
+    city: z.string().nonempty("City is required"),
+    postalCode: z
+        .string()
+        .nonempty("Postal Code is required"),
+    country: z.string().nonempty("Country is required"),
+    paymentMethod: z
+        .string()
+        .nonempty(
+            "Please choose one of available payment methods",
+        ),
+});
+
+type FormSchemaType = FieldValues & z.infer<typeof schema>;
+type FormField =
+    | "name"
+    | "email"
+    | "address"
+    | "city"
+    | "postalCode"
+    | "country"
+    | "paymentMethod";
+
+async function saveFormData({
+    data,
+    url,
+}: {
+    data: FieldValues & { items: CartItem[] };
+    url: string;
+}): Promise<AxiosResponse<any, any>> {
+    return await axios({
+        method: "post",
+        url: url,
+        data: data,
+    });
+}
+
+const endpoint = "/api/order/create";
+
+const steps = [
+    {
+        label: "Personal information",
+        fields: [
+            {
+                label: "name",
+                component: ControlledTextField,
+            },
+            {
+                label: "email",
+                component: ControlledTextField,
+            },
+        ],
+    },
+    {
+        label: "Shipping",
+        fields: [
+            {
+                label: "address",
+                component: ControlledTextField,
+            },
+            {
+                label: "city",
+                component: ControlledTextField,
+            },
+            {
+                label: "postalCode",
+                component: ControlledTextField,
+            },
+            {
+                label: "country",
+                component: ControlledCountrySelect,
+            },
+        ],
+    },
+    {
+        label: "Payment",
+        fields: [
+            {
+                label: "paymentMethod",
+                component: ControlledRadioGroup,
+            },
+        ],
+    },
+    { label: "Complete" },
+];
+
+export default function OrderForm() {
+    const {
+        items,
+        addItem,
+        removeItem,
+        clearCart,
+        addQty,
+        editable,
+        show,
+        toggle,
+        setEditable,
+    } = useCart((state) => ({
+        items: state.items,
+        addItem: state.addItem,
+        removeItem: state.removeItem,
+        clearCart: state.clearCart,
+        addQty: state.addQty,
+        editable: state.editable,
+        setEditable: state.setEditable,
+        show: state.show,
+        toggle: state.toggleCart,
+    }));
+    const router = useRouter();
+    const { data: session, status } = useSession();
+
+    const { email, image, name } = session?.user || {};
+    const { enqueueSnackbar, closeSnackbar } =
+        useSnackbar();
+
+    const {
+        control,
+        register,
+        handleSubmit,
+        setError,
+        reset,
+        setFocus,
+        getValues,
+        trigger,
+        setValue,
+        formState: {
+            isSubmitting,
+            errors,
+            isSubmitSuccessful,
+            isDirty,
+            isValid,
+        },
+    } = useForm({
+        resolver: zodResolver(schema),
+        defaultValues: {
+            name: "",
+            email: email || "",
+            address: "",
+            city: "",
+            postalCode: "",
+            country: "",
+            paymentMethod: "paypal",
+        },
+    });
+
+    const { isMobile, isDesktop } = useWindowSize();
+    const [active, setActive] = useState(0);
+    const [formVisible, setFormVisible] = useState(false);
+    const [newOrderId, setNewOrderId] = useState("");
+    const [showSignInModal] = useShowSignInModal(
+        (state) => [state.showSignInModal],
+    );
+
+    const countriesData = COUNTRIES_DATA.map((country) => {
+        return {
+            value: country.name.official,
+            label:
+                Object.values(country.name.nativeName)[0]
+                    ?.official || country.name.official,
+            flag: {
+                svg: country.flags.svg,
+                alt: country.flags.alt,
+            },
+        };
+    });
+    const onError: SubmitErrorHandler<FormSchemaType> = (
+        {
+            name,
+            email,
+            address,
+            city,
+            postalCode,
+            country,
+            paymentMethod,
+        },
+        e,
+    ) => {
+        console.log("onError errors: ", errors);
+        try {
+            for (const [field, message] of Object.entries(
+                errors,
+            )) {
+                // console.log(field, message);
+                setActive(0);
+            }
+            const errorsMessage = Object.entries(
+                errors,
+            ).reduce(
+                (m, [field, message]) => m + field + ", ",
+                "",
+            );
+
+            enqueueSnackbar({
+                message: `Fields with errors:${errorsMessage}`,
+                variant: "error",
+            });
+        } catch (e) {
+            console.error(errors, e);
+        }
+        setEditable(true);
+    };
+    const onSubmit: SubmitHandler<FormSchemaType> = async (
+        data: FieldValues,
+    ) => {
+        // console.log("submit: ", { ...data });
+        try {
+            console.log({ ...data, items });
+            const orderData: FieldValues & {
+                items: CartItem[];
+            } = {
+                ...data,
+                items: items.filter((i) => i.qty > 0),
+            };
+            const response = await saveFormData({
+                data: orderData,
+                url: endpoint,
+            });
+            console.log(response);
+            setNewOrderId(response.data.orderId);
+            clearCart();
+            enqueueSnackbar({
+                message: `Order create success. Order ID: ${response.data.orderId}`,
+                variant: "success",
+                autoHideDuration: 6000,
+            });
+            router.push(
+                `/order/${response.data.orderId || "#"}`,
+            );
+        } catch (error) {
+            if (
+                error instanceof AxiosError &&
+                error?.response?.data &&
+                Array.isArray(error.response.data)
+            ) {
+                let BackToStep = 3;
+                const data: ZodIssue[] =
+                    error.response.data;
+                // console.log(error);
+                // Validation error
+                const fieldToErrorMessage: {
+                    field: string;
+                    message: string;
+                }[] = data.map((e) => {
+                    return {
+                        field: "" + e.path[0],
+                        message: e.message,
+                    };
+                });
+                console.error(fieldToErrorMessage);
+                fieldToErrorMessage.map(
+                    ({ field, message }) => {
+                        if (field in getValues()) {
+                            setError(field as FormField, {
+                                type: "custom",
+                                message: message,
+                            });
+                            if (
+                                field in ["name", "email"]
+                            ) {
+                                BackToStep = -1;
+                            } else if (
+                                field in
+                                [
+                                    "address",
+                                    "city",
+                                    "postalCode",
+                                    "country",
+                                ]
+                            ) {
+                                BackToStep = Math.min(
+                                    BackToStep,
+                                    0,
+                                );
+                            } else {
+                                BackToStep = Math.min(
+                                    BackToStep,
+                                    1,
+                                );
+                            }
+                        }
+                    },
+                );
+                console.log("redirectForm: ", BackToStep);
+                setActive(BackToStep);
+                const errorMessage =
+                    fieldToErrorMessage.reduce(
+                        (m, { field }) => m + field + ", ",
+                        "",
+                    );
+                enqueueSnackbar({
+                    message: `Errors occured while creating order:\n Fields with errors:\n ${errorMessage}`,
+                    variant: "error",
+                });
+            } else {
+                // unknown error
+                console.error(error);
+
+                enqueueSnackbar({
+                    message: `An unexpected error occurred while processing, please try again`,
+                    variant: "error",
+                });
+            }
+            setEditable(true);
+        }
+    };
+
+    const nextStep = async () => {
+        let result = true;
+        switch (active) {
+            case 0: {
+                if (email) {
+                    setValue("name", name || "");
+                    setValue("email", email || "");
+                }
+                result = await trigger(["name", "email"]);
+                console.log("result:", result);
+                break;
+            }
+            case 1: {
+                result = await trigger([
+                    "address",
+                    "city",
+                    "postalCode",
+                    "country",
+                ]);
+                console.log("result:", result);
+                break;
+            }
+            case 2: {
+                result = await trigger(["paymentMethod"]);
+                break;
+            }
+            default:
+                break;
+        }
+        console.log(errors);
+        setActive((current) => {
+            return current < 3 && result
+                ? current + 1
+                : current;
+        });
+    };
+    useEffect(() => {
+        console.log(active);
+    }, [active]);
+
+    useEffect(() => {
+        console.log(errors);
+    }, [errors]);
+
+    useEffect(() => {
+        console.log(
+            `\n-----\n name:  ${getValues(
+                "name",
+            )}\n-----\n email:  ${getValues(
+                "email",
+            )}\n-----\n address:  ${getValues(
+                "address",
+            )}\n-----\n city:  ${getValues(
+                "city",
+            )}\n-----\n country:  ${getValues(
+                "country",
+            )}\n-----\n postalCode:  ${getValues(
+                "postalCode",
+            )}\n-----\n paymentMethod:  ${getValues(
+                "paymentMethod",
+            )}\n-----\n`,
+        );
+    });
+
+    useEffect(() => {
+        if (isSubmitting || isSubmitSuccessful) {
+            setEditable(false);
+        }
+        return () => setEditable(true);
+    }, [isSubmitting, isSubmitSuccessful, setEditable]);
+
+    const prevStep = () =>
+        setActive((current) =>
+            current > 0 ? current - 1 : current,
+        );
+
+    // const { isMobile, isTablet, isDesktop } = useWindowSize();
+    const handleProceed = () => {
+        setFormVisible(true);
+    };
+    return (
+        <>
+            <AnimatePresence mode="wait">
+                {items.length > 0 && (
+                    <>
+                        {!formVisible ? (
+                            <div className="aspect-square">
+                                <Button
+                                    onClick={handleProceed}
+                                    className="group/checkout my-[100%] place-self-center text-base text-primary-900 dark:text-primary-50 lg:text-lg"
+                                >
+                                    Proceed
+                                </Button>
+                            </div>
+                        ) : (
+                            <m.div
+                                key="order-form-wrapper"
+                                className="w-full [&>*]:!scale-100 "
+                                layout="size"
+                                transition={{
+                                    layout: {
+                                        type: "spring",
+                                        stiffness: 150,
+                                        mass: 0.3,
+                                    },
+                                }}
+                            >
+                                <FormProvider>
+                                    {!isSubmitSuccessful ? (
+                                        <m.form
+                                            id="create-order-form"
+                                            key={`order-form`}
+                                            onSubmit={handleSubmit(
+                                                onSubmit,
+                                                onError,
+                                            )}
+                                            variants={
+                                                OPACITY_VARIANTS
+                                            }
+                                            initial="hidden"
+                                            animate="visible"
+                                            exit="exit"
+                                            className="rounded-xl bg-primary-50/50 p-2 transition-[height] duration-1000 dark:bg-primary-900/50"
+                                        >
+                                            <Stepper
+                                                activeStep={
+                                                    active
+                                                }
+                                            >
+                                                {steps.map(
+                                                    ({
+                                                        label,
+                                                        fields,
+                                                    }) => {
+                                                        return (
+                                                            <Step
+                                                                key={`step-${label}`}
+                                                            >
+                                                                <StepLabel>
+                                                                    {
+                                                                        label
+                                                                    }
+                                                                </StepLabel>
+                                                                <StepContent>
+                                                                    {fields?.map(
+                                                                        ({
+                                                                            label,
+                                                                            component,
+                                                                        }) => {
+                                                                            return (
+                                                                                <>
+                                                                                    {
+                                                                                        component
+                                                                                    }
+                                                                                </>
+                                                                            );
+                                                                        },
+                                                                    )}
+                                                                </StepContent>
+                                                            </Step>
+                                                        );
+                                                    },
+                                                )}
+                                            </Stepper>
+                                        </m.form>
+                                    ) : (
+                                        <m.div className="flex justify-center rounded-xl bg-primary-50/50 p-2 transition-colors duration-1000 dark:bg-primary-900/50">
+                                            <Link
+                                                href={`/order/${
+                                                    newOrderId ||
+                                                    "#"
+                                                }`}
+                                            >
+                                                View Order
+                                            </Link>
+                                        </m.div>
+                                    )}
+                                </FormProvider>
+                            </m.div>
+                        )}
+                    </>
+                )}
+            </AnimatePresence>
+        </>
+    );
+}

@@ -1,4 +1,4 @@
-import Select from "@mui/material/Select";
+import Select, { SelectProps } from "@mui/material/Select";
 import { Controller, useController } from "react-hook-form";
 import type {
     SubmitHandler,
@@ -19,9 +19,7 @@ export const ControlledSelect = <
     name,
     control,
     label,
-}: InputProps<TFieldValues, TName> & {
-    label?: string;
-}) => {
+}: InputProps<TFieldValues, TName> & SelectProps) => {
     const { field } = useController({ control, name });
     return (
         <Controller

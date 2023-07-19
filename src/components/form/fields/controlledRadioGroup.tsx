@@ -7,7 +7,9 @@ import type {
     FieldPath,
     UseControllerProps,
 } from "react-hook-form";
-import RadioGroup from "@mui/material/RadioGroup";
+import RadioGroup, {
+    RadioGroupProps,
+} from "@mui/material/RadioGroup";
 type InputProps<
     TFieldValues extends FieldValues,
     TName extends FieldPath<TFieldValues>,
@@ -20,9 +22,10 @@ export const ControlledRadioGroup = <
     name,
     control,
     label,
+    children,
 }: InputProps<TFieldValues, TName> & {
     label?: string;
-}) => {
+} & RadioGroupProps) => {
     const { field } = useController({ control, name });
     return (
         <Controller
@@ -36,7 +39,9 @@ export const ControlledRadioGroup = <
                 <RadioGroup
                     onChange={onChange}
                     value={value}
-                />
+                >
+                    {children}
+                </RadioGroup>
             )}
         />
     );

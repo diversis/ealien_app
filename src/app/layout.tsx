@@ -1,6 +1,7 @@
 import "./globals.css";
 import type { Session } from "next-auth";
 import { Orbitron } from "next/font/google";
+import { Metadata } from "next";
 import { Providers } from "./providers";
 import Filters from "@/components/shared/filters";
 import Header from "@/components/layout/header";
@@ -9,6 +10,13 @@ const orbitron = Orbitron({
     weight: ["400", "500", "700", "800"],
     subsets: ["latin"],
 });
+
+export const metadata: Metadata = {
+    title: "AAlien Shop",
+    icons: {
+        icon: "/favicon.png",
+    },
+};
 
 export default function RootLayout({
     // Layouts must accept a children prop.

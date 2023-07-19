@@ -7,7 +7,7 @@ import type {
     FieldPath,
     UseControllerProps,
 } from "react-hook-form";
-import { Rating } from "@mui/material";
+import { Rating, RatingProps } from "@mui/material";
 type InputProps<
     TFieldValues extends FieldValues,
     TName extends FieldPath<TFieldValues>,
@@ -22,7 +22,7 @@ export const ControlledRating = <
     label,
 }: InputProps<TFieldValues, TName> & {
     label?: string;
-}) => {
+} & RatingProps) => {
     const { field } = useController({ control, name });
     return (
         <Controller

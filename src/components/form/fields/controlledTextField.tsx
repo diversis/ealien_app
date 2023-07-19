@@ -1,5 +1,7 @@
 import { Controller, useController } from "react-hook-form";
-import TextField from "@mui/material/TextField";
+import TextField, {
+    TextFieldProps,
+} from "@mui/material/TextField";
 import type {
     SubmitHandler,
     DefaultValues,
@@ -19,9 +21,8 @@ export const ControlledTextField = <
     name,
     control,
     label,
-}: InputProps<TFieldValues, TName> & {
-    label?: string;
-}) => {
+    ...rest
+}: InputProps<TFieldValues, TName> & TextFieldProps) => {
     const { field } = useController({ control, name });
     return (
         <Controller
@@ -40,10 +41,7 @@ export const ControlledTextField = <
                     error={!!error}
                     onChange={onChange}
                     value={value}
-                    label={"" + label}
-                    fullWidth
-                    variant="outlined"
-                    className="rounded-md"
+                    {...rest}
                 />
             )}
         />
