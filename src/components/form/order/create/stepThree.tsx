@@ -10,7 +10,11 @@ import Button from "@mui/material/Button";
 import { Session } from "next-auth/core/types";
 import Box from "@mui/material/Box";
 import { ControlledRadioGroup } from "../../fields/controlledRadioGroup";
-import { FormControlLabel, Radio } from "@mui/material";
+import {
+    FormControlLabel,
+    Radio,
+    Stack,
+} from "@mui/material";
 
 export default function StepThree() {
     // const { data: session, status } = useSession();
@@ -18,7 +22,10 @@ export default function StepThree() {
     const { control } = useFormContext();
 
     return (
-        <m.div className="flex flex-col gap-y-4 py-2">
+        <Stack
+            direction="column"
+            spacing={{ xs: 1, sm: 2, md: 4 }}
+        >
             <ControlledRadioGroup
                 name="paymentMethod"
                 control={control}
@@ -42,6 +49,6 @@ export default function StepThree() {
                     disabled
                 />
             </ControlledRadioGroup>
-        </m.div>
+        </Stack>
     );
 }

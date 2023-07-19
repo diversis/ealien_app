@@ -9,6 +9,7 @@ import SignInModal from "@/components/auth/signInModal";
 import Button from "@mui/material/Button";
 import { Session } from "next-auth/core/types";
 import Box from "@mui/material/Box";
+import Stack from "@mui/material/Stack";
 
 export default function StepOne({
     session,
@@ -21,7 +22,10 @@ export default function StepOne({
     const { reset, register, control } = useFormContext();
 
     return (
-        <m.div className="flex flex-col gap-y-4 py-2">
+        <Stack
+            direction="column"
+            spacing={{ xs: 1, sm: 2, md: 4 }}
+        >
             {session ? (
                 <>
                     {!!email ? (
@@ -124,6 +128,6 @@ export default function StepOne({
                     </Box>
                 </>
             )}
-        </m.div>
+        </Stack>
     );
 }

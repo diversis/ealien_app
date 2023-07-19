@@ -10,6 +10,7 @@ import Button from "@mui/material/Button";
 import { Session } from "next-auth/core/types";
 import Box from "@mui/material/Box";
 import { ControlledCountrySelect } from "../../fields/controlledCountrySelect";
+import { Stack } from "@mui/material";
 
 export default function StepTwo() {
     // const { data: session, status } = useSession();
@@ -17,7 +18,10 @@ export default function StepTwo() {
     const { reset, register, control } = useFormContext();
 
     return (
-        <m.div className="flex flex-col gap-y-4 py-2">
+        <Stack
+            direction="column"
+            spacing={{ xs: 1, sm: 2, md: 4 }}
+        >
             <ControlledTextField
                 name="address"
                 control={control}
@@ -59,6 +63,6 @@ export default function StepTwo() {
                 control={control}
                 key="country"
             />
-        </m.div>
+        </Stack>
     );
 }

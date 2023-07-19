@@ -153,6 +153,7 @@ export default function OrderForm() {
         getValues,
         trigger,
         setValue,
+        clearErrors,
         formState: {
             isSubmitting,
             errors,
@@ -209,8 +210,8 @@ export default function OrderForm() {
     const onSubmit: SubmitHandler<FormSchemaType> = async (
         data: FieldValues,
     ) => {
-        // console.log("submit: ", { ...data });
         try {
+            clearErrors("root");
             console.log({ ...data, items });
             const orderData: FieldValues & {
                 items: CartItem[];
@@ -309,6 +310,10 @@ export default function OrderForm() {
                         variant: "error",
                     });
                 } else {
+                    setError("root", {
+                        type: "serverError",
+                        message: error.message,
+                    });
                     enqueueSnackbar({
                         message: `${error.response?.statusText}`,
                         variant: "error",
@@ -317,7 +322,15 @@ export default function OrderForm() {
             } else {
                 // unknown error
                 console.error(error);
-
+                setError("root", {
+                    type: "serverError",
+                    message:
+                        error &&
+                        typeof error === "object" &&
+                        "message" in error
+                            ? (error.message as string)
+                            : "server error",
+                });
                 enqueueSnackbar({
                     message: `An unexpected error occurred while processing, please try again`,
                     variant: "error",
@@ -392,6 +405,10 @@ export default function OrderForm() {
     });
 
     useEffect(() => {
+        console.log(
+            "submit success?: ",
+            isSubmitSuccessful,
+        );
         if (isSubmitting || isSubmitSuccessful) {
             setEditable(false);
         }
@@ -438,7 +455,7 @@ export default function OrderForm() {
                                     initial="hidden"
                                     animate="visible"
                                     exit="exit"
-                                    className="rounded-xl bg-primary-50/50 p-2 transition-[height] duration-1000 dark:bg-primary-900/50"
+                                    className="flex flex-col gap-y-2 rounded-xl bg-primary-50/50 p-2 transition-[height] duration-1000 dark:bg-primary-900/50 md:gap-y-4"
                                 >
                                     <Stepper
                                         activeStep={active}
@@ -463,19 +480,30 @@ export default function OrderForm() {
                                             },
                                         )}
                                     </Stepper>
-                                    {active === 0 ? (
-                                        <StepOne
-                                            session={
-                                                session
-                                            }
-                                        />
-                                    ) : active === 1 ? (
-                                        <StepTwo />
-                                    ) : active === 2 ? (
-                                        <StepThree />
-                                    ) : active === 3 ? (
-                                        <StepFour />
-                                    ) : null}
+                                    <Box
+                                        sx={{
+                                            marginTop: {
+                                                xs: "6px",
+                                                sm: "8px",
+                                                md: "12px",
+                                                lg: "24px",
+                                            },
+                                        }}
+                                    >
+                                        {active === 0 ? (
+                                            <StepOne
+                                                session={
+                                                    session
+                                                }
+                                            />
+                                        ) : active === 1 ? (
+                                            <StepTwo />
+                                        ) : active === 2 ? (
+                                            <StepThree />
+                                        ) : active === 3 ? (
+                                            <StepFour />
+                                        ) : null}
+                                    </Box>
                                     <Box className="flex w-full flex-row">
                                         <Box className="ml-0 mr-auto">
                                             {active > 0 ? (
