@@ -39,7 +39,6 @@ export const ControlledCountrySelect = <
                 formState,
             }) => (
                 <Box className="flex flex-col gap-1">
-                    {" "}
                     <Autocomplete
                         size="small"
                         onChange={(e, data) => {
@@ -112,7 +111,7 @@ export const ControlledCountrySelect = <
                                     inputProps={{
                                         ...params.inputProps,
                                         autoComplete:
-                                            "new-password", // disable autocomplete and autofill
+                                            "country-name", // disable autocomplete and autofill
                                     }}
                                     variant="outlined"
                                 />

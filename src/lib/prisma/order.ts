@@ -46,7 +46,7 @@ export async function createOrder({
     );
 
     if (userId) {
-        let errors: { [key: string]: string }[] = [];
+        // let errors: { [key: string]: string }[] = [];
         try {
             const user =
                 await getUserByIDWithShippingAddress(
@@ -76,10 +76,6 @@ export async function createOrder({
                       });
 
             if (!shippingAddress) {
-                errors.push({
-                    shippingAddress:
-                        "shipping address processing error",
-                });
                 throw new Error(
                     "shipping address processing error",
                 );
@@ -102,31 +98,27 @@ export async function createOrder({
             });
             const orderItems = await items.map(
                 async ({ id, qty, name }) => {
-                    const product = await getProduct(id);
+                    const product = await getProduct({
+                        id,
+                    });
                     if (!product) {
-                        errors.push({
-                            id: `product from cart not found. name= ${name}`,
-                        });
-                        return null;
+                        throw new Error(
+                            `product from cart not found. id= ${id} name= ${name}`,
+                        );
                     }
 
                     if (
                         !product.countInStock ||
                         product.countInStock < 1
                     ) {
-                        errors.push({
-                            id: `product from cart not available. name= ${name}`,
-                        });
+                        throw new Error(
+                            `product from cart not available. id= ${id} name= ${name}`,
+                        );
                     }
                     const { price } = product;
                     if (!price) {
-                        errors.push({
-                            [product.name]:
-                                "product's price not specified",
-                        });
                         throw new Error(
-                            "product's price not specified " +
-                                product.name,
+                            `product's price not specified. name= ${product.name}`,
                         );
                     }
                     return await prisma.orderItem.create({
@@ -139,9 +131,7 @@ export async function createOrder({
                     });
                 },
             );
-            return errors?.length > 0
-                ? { orderId: newOrder.id, errors: errors }
-                : { orderId: newOrder.id };
+            return { orderId: newOrder.id };
             //     const newOrder = await prisma.order.create({
             //     data: {
             //         userId,
@@ -150,10 +140,10 @@ export async function createOrder({
             // });
         } catch (e) {
             orderLogger.error(e);
-            return { errors: e };
+            return null;
         }
     }
-    let errors: { [key: string]: string }[] = [];
+    // let errors: { [key: string]: string }[] = [];
     try {
         const shippingAddress =
             await prisma.shippingAddress.create({
@@ -167,10 +157,6 @@ export async function createOrder({
             });
 
         if (!shippingAddress) {
-            errors.push({
-                shippingAddress:
-                    "shipping address processing error",
-            });
             throw new Error(
                 "shipping address processing error",
             );
@@ -194,46 +180,45 @@ export async function createOrder({
         });
         const orderItems = await items.map(
             async ({ id, qty, name }) => {
-                const product = await getProduct(id);
-                if (!product) {
-                    errors.push({
-                        id: `product from cart not found. name= ${name}`,
+                try {
+                    const product = await getProduct({
+                        id,
                     });
+                    if (!product) {
+                        throw new Error(
+                            `product from cart not found. id= ${id} name= ${name}`,
+                        );
+                    }
+
+                    if (
+                        !product.countInStock ||
+                        product.countInStock < 1
+                    ) {
+                        throw new Error(
+                            `product from cart not available. id= ${id} name= ${name}`,
+                        );
+                    }
+                    const { price } = product;
+                    if (!price) {
+                        throw new Error(
+                            `product's price not specified. name= ${product.name}`,
+                        );
+                    }
+                    return await prisma.orderItem.create({
+                        data: {
+                            price,
+                            qty,
+                            orderId: newOrder.id,
+                            productId: product.id,
+                        },
+                    });
+                } catch (e) {
+                    orderLogger.error(e);
                     return null;
                 }
-
-                if (
-                    !product.countInStock ||
-                    product.countInStock < 1
-                ) {
-                    errors.push({
-                        id: `product from cart not available. name= ${name}`,
-                    });
-                }
-                const { price } = product;
-                if (!price) {
-                    errors.push({
-                        [product.name]:
-                            "product's price not specified",
-                    });
-                    throw new Error(
-                        "product's price not specified " +
-                            product.name,
-                    );
-                }
-                return await prisma.orderItem.create({
-                    data: {
-                        price,
-                        qty,
-                        orderId: newOrder.id,
-                        productId: product.id,
-                    },
-                });
             },
         );
-        return errors?.length > 0
-            ? { orderId: newOrder.id, errors: errors }
-            : { orderId: newOrder.id };
+        return { orderId: newOrder.id };
         //     const newOrder = await prisma.order.create({
         //     data: {
         //         userId,
@@ -242,7 +227,7 @@ export async function createOrder({
         // });
     } catch (e) {
         orderLogger.error(e);
-        return { errors: e };
+        return null;
     }
 }
 

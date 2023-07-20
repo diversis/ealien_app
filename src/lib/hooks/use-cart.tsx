@@ -67,6 +67,10 @@ type CartAction = {
         qty: number,
         setQty?: boolean,
     ) => void;
+    setCountInStock: (
+        id: string,
+        countInStock: number,
+    ) => void;
     removeItem: (id: string) => void;
     setEditable: (state: boolean) => void;
 
@@ -89,7 +93,6 @@ export const useCart = create<CartState & CartAction>()(
                 items: [],
 
                 editable: true,
-
                 show: false,
                 total: 0,
 
@@ -148,6 +151,37 @@ export const useCart = create<CartState & CartAction>()(
                                     qty: 1,
                                 },
                             ],
+                        };
+                    });
+                },
+                setCountInStock: (
+                    id: string,
+                    countInStock: number,
+                ) => {
+                    set((state): { items: CartItem[] } => {
+                        const itemInCart =
+                            state.items.findIndex(
+                                (item) => item.id === id,
+                            );
+                        if (itemInCart) {
+                            return {
+                                items: state.items.map(
+                                    (item) => {
+                                        return item.id ===
+                                            id
+                                            ? {
+                                                  ...item,
+                                                  countInStock,
+                                              }
+                                            : {
+                                                  ...item,
+                                              };
+                                    },
+                                ),
+                            };
+                        }
+                        return {
+                            items: [...state.items],
                         };
                     });
                 },

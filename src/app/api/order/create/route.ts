@@ -72,15 +72,15 @@ export async function POST(request: NextRequest) {
     let orderId: string | null = null;
     try {
         logger.info("POST data: ");
-        logger.info(req.body);
-        logger.info(
-            "type data: " + typeof req.body.postalCode,
-        );
+        logger.info(req);
+        logger.info("type data: " + typeof req.postalCode);
         const session = await getServerSession(authOptions);
         !!session
-            ? formSchemaAuthorized.parse(req.body)
-            : formSchemaUnauthorized.parse(req.body);
-        logger.info("CREATE ORDER", req.body);
+            ? formSchemaAuthorized.parse(req)
+            : formSchemaUnauthorized.parse(req);
+        logger.info("CREATE ORDER");
+        logger.info({ req });
+        logger.info("\n=============\n");
         const {
             name,
             email,
@@ -90,7 +90,7 @@ export async function POST(request: NextRequest) {
             postalCode,
             paymentMethod,
             items,
-        } = req.body;
+        } = req;
 
         if (session) {
             const order = await createOrder({
@@ -104,8 +104,12 @@ export async function POST(request: NextRequest) {
                 items: items,
                 shippingPrice: 0,
             });
-            NextResponse.json(order, {
-                status: 200,
+            if (order)
+                NextResponse.json(order, {
+                    status: 200,
+                });
+            NextResponse.json("server error", {
+                status: 400,
             });
         }
 
@@ -120,6 +124,9 @@ export async function POST(request: NextRequest) {
             items: items.filter((i: CartItem) => i.qty > 0),
             shippingPrice: 0,
         });
+
+        logger.info({ order });
+
         NextResponse.json(order, {
             status: 200,
         });
@@ -133,7 +140,7 @@ export async function POST(request: NextRequest) {
             });
         } else {
             logger.info(e);
-            NextResponse.json(JSON.stringify(e), {
+            NextResponse.json(e, {
                 status: 400,
             });
         }

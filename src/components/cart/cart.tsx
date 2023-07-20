@@ -4,6 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import Drawer from "@mui/material/Drawer";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
+import axios, { AxiosError, AxiosResponse } from "axios";
 
 import { useCart } from "@/lib/hooks/use-cart";
 import useWindowSize from "@/lib/hooks/use-window-size";
@@ -12,6 +13,23 @@ import Button from "@mui/material/Button";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import { SwipeableDrawer } from "@mui/material";
+import { CartItem } from "@/lib/prisma/types";
+
+const endpoint = "/api/catalogue/";
+
+async function saveFormData({
+    data,
+    url,
+}: {
+    data: { items: CartItem[] };
+    url: string;
+}): Promise<AxiosResponse<any, any>> {
+    return await axios({
+        method: "post",
+        url: url,
+        data: data,
+    });
+}
 
 export default function Cart() {
     const [render, setRender] = useState(false);
