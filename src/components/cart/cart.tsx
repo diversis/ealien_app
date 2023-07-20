@@ -17,7 +17,7 @@ import { CartItem } from "@/lib/prisma/types";
 
 const endpoint = "/api/catalogue/";
 
-async function saveFormData({
+async function getCountInStock({
     data,
     url,
 }: {
@@ -25,7 +25,7 @@ async function saveFormData({
     url: string;
 }): Promise<AxiosResponse<any, any>> {
     return await axios({
-        method: "post",
+        method: "get",
         url: url,
         data: data,
     });
@@ -43,6 +43,7 @@ export default function Cart() {
         show,
         toggle,
         setTotal,
+        setCountInStock,
     } = useCart((state) => ({
         items: state.items,
         addItem: state.addItem,
@@ -53,6 +54,7 @@ export default function Cart() {
         show: state.show,
         toggle: state.toggleCart,
         setTotal: state.setTotal,
+        setCountInStock: state.setCountInStock,
     }));
     const { isMobile, isTablet, isDesktop } =
         useWindowSize();
@@ -69,6 +71,27 @@ export default function Cart() {
         setTotal(cartTotal);
     }, [cartTotal, setTotal]);
     useEffect(() => {
+        const refreshCart = async () => {
+            const newCountInStock = await getCountInStock({
+                data: { items },
+                url: endpoint,
+            });
+            if (
+                "items" in newCountInStock &&
+                Array.isArray(newCountInStock.items)
+            ) {
+                newCountInStock.items.map(
+                    (item: CartItem) => {
+                        setCountInStock({
+                            id: item.id,
+                            countInStock:
+                                item.countInStock || 0,
+                        });
+                    },
+                );
+            }
+        };
+        refreshCart();
         setRender(true);
     }, []);
     return (

@@ -67,10 +67,13 @@ type CartAction = {
         qty: number,
         setQty?: boolean,
     ) => void;
-    setCountInStock: (
-        id: string,
-        countInStock: number,
-    ) => void;
+    setCountInStock: ({
+        id,
+        countInStock,
+    }: {
+        id: string;
+        countInStock: number;
+    }) => void;
     removeItem: (id: string) => void;
     setEditable: (state: boolean) => void;
 
@@ -154,10 +157,13 @@ export const useCart = create<CartState & CartAction>()(
                         };
                     });
                 },
-                setCountInStock: (
-                    id: string,
-                    countInStock: number,
-                ) => {
+                setCountInStock: ({
+                    id,
+                    countInStock,
+                }: {
+                    id: string;
+                    countInStock: number;
+                }) => {
                     set((state): { items: CartItem[] } => {
                         const itemInCart =
                             state.items.findIndex(
@@ -236,9 +242,36 @@ export const useCart = create<CartState & CartAction>()(
                                             ? {
                                                   ...item,
                                                   qty: setQty
-                                                      ? qty
+                                                      ? qty <=
+                                                        (state
+                                                            .items[
+                                                            itemInCart
+                                                        ]
+                                                            .countInStock ||
+                                                            0)
+                                                          ? qty
+                                                          : state
+                                                                .items[
+                                                                itemInCart
+                                                            ]
+                                                                .countInStock ||
+                                                            0
                                                       : item.qty +
-                                                        qty,
+                                                            qty <=
+                                                        (state
+                                                            .items[
+                                                            itemInCart
+                                                        ]
+                                                            .countInStock ||
+                                                            0)
+                                                      ? item.qty +
+                                                        qty
+                                                      : state
+                                                            .items[
+                                                            itemInCart
+                                                        ]
+                                                            .countInStock ||
+                                                        0,
                                               }
                                             : { ...item };
                                     },
