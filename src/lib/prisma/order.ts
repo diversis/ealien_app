@@ -19,6 +19,45 @@ const orderLogger = logger.child({
     origin: "prisma order",
 });
 
+const createOrderItems = async ({
+    items,
+    orderId,
+}: {
+    items: {
+        price: Decimal;
+        countInStock: number;
+        rating: Decimal;
+        name: string;
+        id: string;
+        image: string | null;
+        currencyId: string;
+        qty: number;
+    }[];
+    orderId: string;
+}) => {
+    try {
+        await prisma.orderItem.createMany({
+            data: [
+                ...items.map(
+                    ({ id, qty, name, price }) => ({
+                        price,
+                        qty,
+                        orderId: orderId,
+                        productId: id,
+                    }),
+                ),
+            ],
+        });
+    } catch (e) {
+        await prisma.order.delete({
+            where: {
+                id: orderId,
+            },
+        });
+        throw e;
+    }
+};
+
 export async function createOrder({
     userId,
     email,
@@ -143,26 +182,6 @@ export async function createOrder({
                         userId,
                         shippingAddressId:
                             shippingAddress.id,
-                        orderItems: {
-                            createMany: {
-                                data: [
-                                    ...dbItems.map(
-                                        ({
-                                            id,
-                                            qty,
-                                            name,
-                                            price,
-                                        }) => ({
-                                            price,
-                                            qty,
-                                            orderId:
-                                                newOrder.id,
-                                            productId: id,
-                                        }),
-                                    ),
-                                ],
-                            },
-                        },
                         // shippingAddress: {
                         //     connect: {
                         //         id: shippingAddress.id,
@@ -170,45 +189,10 @@ export async function createOrder({
                         // },
                     },
                 });
-            const orderItems = Promise.all(
-                items.map(async ({ id, qty, name }) => {
-                    const product: Product | null =
-                        await getProduct({
-                            id,
-                        });
-                    if (!product) {
-                        throw new Error(
-                            `product from cart not found. id= ${id} name= ${name}`,
-                        );
-                    }
-
-                    if (
-                        !product.countInStock ||
-                        product.countInStock < 1
-                    ) {
-                        throw new Error(
-                            `product from cart not available. id= ${id} name= ${name}`,
-                        );
-                    }
-                    const { price } = product;
-                    if (!price) {
-                        throw new Error(
-                            `product's price not specified. name= ${product.name}`,
-                        );
-                    }
-                    const orderItem: OrderItem =
-                        await prisma.orderItem.create({
-                            data: {
-                                price,
-                                qty,
-                                orderId: newOrder.id,
-                                productId: product.id,
-                            },
-                        });
-                    return orderItem;
-                }),
-            ).then((items) => items.filter(Boolean));
-            const awa = await orderItems;
+            const newOrderItems = await createOrderItems({
+                items: dbItems,
+                orderId: newOrder.id,
+            });
             return { orderId: newOrder.id };
             //     const newOrder = await prisma.order.create({
             //     data: {
@@ -217,12 +201,8 @@ export async function createOrder({
             //     },
             // });
         }
-    } catch (e) {
-        orderLogger.error(e);
-        return null;
-    }
-    // let errors: { [key: string]: string }[] = [];
-    try {
+
+        // let errors: { [key: string]: string }[] = [];
         const shippingAddress =
             await prisma.shippingAddress.create({
                 data: {
@@ -240,7 +220,7 @@ export async function createOrder({
             );
         }
 
-        const newOrder = await prisma.order.create({
+        const newOrder: Order = await prisma.order.create({
             data: {
                 isDelivered: false,
                 isPaid: false,
@@ -256,46 +236,10 @@ export async function createOrder({
                 // },
             },
         });
-        const orderItems = await items.map(
-            async ({ id, qty, name }) => {
-                try {
-                    const product = await getProduct({
-                        id,
-                    });
-                    if (!product) {
-                        throw new Error(
-                            `product from cart not found. id= ${id} name= ${name}`,
-                        );
-                    }
-
-                    if (
-                        !product.countInStock ||
-                        product.countInStock < 1
-                    ) {
-                        throw new Error(
-                            `product from cart not available. id= ${id} name= ${name}`,
-                        );
-                    }
-                    const { price } = product;
-                    if (!price) {
-                        throw new Error(
-                            `product's price not specified. name= ${product.name}`,
-                        );
-                    }
-                    return await prisma.orderItem.create({
-                        data: {
-                            price,
-                            qty,
-                            orderId: newOrder.id,
-                            productId: product.id,
-                        },
-                    });
-                } catch (e) {
-                    orderLogger.error(e);
-                    return null;
-                }
-            },
-        );
+        const newOrderItems = await createOrderItems({
+            items: dbItems,
+            orderId: newOrder.id,
+        });
         return { orderId: newOrder.id };
         //     const newOrder = await prisma.order.create({
         //     data: {
