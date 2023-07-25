@@ -1,5 +1,7 @@
 import type { Review } from "@prisma/client";
 import prisma from "./prisma";
+import { SerializableNext } from "./types";
+import { serializeReview } from "./serialization";
 export type { Review } from "@prisma/client";
 const logger = require("@/lib/utils/logger");
 const productLogger = logger.child({
@@ -87,3 +89,53 @@ export async function getProductReviews({
     // const hasMore: Boolean = !data.pop() ? false : true;
     return data;
 }
+
+export const getSerializableReviews = async ({
+    id,
+}: {
+    id: string;
+}): Promise<
+    | SerializableNext<
+          Review & {
+              user: {
+                  name: string | null;
+                  image: string | null;
+              };
+          }
+      >[]
+    | null
+> => {
+    const prismaRes:
+        | (Review & {
+              user: {
+                  name: string | null;
+                  image: string | null;
+              };
+          })[]
+        | null = await getProductReviews({
+        productId: id,
+    });
+    if (prismaRes) {
+        const reviews = prismaRes
+            .map(
+                (
+                    review: Review & {
+                        user: {
+                            name: string | null;
+                            image: string | null;
+                        };
+                    },
+                ) => serializeReview(review),
+            )
+            .filter(Boolean) as SerializableNext<
+            Review & {
+                user: {
+                    name: string | null;
+                    image: string | null;
+                };
+            }
+        >[];
+        return reviews;
+    }
+    return null;
+};

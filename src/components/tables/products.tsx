@@ -102,7 +102,7 @@ export default function ProductTable({
                                 >
                                     <TableCell
                                         scope="row"
-                                        className="relative w-1/5 min-w-[6rem] !p-0 lg:min-w-[8rem]"
+                                        className="relative w-1/5 min-w-[4rem] !p-0 lg:min-w-[8rem]"
                                     >
                                         <Link
                                             href={`/catalogue/${id}`}

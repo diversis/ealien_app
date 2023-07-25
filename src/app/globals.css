@@ -39,7 +39,7 @@
         width: calc(
             100% + var(--removed-body-scroll-bar-size)
         );
-        @apply relative grid min-h-screen w-screen max-w-[100vw] grid-cols-[1fr] grid-rows-[1fr_auto] overflow-x-clip break-words !bg-surface-50 font-orbitron text-lg font-normal text-surface-900 transition-colors duration-500 dark:!bg-surface-900 dark:text-surface-50;
+        @apply relative grid min-h-screen w-screen max-w-[100vw] grid-cols-[1fr] grid-rows-[1fr_auto] overflow-x-clip break-words !bg-surface-50 bg-[url(/noise.svg)] bg-repeat font-orbitron text-lg font-normal text-surface-900 transition-colors duration-500 dark:!bg-surface-900 dark:text-surface-50;
     }
     /* body::after {
         @apply fixed inset-0 -z-[10] bg-gradient-to-b from-primary-50 to-secondary-50 bg-cover bg-fixed bg-no-repeat opacity-100 transition-opacity duration-500 content-[""] dark:opacity-0;

@@ -17,6 +17,7 @@ export type CartItem = Pick<
     | "rating"
     | "name"
     | "countInStock"
+    | "currencyId"
 > & {
     qty: number;
 };

@@ -28,6 +28,8 @@ import Reviews from "@/components/catalogue/reviews";
 import ReviewModal from "@/components/catalogue/reviewModal";
 import SignInModal from "@/components/auth/signInModal";
 import Link from "next/link";
+import { useSnackbar } from "notistack";
+import { useCart } from "@/lib/hooks/use-cart";
 
 export default function ProductPage({
     product,
@@ -51,7 +53,23 @@ export default function ProductPage({
     const { email, image } = session?.user || {};
     const ref = useRef(null);
     const isInView = useInView(ref);
+    const { enqueueSnackbar, closeSnackbar } =
+        useSnackbar();
+    const { addItem } = useCart((state) => ({
+        addItem: state.addItem,
+    }));
+    const isStockEmpty = product.countInStock
+        ? product.countInStock <= 0
+        : true;
+    function handleAddToCartClick() {
+        addItem(product, 1, false);
 
+        enqueueSnackbar({
+            message: `Added  to cart: ${product.name} for $${product.price}`,
+            variant: "success",
+            autoHideDuration: 6000,
+        });
+    }
     return (
         <m.section
             ref={ref}
@@ -95,12 +113,24 @@ export default function ProductPage({
                         </Typography>
                     </article>
                     <div className="flex flex-col items-center">
+                        {isStockEmpty ? (
+                            <Typography variant="body2">
+                                Not in stock
+                            </Typography>
+                        ) : null}
                         <Typography variant="body2">
                             ${product.price}
                         </Typography>
                         <Button
                             variant="contained"
-                            className=""
+                            className=" "
+                            title={
+                                isStockEmpty
+                                    ? "Product not in stock"
+                                    : ""
+                            }
+                            disabled={isStockEmpty}
+                            onClick={handleAddToCartClick}
                         >
                             Add to Cart
                         </Button>

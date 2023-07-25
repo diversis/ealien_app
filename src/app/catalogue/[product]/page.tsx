@@ -10,6 +10,7 @@ import {
     getBestProducts,
     getProduct,
     getProductListItems,
+    getSerializableProduct,
 } from "@/lib/prisma/product";
 import {
     serializeCompactProduct,
@@ -19,7 +20,10 @@ import {
 import { SerializableNext } from "@/lib/prisma/types";
 import { redirect } from "next/navigation";
 import { Review } from "@prisma/client";
-import { getProductReviews } from "@/lib/prisma/review";
+import {
+    getProductReviews,
+    getSerializableReviews,
+} from "@/lib/prisma/review";
 
 export type ProductPageProps = {
     params: { product: string };
@@ -55,88 +59,6 @@ export async function generateMetadata(
         // },
     };
 }
-
-const getSerializableProduct = async ({
-    id,
-}: {
-    id: string;
-}): Promise<
-    | (SerializableNext<Product> & {
-          categories: { name: Category["name"] }[];
-      })
-    | null
-> => {
-    const prismaRes:
-        | (Product & {
-              categories: { name: Category["name"] }[];
-          })
-        | null = await getProduct({
-        id,
-    });
-    if (prismaRes) {
-        const product:
-            | (SerializableNext<Product> & {
-                  categories: { name: Category["name"] }[];
-              })
-            | null = serializeProduct(prismaRes) as
-            | (SerializableNext<Product> & {
-                  categories: { name: Category["name"] }[];
-              })
-            | null;
-        return product;
-    }
-    return null;
-};
-
-const getSerializableReviews = async ({
-    id,
-}: {
-    id: string;
-}): Promise<
-    | SerializableNext<
-          Review & {
-              user: {
-                  name: string | null;
-                  image: string | null;
-              };
-          }
-      >[]
-    | null
-> => {
-    const prismaRes:
-        | (Review & {
-              user: {
-                  name: string | null;
-                  image: string | null;
-              };
-          })[]
-        | null = await getProductReviews({
-        productId: id,
-    });
-    if (prismaRes) {
-        const reviews = prismaRes
-            .map(
-                (
-                    review: Review & {
-                        user: {
-                            name: string | null;
-                            image: string | null;
-                        };
-                    },
-                ) => serializeReview(review),
-            )
-            .filter(Boolean) as SerializableNext<
-            Review & {
-                user: {
-                    name: string | null;
-                    image: string | null;
-                };
-            }
-        >[];
-        return reviews;
-    }
-    return null;
-};
 
 export default async function Page({
     params,

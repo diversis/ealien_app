@@ -6,7 +6,13 @@ import {
     getUserByID,
     getUserByIDWithShippingAddress,
 } from "./user";
-import { Order, OrderItem, User } from "@prisma/client";
+import {
+    Order,
+    OrderItem,
+    Product,
+    User,
+} from "@prisma/client";
+import { Decimal, GetResult } from "@prisma/client/runtime";
 
 const logger = require("@/lib/utils/logger");
 const orderLogger = logger.child({
@@ -45,9 +51,55 @@ export async function createOrder({
         0,
     );
 
-    if (userId) {
-        // let errors: { [key: string]: string }[] = [];
-        try {
+    try {
+        const dbItems = await Promise.all(
+            items.map(async (item) => {
+                const product: Product | null =
+                    await getProduct({
+                        id: item.id,
+                    });
+                if (!product) {
+                    throw new Error(
+                        `product from cart not found. id= ${item.id} name= ${item.name}`,
+                    );
+                }
+                if (
+                    !product.countInStock ||
+                    product.countInStock < 1
+                ) {
+                    throw new Error(
+                        `product from cart not available. id= ${item.id} name= ${item.name}`,
+                    );
+                }
+                const {
+                    price,
+                    name,
+                    countInStock,
+                    rating,
+                } = product;
+                if (countInStock < item.qty) {
+                    throw new Error(
+                        `Specified quantity (${item.qty}) not availabale for product, in stock: ${countInStock}. id= ${item.id} name= ${item.name}`,
+                    );
+                }
+
+                if (!price) {
+                    throw new Error(
+                        `product's price not specified. name= ${name}`,
+                    );
+                }
+                return {
+                    ...item,
+                    price: price as Decimal,
+                    countInStock: countInStock as number,
+                    rating: rating as Decimal,
+                    name,
+                };
+            }),
+        );
+
+        if (userId) {
+            // let errors: { [key: string]: string }[] = [];
             const user =
                 await getUserByIDWithShippingAddress(
                     userId,
@@ -81,26 +133,49 @@ export async function createOrder({
                 );
             }
 
-            const newOrder = await prisma.order.create({
-                data: {
-                    isDelivered: false,
-                    isPaid: false,
-                    paymentMethod,
-                    totalPrice,
-                    userId,
-                    shippingAddressId: shippingAddress.id,
-                    // shippingAddress: {
-                    //     connect: {
-                    //         id: shippingAddress.id,
-                    //     },
-                    // },
-                },
-            });
-            const orderItems = await items.map(
-                async ({ id, qty, name }) => {
-                    const product = await getProduct({
-                        id,
-                    });
+            const newOrder: Order =
+                await prisma.order.create({
+                    data: {
+                        isDelivered: false,
+                        isPaid: false,
+                        paymentMethod,
+                        totalPrice,
+                        userId,
+                        shippingAddressId:
+                            shippingAddress.id,
+                        orderItems: {
+                            createMany: {
+                                data: [
+                                    ...dbItems.map(
+                                        ({
+                                            id,
+                                            qty,
+                                            name,
+                                            price,
+                                        }) => ({
+                                            price,
+                                            qty,
+                                            orderId:
+                                                newOrder.id,
+                                            productId: id,
+                                        }),
+                                    ),
+                                ],
+                            },
+                        },
+                        // shippingAddress: {
+                        //     connect: {
+                        //         id: shippingAddress.id,
+                        //     },
+                        // },
+                    },
+                });
+            const orderItems = Promise.all(
+                items.map(async ({ id, qty, name }) => {
+                    const product: Product | null =
+                        await getProduct({
+                            id,
+                        });
                     if (!product) {
                         throw new Error(
                             `product from cart not found. id= ${id} name= ${name}`,
@@ -121,16 +196,19 @@ export async function createOrder({
                             `product's price not specified. name= ${product.name}`,
                         );
                     }
-                    return await prisma.orderItem.create({
-                        data: {
-                            price,
-                            qty,
-                            orderId: newOrder.id,
-                            productId: product.id,
-                        },
-                    });
-                },
-            );
+                    const orderItem: OrderItem =
+                        await prisma.orderItem.create({
+                            data: {
+                                price,
+                                qty,
+                                orderId: newOrder.id,
+                                productId: product.id,
+                            },
+                        });
+                    return orderItem;
+                }),
+            ).then((items) => items.filter(Boolean));
+            const awa = await orderItems;
             return { orderId: newOrder.id };
             //     const newOrder = await prisma.order.create({
             //     data: {
@@ -138,10 +216,10 @@ export async function createOrder({
 
             //     },
             // });
-        } catch (e) {
-            orderLogger.error(e);
-            return null;
         }
+    } catch (e) {
+        orderLogger.error(e);
+        return null;
     }
     // let errors: { [key: string]: string }[] = [];
     try {

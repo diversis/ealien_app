@@ -4,6 +4,7 @@ import { useRef, Dispatch, SetStateAction } from "react";
 import Social from "../shared/social";
 import Link from "next/link";
 import SwitchTheme from "../shared/switchTheme";
+import Cart from "../cart/cart";
 
 export default function MobileMenuContainer({
     toggle,
@@ -56,6 +57,7 @@ export default function MobileMenuContainer({
                     </Link>
                 </m.div>
                 {/* <Contacts className="flex-col" /> */}
+                <Cart />
                 <Social />
             </m.div>
             <m.div

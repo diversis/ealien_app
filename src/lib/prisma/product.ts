@@ -1,10 +1,8 @@
+import { serializeProduct } from "./serialization";
 import type { Product, Category } from "@prisma/client";
 import prisma from "./prisma";
 import { Decimal } from "@prisma/client/runtime/library";
-import {
-    CompactProduct,
-    SerializableCompactProduct,
-} from "./types";
+import { CompactProduct, SerializableNext } from "./types";
 export type { Product, Category } from "@prisma/client";
 
 const logger = require("@/lib/utils/logger");
@@ -13,9 +11,35 @@ const productLogger = logger.child({
 });
 
 export type ProductWithCategories =
-    SerializableCompactProduct & {
+    SerializableNext<CompactProduct> & {
         categories: { name: string }[];
     };
+
+export async function getProductCountInStock({
+    id,
+}: {
+    id: string;
+}): Promise<{
+    countInStock: number | null;
+} | null> {
+    let prod;
+    try {
+        prod = await prisma.product.findUnique({
+            // select: {
+            //
+            // },
+            where: { id },
+            select: {
+                countInStock: true,
+            },
+        });
+        return prod;
+    } catch (error) {
+        productLogger.error(error);
+        return null;
+    }
+    return null;
+}
 
 export async function getProduct({
     id,
@@ -426,3 +450,35 @@ export function getProductListItemsWithPage() {
 //     );
 //     return { productListItems: data, hasMore, fresh };
 // }
+
+export const getSerializableProduct = async ({
+    id,
+}: {
+    id: string;
+}): Promise<
+    | (SerializableNext<Product> & {
+          categories: { name: Category["name"] }[];
+      })
+    | null
+> => {
+    const prismaRes:
+        | (Product & {
+              categories: { name: Category["name"] }[];
+          })
+        | null = await getProduct({
+        id,
+    });
+    if (prismaRes) {
+        const product:
+            | (SerializableNext<Product> & {
+                  categories: { name: Category["name"] }[];
+              })
+            | null = serializeProduct(prismaRes) as
+            | (SerializableNext<Product> & {
+                  categories: { name: Category["name"] }[];
+              })
+            | null;
+        return product;
+    }
+    return null;
+};

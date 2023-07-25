@@ -6,6 +6,9 @@ const catalogueLogger = logger.child({
 });
 
 export async function GET(request: NextRequest) {
+    // logger.info({ request });
     const req = await request.json();
     logger.info({ req });
 }
+
+

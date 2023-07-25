@@ -1,21 +1,31 @@
 "use client";
-import { useEffect, useMemo, useState } from "react";
+import {
+    useCallback,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Drawer from "@mui/material/Drawer";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import axios, { AxiosError, AxiosResponse } from "axios";
-
-import { useCart } from "@/lib/hooks/use-cart";
-import useWindowSize from "@/lib/hooks/use-window-size";
-import ProductTable from "../tables/products";
+import { useSnackbar } from "notistack";
+import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import Badge from "@mui/material/Badge";
 import Box from "@mui/material/Box";
 import { SwipeableDrawer } from "@mui/material";
-import { CartItem } from "@/lib/prisma/types";
+import CloseIcon from "@mui/icons-material/Close";
 
-const endpoint = "/api/catalogue/";
+import { useCart } from "@/lib/hooks/use-cart";
+import useWindowSize from "@/lib/hooks/use-window-size";
+import ProductTable from "../tables/products";
+
+import { CartItem } from "@/lib/prisma/types";
+import { isCartItem } from "@/lib/prisma/typeguards";
+
+const endpoint = "/api/catalogue/refresh/";
 
 async function getCountInStock({
     data,
@@ -25,7 +35,7 @@ async function getCountInStock({
     url: string;
 }): Promise<AxiosResponse<any, any>> {
     return await axios({
-        method: "get",
+        method: "post",
         url: url,
         data: data,
     });
@@ -33,6 +43,8 @@ async function getCountInStock({
 
 export default function Cart() {
     const [render, setRender] = useState(false);
+    const { enqueueSnackbar, closeSnackbar } =
+        useSnackbar();
     const {
         items,
         addItem,
@@ -70,8 +82,9 @@ export default function Cart() {
     useEffect(() => {
         setTotal(cartTotal);
     }, [cartTotal, setTotal]);
-    useEffect(() => {
-        const refreshCart = async () => {
+
+    const refresh = useCallback(async () => {
+        try {
             const newCountInStock = await getCountInStock({
                 data: { items },
                 url: endpoint,
@@ -81,24 +94,37 @@ export default function Cart() {
                 Array.isArray(newCountInStock.items)
             ) {
                 newCountInStock.items.map(
-                    (item: CartItem) => {
-                        setCountInStock({
-                            id: item.id,
-                            countInStock:
-                                item.countInStock || 0,
-                        });
+                    (item: unknown) => {
+                        if (isCartItem(item))
+                            setCountInStock({
+                                id: item.id,
+                                countInStock:
+                                    item.countInStock || 0,
+                            });
                     },
                 );
             }
-        };
-        refreshCart();
+        } catch (error) {
+            if (error instanceof AxiosError) {
+                console.log(error);
+                enqueueSnackbar({
+                    message: `There was an error updating your cart`,
+                    variant: "error",
+                });
+            }
+            console.log(error);
+        }
+    }, []);
+
+    useEffect(() => {
+        // if (items && items.length > 0) refresh();
         setRender(true);
     }, []);
     return (
         <>
             <SwipeableDrawer
                 classes={{
-                    paper: "lg:max-w-[50vw] max-w-screen p-2",
+                    paper: "lg:max-w-[50vw] max-w-screen p-2 min-w-[40rem] w-sreen",
                 }}
                 anchor={`${isDesktop ? "right" : "bottom"}`}
                 open={show}
@@ -110,6 +136,22 @@ export default function Cart() {
                 }}
                 variant="temporary"
             >
+                <IconButton
+                    aria-label="close"
+                    onClick={() => {
+                        toggle(false);
+                    }}
+                    sx={{
+                        position: "absolute",
+                        right: 8,
+                        top: 8,
+                        zIndex: 9000,
+                        color: (theme) =>
+                            theme.palette.grey[500],
+                    }}
+                >
+                    <CloseIcon />
+                </IconButton>
                 {items.length > 0 ? (
                     <>
                         <ProductTable

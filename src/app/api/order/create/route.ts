@@ -105,10 +105,10 @@ export async function POST(request: NextRequest) {
                 shippingPrice: 0,
             });
             if (order)
-                NextResponse.json(order, {
+                return NextResponse.json(order, {
                     status: 200,
                 });
-            NextResponse.json("server error", {
+            return NextResponse.json("server error", {
                 status: 400,
             });
         }
@@ -127,7 +127,7 @@ export async function POST(request: NextRequest) {
 
         logger.info({ order });
 
-        NextResponse.json(order, {
+        return NextResponse.json(order, {
             status: 200,
         });
     } catch (e: unknown) {
@@ -135,12 +135,12 @@ export async function POST(request: NextRequest) {
             logger.info(e.errors);
 
             // logger.info([...Object.values(e.errors)]);
-            NextResponse.json([...e.errors], {
+            return NextResponse.json([...e.errors], {
                 status: 400,
             });
         } else {
             logger.info(e);
-            NextResponse.json(e, {
+            return NextResponse.json(e, {
                 status: 400,
             });
         }
