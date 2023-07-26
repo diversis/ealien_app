@@ -21,6 +21,7 @@ import {
     TableRow,
     Typography,
 } from "@mui/material";
+import { OrderItem } from "@prisma/client";
 
 export default function ProductTable({
     total,

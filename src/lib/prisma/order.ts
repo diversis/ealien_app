@@ -1,4 +1,4 @@
-import { CompactProduct } from "./types";
+import { CompactOrderItem, CompactProduct } from "./types";
 import { CartItem } from "@/lib/prisma/types";
 import prisma from "./prisma";
 import { getProduct } from "./product";
@@ -253,7 +253,11 @@ export async function createOrder({
     }
 }
 
-export async function getOrderById(id: Order["id"]) {
+export async function getOrderById({
+    id,
+}: {
+    id: Order["id"];
+}) {
     try {
         const order = await prisma.order.findUniqueOrThrow({
             where: { id },
@@ -265,22 +269,28 @@ export async function getOrderById(id: Order["id"]) {
     }
 }
 
-export async function getOrderWithItemsById(
-    id: Order["id"],
-): Promise<
-    | (Order & {
-          orderItems: (OrderItem & {
-              product: CompactProduct;
-          })[];
-      })
-    | never[]
+export async function getOrderWithItemsById({
+    id,
+}: {
+    id: Order["id"];
+}): Promise<
+| (Order & {
+      orderItems: (CompactOrderItem & {
+          product: CompactProduct;
+      })[];
+  })
+| never[]
 > {
     try {
         const order = prisma.order.findUniqueOrThrow({
             where: { id },
             include: {
                 orderItems: {
-                    include: {
+                    select: {
+                        id: true,
+                        price: true,
+                        orderId: true,
+                        qty: true,
                         product: {
                             select: {
                                 id: true,
