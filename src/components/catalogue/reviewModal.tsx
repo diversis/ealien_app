@@ -198,7 +198,7 @@ export default function ReviewModal({
     return (
         <>
             <Button
-                variant="outlined"
+                variant="contained"
                 onClick={handleOpen}
                 className="ml-auto"
             >

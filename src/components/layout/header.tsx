@@ -2,10 +2,13 @@
 import { AnimatePresence, m } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
+import { signOut } from "next-auth/react";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import MenuIcon from "@mui/icons-material/Menu";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
 import { useSession } from "next-auth/react";
 
 import useScrolled from "@/lib/hooks/use-scrolled";
@@ -30,14 +33,8 @@ import {
 } from "@mui/material";
 import Cart from "../cart/cart";
 import Image from "next/image";
-
-const pages = ["Catalogue", "Pricing", "Blog"];
-const settings = [
-    "Profile",
-    "Account",
-    "Dashboard",
-    "Logout",
-];
+import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
+import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
 
 const Header = () => {
     const { data: session, status } = useSession();
@@ -118,14 +115,19 @@ const Header = () => {
                                         columnGap: "8px",
                                     }}
                                 >
-                                    {pages.map((page) => (
-                                        <Link
-                                            key={page}
-                                            href={`/${page.toLowerCase()}`}
-                                        >
-                                            {page}
-                                        </Link>
-                                    ))}
+                                    {MAIN_MENU_LINKS.map(
+                                        (page) => (
+                                            <Link
+                                                key={`main-menu-${page.title}`}
+                                                href={
+                                                    page.url ||
+                                                    "#"
+                                                }
+                                            >
+                                                {page.title}
+                                            </Link>
+                                        ),
+                                    )}
                                 </Box>
 
                                 {/* <Contacts /> */}
@@ -177,23 +179,46 @@ const Header = () => {
                                             handleCloseUserMenu
                                         }
                                     >
-                                        {settings.map(
+                                        {USER_MENU_LINKS.map(
                                             (setting) => (
                                                 <Link
-                                                    key={
-                                                        setting
-                                                    }
+                                                    key={`user-menu-${setting.title}`}
                                                     href={
+                                                        setting.url ||
                                                         "#"
                                                     }
                                                 >
-                                                    <Typography textAlign="center">
+                                                    <Typography
+                                                        textAlign="center"
+                                                        className="my-4 px-2"
+                                                    >
                                                         {
-                                                            setting
+                                                            setting.title
                                                         }
                                                     </Typography>
                                                 </Link>
                                             ),
+                                        )}
+                                        {!!email ? (
+                                            <Button
+                                                variant="text"
+                                                onClick={() =>
+                                                    signOut()
+                                                }
+                                            >
+                                                Logout{" "}
+                                                <LogoutIcon className="h-6 w-6" />
+                                            </Button>
+                                        ) : (
+                                            <Button
+                                                variant="text"
+                                                onClick={() =>
+                                                    signOut()
+                                                }
+                                            >
+                                                Login{" "}
+                                                <LoginIcon className="h-6 w-6" />
+                                            </Button>
                                         )}
                                     </Menu>
                                 </Box>

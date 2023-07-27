@@ -129,6 +129,7 @@ export default function ProductPage({
                                     ? "Product not in stock"
                                     : ""
                             }
+                            color="secondary"
                             disabled={isStockEmpty}
                             onClick={handleAddToCartClick}
                         >
@@ -139,13 +140,14 @@ export default function ProductPage({
                 <div className="flex w-full flex-col">
                     <div className="my-2 flex w-full flex-row justify-between">
                         <Button
-                            variant="outlined"
+                            variant="contained"
                             disabled={
                                 !(
                                     reviews &&
                                     reviews.length > 0
                                 )
                             }
+                            
                             className="mr-auto"
                         >
                             Sort
