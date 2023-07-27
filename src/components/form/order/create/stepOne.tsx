@@ -11,6 +11,8 @@ import { Session } from "next-auth/core/types";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 
+import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
+
 export default function StepOne({
     session,
 }: {
@@ -20,6 +22,13 @@ export default function StepOne({
 
     const { email, image, name } = session?.user || {};
     const { reset, register, control } = useFormContext();
+
+    const { visible, hideSignInModal, showSignInModal } =
+        useSignInModal((state) => ({
+            visible: state.visible,
+            hideSignInModal: state.hideSignInModal,
+            showSignInModal: state.showSignInModal,
+        }));
 
     return (
         <Stack
@@ -42,6 +51,7 @@ export default function StepOne({
                                 fullWidth
                                 disabled
                                 hidden
+                                value={name}
                             />
                             <ControlledTextField
                                 name="email"
@@ -56,6 +66,7 @@ export default function StepOne({
                                 fullWidth
                                 disabled
                                 hidden
+                                value={email}
                             />
                             <Box>
                                 <p>Logged in as</p>
@@ -124,7 +135,13 @@ export default function StepOne({
                         <span className="mr-2">
                             Want an account?
                         </span>
-                        <SignInModal />
+                        <Button
+                            variant="contained"
+                            onClick={showSignInModal}
+                            className=""
+                        >
+                            Sign In
+                        </Button>
                     </Box>
                 </>
             )}

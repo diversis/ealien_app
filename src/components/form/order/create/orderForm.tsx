@@ -29,7 +29,7 @@ import COUNTRIES_DATA from "@/lib/rest-countries/countries.json";
 import useWindowSize from "@/lib/hooks/use-window-size";
 // import SelectCountryItem from "./selectCountryItem";
 import { CartItem } from "@/lib/prisma/types";
-import { useShowSignInModal } from "@/lib/hooks/use-sign-in-modal";
+
 
 import { OPACITY_VARIANTS } from "@/lib/constants";
 import { ControlledTextField } from "../../fields/controlledTextField";
@@ -124,12 +124,15 @@ export default function OrderForm() {
         show: state.show,
         toggle: state.toggleCart,
     }));
+
     const router = useRouter();
     const { data: session, status } = useSession();
-
     const { email, image, name } = session?.user || {};
+
     const { enqueueSnackbar, closeSnackbar } =
         useSnackbar();
+
+
 
     const methods = useForm({
         resolver: zodResolver(schema),
@@ -167,9 +170,6 @@ export default function OrderForm() {
     const [active, setActive] = useState(0);
     const [formVisible, setFormVisible] = useState(false);
     const [newOrderId, setNewOrderId] = useState("");
-    const [showSignInModal] = useShowSignInModal(
-        (state) => [state.showSignInModal],
-    );
 
     const onError: SubmitErrorHandler<FormSchemaType> = (
         {
