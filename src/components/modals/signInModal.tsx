@@ -1,26 +1,59 @@
 "use client";
 import { signIn } from "next-auth/react";
-import { ComponentPropsWithoutRef, useState } from "react";
+import {
+    ComponentPropsWithoutRef,
+    forwardRef,
+    useState,
+} from "react";
+import {
+    Dialog,
+    DialogContent,
+    DialogTitle,
+    DialogContentText,
+    Button,
+    DialogActions,
+    TextField,
+    Typography,
+    Box,
+    Divider,
+    Snackbar,
+    Alert,
+    FormGroup,
+    Slide,
+    Paper,
+} from "@mui/material";
+import IconButton from "@mui/material/IconButton";
+import CloseIcon from "@mui/icons-material/Close";
 
 import LoaderDots from "../shared/loaderDots";
 import MUIBaseModal from "../shared/muibaseModal";
+import { TransitionProps } from "@mui/material/transitions";
 
 interface SignInModalProps
     extends ComponentPropsWithoutRef<"div"> {
-    triggerText?: string;
-    productName: string;
-    classNames?: {
-        root?: string;
-        trigger?: string;
-    };
+    open: boolean;
+    handleClose: () => void;
 }
 
-const SignInModal = () => {
+const SignInModal = ({
+    open,
+    handleClose,
+    ...rest
+}: SignInModalProps) => {
     const [signInClicked, setSignInClicked] =
         useState(false);
     return (
-        <MUIBaseModal title="Authorization">
-            <div className="w-full overflow-hidden rounded-2xl shadow-xl md:border md:border-secondary-100">
+        <Dialog
+            open={open}
+            onClose={handleClose}
+            keepMounted
+            TransitionComponent={Transition}
+            aria-labelledby="signin-modal-title"
+            aria-describedby="signin-modal-description"
+            className=""
+            {...rest}
+        >
+            <Paper className="w-full overflow-hidden rounded-2xl shadow-xl md:border md:border-secondary-100">
                 {/* <div className="flex flex-col items-center justify-center space-y-3 border-b border-secondary-100 bg-secondary-100 px-4 py-6 pt-8 text-center dark:bg-primary-700 md:px-16">
                     <h3 className="font-display text-2xl font-bold text-surface-900 dark:text-surface-50">
                         Sign In
@@ -31,14 +64,15 @@ const SignInModal = () => {
                     </p>
                 </div> */}
 
-                <div className="relative flex w-full flex-col items-center space-y-4 bg-surface-50/50 px-4 py-8 md:px-16">
-                    <button
+                <Box className="relative flex w-full flex-col items-center space-y-4 bg-surface-50/50 px-4 py-8 md:px-16">
+                    <Button
+                        variant="outlined"
                         disabled={signInClicked}
                         className={`${
                             signInClicked
-                                ? "cursor-not-allowed border-secondary-500/50 bg-secondary-600/50"
-                                : "border border-secondary-500 bg-primary-50 text-surface-900 transition-colors duration-500 [&:is(:hover,:focus)]:bg-tertiary-500/25 "
-                        } button shadowbox-button relative flex  h-10 w-full min-w-[22ch] items-center justify-center space-x-3 rounded-md border text-sm shadow-sm backdrop-blur-sm transition-all duration-75 focus:outline-none`}
+                                ? "cursor-not-allowed"
+                                : ""
+                        } `}
                         onClick={() => {
                             setSignInClicked(true);
                             signIn("google");
@@ -57,15 +91,16 @@ const SignInModal = () => {
                                 </p>
                             </>
                         )}
-                    </button>
+                    </Button>
 
-                    <button
+                    <Button
+                        variant="outlined"
                         disabled={signInClicked}
                         className={`${
                             signInClicked
-                                ? "cursor-not-allowed border-secondary-500/50 bg-secondary-600/50"
-                                : "border border-secondary-500 bg-primary-50 text-surface-900 transition-colors duration-500 [&:is(:hover,:focus)]:bg-tertiary-500/25"
-                        } button shadowbox-button relative flex  h-10 w-full min-w-[22ch] items-center justify-center space-x-3 rounded-md border text-sm shadow-sm backdrop-blur-sm transition-all duration-75 focus:outline-none`}
+                                ? "cursor-not-allowed"
+                                : ""
+                        } `}
                         onClick={() => {
                             setSignInClicked(true);
                             signIn("github");
@@ -84,15 +119,16 @@ const SignInModal = () => {
                                 </p>
                             </>
                         )}
-                    </button>
+                    </Button>
 
-                    <button
+                    <Button
+                        variant="outlined"
                         disabled={signInClicked}
                         className={`${
                             signInClicked
-                                ? "cursor-not-allowed border-secondary-500/50 bg-secondary-600/50"
-                                : "border border-secondary-500 bg-primary-50 text-surface-900 transition-colors duration-500 [&:is(:hover,:focus)]:bg-tertiary-500/25"
-                        } button shadowbox-button relative flex  h-10 w-full min-w-[22ch] items-center justify-center space-x-3 rounded-md border text-sm shadow-sm backdrop-blur-sm transition-all duration-75 focus:outline-none`}
+                                ? "cursor-not-allowed"
+                                : ""
+                        } `}
                         onClick={() => {
                             setSignInClicked(true);
                             signIn("vk");
@@ -111,14 +147,15 @@ const SignInModal = () => {
                                 </p>
                             </>
                         )}
-                    </button>
-                    <button
+                    </Button>
+                    <Button
+                        variant="outlined"
                         disabled={signInClicked}
                         className={`${
                             signInClicked
-                                ? "cursor-not-allowed border-secondary-500/50 bg-secondary-600/50"
-                                : "border border-secondary-500 bg-primary-50 text-surface-900 transition-colors duration-500 [&:is(:hover,:focus)]:bg-tertiary-500/25"
-                        } button shadowbox-button relative flex  h-10 w-full min-w-[22ch] items-center justify-center space-x-3 rounded-md border text-sm shadow-sm backdrop-blur-sm transition-all duration-75 focus:outline-none`}
+                                ? "cursor-not-allowed"
+                                : ""
+                        } `}
                         onClick={() => {
                             setSignInClicked(true);
                             signIn("yandex");
@@ -137,10 +174,19 @@ const SignInModal = () => {
                                 </p>
                             </>
                         )}
-                    </button>
-                </div>
-            </div>
-        </MUIBaseModal>
+                    </Button>
+                </Box>
+            </Paper>
+        </Dialog>
     );
 };
 export default SignInModal;
+
+const Transition = forwardRef(function Transition(
+    props: TransitionProps & {
+        children: React.ReactElement<any, any>;
+    },
+    ref: React.Ref<unknown>,
+) {
+    return <Slide direction="up" ref={ref} {...props} />;
+});

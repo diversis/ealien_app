@@ -25,8 +25,8 @@ import { OPACITY_VARIANTS } from "@/lib/constants";
 import ImageMagnifier from "@/components/shared/magnifier";
 
 import Reviews from "@/components/catalogue/reviews";
-import ReviewModal from "@/components/catalogue/reviewModal";
-import SignInModal from "@/components/auth/signInModal";
+import ReviewModal from "@/components/modals/reviewModal";
+import SignInModal from "@/components/modals/signInModal";
 import Link from "next/link";
 import { useSnackbar } from "notistack";
 import { useCart } from "@/lib/hooks/use-cart";
@@ -147,7 +147,6 @@ export default function ProductPage({
                                     reviews.length > 0
                                 )
                             }
-                            
                             className="mr-auto"
                         >
                             Sort
