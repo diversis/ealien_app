@@ -188,44 +188,59 @@ const Header = () => {
                                     >
                                         {USER_MENU_LINKS.map(
                                             (setting) => (
-                                                <Link
+                                                <MenuItem
                                                     key={`user-menu-${setting.title}`}
-                                                    href={
-                                                        setting.url ||
-                                                        "#"
-                                                    }
+                                                    className="!p-0"
                                                 >
-                                                    <Typography
-                                                        textAlign="center"
-                                                        className="my-4 px-2"
-                                                    >
-                                                        {
-                                                            setting.title
+                                                    <Link
+                                                        href={
+                                                            setting.url ||
+                                                            "#"
                                                         }
-                                                    </Typography>
-                                                </Link>
+                                                        className="w-full"
+                                                    >
+                                                        <Typography
+                                                            textAlign="center"
+                                                            className="px-2 py-1"
+                                                        >
+                                                            {
+                                                                setting.title
+                                                            }
+                                                        </Typography>
+                                                    </Link>
+                                                </MenuItem>
                                             ),
                                         )}
                                         {!!email ? (
-                                            <Button
-                                                variant="text"
-                                                onClick={() =>
-                                                    signOut()
-                                                }
+                                            <MenuItem
+                                                key={`user-menu-logout`}
+                                                className="!p-0"
                                             >
-                                                Logout
-                                                <LogoutIcon className="h-6 w-6" />
-                                            </Button>
+                                                <Button
+                                                    variant="text"
+                                                    onClick={() =>
+                                                        signOut()
+                                                    }
+                                                    className="w-full"
+                                                >
+                                                    Logout
+                                                    <LogoutIcon className="h-6 w-6" />
+                                                </Button>
+                                            </MenuItem>
                                         ) : (
-                                            <Button
-                                                variant="text"
-                                                onClick={
-                                                    showSignInModal
-                                                }
+                                            <MenuItem
+                                                key={`user-menu-login`}
                                             >
-                                                Sign In
-                                                <LoginIcon className="h-6 w-6" />
-                                            </Button>
+                                                <Button
+                                                    variant="text"
+                                                    onClick={
+                                                        showSignInModal
+                                                    }
+                                                >
+                                                    Sign In
+                                                    <LoginIcon className="h-6 w-6" />
+                                                </Button>
+                                            </MenuItem>
                                         )}
                                     </Menu>
                                 </Box>

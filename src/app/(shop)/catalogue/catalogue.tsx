@@ -26,6 +26,7 @@ import ProductCard from "@/components/catalogue/productCard";
 import { SerializableNext } from "@/lib/prisma/types";
 
 import { STAGGER_VARIANTS } from "@/lib/constants";
+import ProductFilters from "@/components/catalogue/productFilters";
 
 export default function Catalogue({
     products,
@@ -42,6 +43,11 @@ export default function Catalogue({
     const pathname = usePathname();
 
     const searchParams = useSearchParams();
+
+    const handleSearch=useCallback(()=>{
+        
+        router.push(`/${3}`)
+    },[])
 
     const page =
         searchParams.has("page") &&
@@ -110,8 +116,11 @@ export default function Catalogue({
     // console.log(newsData);
     if (products.length === 0) router.back();
     return (
-        <>
-            <div className="container flex flex-col gap-y-4 px-4  lg:gap-y-8">
+        <div className="flex w-full flex-row">
+            <aside className="sticky top-24 flex h-screen flex-grow basis-16 flex-col">
+                <ProductFilters />
+            </aside>
+            <div className="container flex flex-col gap-y-4 px-4  lg:mx-4 lg:gap-y-8">
                 <Breadcrumbs className="self-start">
                     <Link href={`/catalogue/`}>
                         Catalogue
@@ -172,6 +181,6 @@ export default function Catalogue({
                     />
                 </div>
             </div>
-        </>
+        </div>
     );
 }
