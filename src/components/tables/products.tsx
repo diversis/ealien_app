@@ -89,7 +89,7 @@ export default function ProductTable({
                             ></TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody className="[&>*:nth-of-type(even)]:bg-secondary-100/20">
+                    <TableBody className="[&>tr:last-of-type]:bg-tertiary-300/30 [&>tr:nth-of-type(even):not(:last-of-type)]:bg-secondary-100/20">
                         {items.map((item) => {
                             const { name, image, id } =
                                 "product" in item

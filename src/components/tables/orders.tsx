@@ -69,12 +69,14 @@ export default function OrdersTable({
                                 Total Price
                             </TableCell>
                             <TableCell
+                                align="center"
                                 scope="col"
                                 className=" "
                             >
                                 Payment Method
                             </TableCell>
                             <TableCell
+                                align="center"
                                 scope="col"
                                 className=" "
                             >
