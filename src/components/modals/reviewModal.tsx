@@ -27,7 +27,7 @@ import {
 import axios, { AxiosError, AxiosResponse } from "axios";
 import z, { ZodError, ZodIssue } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
-import Modal from "@mui/base/Modal";
+import StarIcon from "@mui/icons-material/Star";
 import {
     ComponentPropsWithoutRef,
     ReactNode,
@@ -244,19 +244,28 @@ export default function ReviewModal({
                     </DialogTitle>
                     <Divider className="mb-2" />
                     <Box className="flex flex-col gap-y-4">
-                        <Typography
-                            id="review-modal-description"
-                            variant="body1"
-                            className="text-surface-900 dark:text-surface-50"
-                        >
-                            Compose a review for &quot;
-                            {product.name}
-                            &quot;{product.rating || 0}
-                        </Typography>
                         <Box className="flex flex-row">
+                            <Typography
+                                id="review-modal-description"
+                                variant="body1"
+                                className=" text-surface-900 dark:text-surface-50"
+                            >
+                                Compose a review for &quot;
+                                {product.name}&quot;
+                            </Typography>
+                            <Typography
+                                component={"label"}
+                                className="!ml-2"
+                            >
+                                {product.rating || 0}
+                            </Typography>
+                            <StarIcon className="text-[#faaf00]" />
+                        </Box>
+                        <Box className="flex flex-row gap-2">
                             <Typography component={"label"}>
                                 Rating
                             </Typography>
+
                             <ControlledRating
                                 name="rating"
                                 control={control}
