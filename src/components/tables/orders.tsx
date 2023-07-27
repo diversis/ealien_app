@@ -39,7 +39,7 @@ export default function OrdersTable({
             {render && !!orders && (
                 <Table stickyHeader>
                     <TableHead>
-                        <TableRow>
+                        <TableRow className="[&>*:not(:last-child)]:border-r  [&>*]:border-surface-500/25">
                             <TableCell
                                 align="center"
                                 scope="col"
@@ -107,7 +107,7 @@ export default function OrdersTable({
                                         isPaid
                                             ? "bg-tertiary-200/50"
                                             : ""
-                                    } [&>*:not(:last-child)]:border-r  [&>*]:border-surface-500`}
+                                    } [&>*:not(:last-child)]:border-r  [&>*]:border-surface-500/25`}
                                     hover
                                 >
                                     <TableCell

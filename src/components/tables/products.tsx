@@ -53,7 +53,7 @@ export default function ProductTable({
             {items ? (
                 <Table stickyHeader>
                     <TableHead>
-                        <TableRow>
+                        <TableRow className="[&>*:not(:last-child)]:border-r  [&>*]:border-surface-500/25">
                             <TableCell className="  w-1/5 whitespace-nowrap"></TableCell>
                             <TableCell
                                 align="center"
@@ -102,7 +102,7 @@ export default function ProductTable({
                                         item.qty > 0
                                             ? ""
                                             : "bg-surface-500"
-                                    } [&>*:not(:last-child)]:border-r  [&>*]:border-surface-500`}
+                                    } [&>*:not(:last-child)]:border-r  [&>*]:border-surface-500/25`}
                                     hover
                                 >
                                     <TableCell
