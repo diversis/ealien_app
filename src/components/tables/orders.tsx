@@ -31,12 +31,15 @@ export default function OrdersTable({
     }, []);
     // console.log("orders: ", orders);
     return (
-        <TableContainer>
+        <TableContainer
+            classes={{
+                root: "bg-surface-50/25 dark:bg-surface-900/25",
+            }}
+        >
             {render && !!orders && (
                 <Table stickyHeader>
                     <TableHead>
                         <TableRow>
-                            <TableCell className="  w-1/5 whitespace-nowrap"></TableCell>
                             <TableCell
                                 align="center"
                                 scope="col"
@@ -71,9 +74,15 @@ export default function OrdersTable({
                             >
                                 Payment Method
                             </TableCell>
+                            <TableCell
+                                scope="col"
+                                className=" "
+                            >
+                                Edit
+                            </TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody className="[&>*:nth-of-type(even)]:bg-secondary-100/20">
                         {orders.map((order) => {
                             const {
                                 id,
@@ -93,15 +102,16 @@ export default function OrdersTable({
                                 <TableRow
                                     key={`order-${order.id}`}
                                     className={`${
-                                        createdAt
+                                        isPaid
                                             ? "bg-tertiary-200/50"
                                             : ""
-                                    }`}
+                                    } [&>*:not(:last-child)]:border-r  [&>*]:border-surface-500`}
                                     hover
                                 >
                                     <TableCell
                                         scope="row"
                                         className=""
+                                        align="center"
                                     >
                                         {dateFormat.format(
                                             new Date(
@@ -111,7 +121,8 @@ export default function OrdersTable({
                                     </TableCell>
                                     <TableCell
                                         scope="row"
-                                        className="  w-full   "
+                                        align="center"
+                                        className=""
                                     >
                                         {isPaid &&
                                         paidAt ? (
@@ -123,12 +134,13 @@ export default function OrdersTable({
                                                 )}
                                             </>
                                         ) : (
-                                            <CancelIcon className="m-auto h-4 w-4 fill-red-500 lg:h-6 lg:w-6"></CancelIcon>
+                                            <CancelIcon className="mx-auto h-4 w-4 fill-red-500 lg:h-6 lg:w-6"></CancelIcon>
                                         )}
                                     </TableCell>
                                     <TableCell
                                         scope="row"
-                                        className="  w-full   "
+                                        align="center"
+                                        className="  "
                                     >
                                         {isDelivered &&
                                         deliveredAt ? (
@@ -140,11 +152,12 @@ export default function OrdersTable({
                                                 )}
                                             </>
                                         ) : (
-                                            <CancelIcon className="m-auto h-4 w-4 fill-red-500 lg:h-6 lg:w-6"></CancelIcon>
+                                            <CancelIcon className="mx-auto h-4 w-4 fill-red-500 lg:h-6 lg:w-6"></CancelIcon>
                                         )}
                                     </TableCell>
                                     <TableCell
                                         scope="row"
+                                        align="center"
                                         className=" text-center "
                                     >
                                         {totalPrice.toFixed(
@@ -153,6 +166,7 @@ export default function OrdersTable({
                                     </TableCell>
                                     <TableCell
                                         scope="row"
+                                        align="center"
                                         className="text-center "
                                     >
                                         {paymentMethod}
@@ -160,13 +174,14 @@ export default function OrdersTable({
 
                                     <TableCell
                                         scope="row"
+                                        align="center"
                                         className=""
                                     >
                                         <Link
                                             href={`/order/${id}`}
                                             className="link-border group/details place-orders-center relative m-0 grid h-1/2 p-0  transition-all "
                                         >
-                                            <EditIcon className="m-auto h-4 w-4 lg:h-6 lg:w-6" />
+                                            <EditIcon className="mx-auto h-4 w-4 lg:h-6 lg:w-6" />
                                         </Link>
                                     </TableCell>
                                 </TableRow>

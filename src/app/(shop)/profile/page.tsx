@@ -49,12 +49,14 @@ export default async function Page({
             session?.user || {};
         if (!email) redirect("/catalogue");
         const orders = await getOrdersByUserId({ id });
-        let serializedOrders: (SerializableNext<Order> | null)[] =
+        let serializedOrders: SerializableNext<Order>[] =
             [];
         if (orders.length > 0)
-            serializedOrders = orders.map((order) =>
-                serializeOrder(order),
-            );
+            serializedOrders = orders
+                .map((order) => serializeOrder(order))
+                .filter(
+                    Boolean,
+                ) as SerializableNext<Order>[];
 
         return <Profile orders={serializedOrders} />;
     } catch (e) {

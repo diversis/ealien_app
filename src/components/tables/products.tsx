@@ -45,7 +45,11 @@ export default function ProductTable({
     ) => void;
 }) {
     return (
-        <TableContainer>
+        <TableContainer
+            classes={{
+                root: "bg-surface-50/50 dark:bg-surface-900/50",
+            }}
+        >
             {items ? (
                 <Table stickyHeader>
                     <TableHead>
@@ -85,7 +89,7 @@ export default function ProductTable({
                             ></TableCell>
                         </TableRow>
                     </TableHead>
-                    <TableBody>
+                    <TableBody className="[&>*:nth-of-type(even)]:bg-secondary-100/20">
                         {items.map((item) => {
                             const { name, image, id } =
                                 "product" in item
@@ -98,7 +102,7 @@ export default function ProductTable({
                                         item.qty > 0
                                             ? ""
                                             : "bg-surface-500"
-                                    }`}
+                                    } [&>*:not(:last-child)]:border-r  [&>*]:border-surface-500`}
                                     hover
                                 >
                                     <TableCell
