@@ -25,7 +25,7 @@ import COUNTRIES_DATA from "@/lib/rest-countries/countries.json";
 import useWindowSize from "@/lib/hooks/use-window-size";
 // import SelectCountryItem from "./selectCountryItem";
 import { CartItem } from "@/lib/prisma/types";
-import { useShowSignInModal } from "@/lib/hooks/show-sign-in-modal";
+import { useShowSignInModal } from "@/lib/hooks/use-sign-in-modal";
 
 import { OPACITY_VARIANTS } from "@/lib/constants";
 import { ControlledTextField } from "../../fields/controlledTextField";

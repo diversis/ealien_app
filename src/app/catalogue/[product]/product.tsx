@@ -30,6 +30,7 @@ import SignInModal from "@/components/modals/signInModal";
 import Link from "next/link";
 import { useSnackbar } from "notistack";
 import { useCart } from "@/lib/hooks/use-cart";
+import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
 
 export default function ProductPage({
     product,
@@ -53,8 +54,17 @@ export default function ProductPage({
     const { email, image } = session?.user || {};
     const ref = useRef(null);
     const isInView = useInView(ref);
+
+    const { visible, hideSignInModal, showSignInModal } =
+        useSignInModal((state) => ({
+            visible: state.visible,
+            hideSignInModal: state.hideSignInModal,
+            showSignInModal: state.showSignInModal,
+        }));
+
     const { enqueueSnackbar, closeSnackbar } =
         useSnackbar();
+
     const { addItem } = useCart((state) => ({
         addItem: state.addItem,
     }));
@@ -156,7 +166,13 @@ export default function ProductPage({
                                 product={product}
                             />
                         ) : (
-                            <SignInModal></SignInModal>
+                            <Button
+                                variant="contained"
+                                onClick={showSignInModal}
+                                className="ml-auto"
+                            >
+                                Sign In
+                            </Button>
                         )}
                     </div>
                     {reviews && reviews.length > 0 ? (

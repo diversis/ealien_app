@@ -35,6 +35,8 @@ import Cart from "../cart/cart";
 import Image from "next/image";
 import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
 import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
+import SignInModal from "../modals/signInModal";
+import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
 
 const Header = () => {
     const { data: session, status } = useSession();
@@ -47,7 +49,12 @@ const Header = () => {
     const { isMobile, isDesktop } = useWindowSize();
     const [menuOpen, setMenuOpen] = useState(false);
     const scrolled = useScrolled(100);
-
+    const { visible, hideSignInModal, showSignInModal } =
+        useSignInModal((state) => ({
+            visible: state.visible,
+            hideSignInModal: state.hideSignInModal,
+            showSignInModal: state.showSignInModal,
+        }));
     const handleOpenNavMenu = (
         event: React.MouseEvent<HTMLElement>,
     ) => {
@@ -206,17 +213,17 @@ const Header = () => {
                                                     signOut()
                                                 }
                                             >
-                                                Logout{" "}
+                                                Logout
                                                 <LogoutIcon className="h-6 w-6" />
                                             </Button>
                                         ) : (
                                             <Button
                                                 variant="text"
-                                                onClick={() =>
-                                                    signOut()
+                                                onClick={
+                                                    showSignInModal
                                                 }
                                             >
-                                                Login{" "}
+                                                Sign In
                                                 <LoginIcon className="h-6 w-6" />
                                             </Button>
                                         )}
@@ -235,6 +242,12 @@ const Header = () => {
                     <KeyboardArrowUpIcon />
                 </Fab>
             </ScrollTop>
+            {!session || !email ? (
+                <SignInModal
+                    open={visible}
+                    handleClose={hideSignInModal}
+                ></SignInModal>
+            ) : null}
         </header>
     );
 };

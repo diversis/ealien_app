@@ -16,6 +16,7 @@ import {
     enqueueSnackbar,
 } from "notistack";
 import MUIThemeProvider from "@/components/mui/muiThemeProvider";
+import SignInModal from "@/components/modals/signInModal";
 
 export function Providers({
     children,
@@ -42,6 +43,7 @@ export function Providers({
                                 <RWBProvider>
                                     {/* <Suspense fallback={<NextNProgress />}> */}
                                     {children}
+
                                     {/* </Suspense> */}
                                 </RWBProvider>
                             </MotionConfig>
