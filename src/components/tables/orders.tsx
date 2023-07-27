@@ -1,11 +1,19 @@
 import Image from "next/image";
+import {
+    Table,
+    TableBody,
+    TableCell,
+    TableContainer,
+    TableHead,
+    TableRow,
+    Typography,
+} from "@mui/material";
+import CancelIcon from "@mui/icons-material/Cancel";
+import EditIcon from "@mui/icons-material/Edit";
 
-import { useCart } from "@/lib/hooks/use-cart";
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import {
-    SerializableNext,
-} from "@/lib/prisma/types";
+import { SerializableNext } from "@/lib/prisma/types";
 import { Order } from "@prisma/client";
 
 export default function OrdersTable({
@@ -15,7 +23,7 @@ export default function OrdersTable({
 }: {
     total?: number;
     editable?: boolean;
-    orders?: SerializableNext<Order>[];
+    orders: SerializableNext<Order>[];
 }) {
     const [render, setRender] = useState(false);
     useEffect(() => {
@@ -23,30 +31,49 @@ export default function OrdersTable({
     }, []);
     // console.log("orders: ", orders);
     return (
-        <>
+        <TableContainer>
             {render && !!orders && (
-                <table className="table w-full table-fixed border-spacing-1 gap-y-6 rounded-xl border-y border-primary-900/25 text-center text-xs transition-colors dark:border-primary-50/25 lg:text-base">
-                    <thead className="table-header-group w-full overflow-hidden border-b border-primary-900/25 dark:border-primary-50/25">
-                        <tr className="table-row w-full [&>th:not(:last-child)]:border-r [&>th]:table-cell [&>th]:border-primary-900/25 [&>th]:px-2 [&>th]:py-2 dark:[&>th]:border-primary-50/25">
-                            <th scope="col" className="  ">
+                <Table stickyHeader>
+                    <TableHead>
+                        <TableRow>
+                            <TableCell className="  w-1/5 whitespace-nowrap"></TableCell>
+                            <TableCell
+                                align="center"
+                                scope="col"
+                                className=""
+                            >
                                 Created At
-                            </th>
-                            <th scope="col" className="  ">
+                            </TableCell>
+                            <TableCell
+                                align="center"
+                                scope="col"
+                                className="  "
+                            >
                                 Paid
-                            </th>
-                            <th scope="col" className="  ">
+                            </TableCell>
+                            <TableCell
+                                align="center"
+                                scope="col"
+                                className="  "
+                            >
                                 Delivered
-                            </th>
-                            <th scope="col" className="   px-8">
+                            </TableCell>
+                            <TableCell
+                                align="center"
+                                scope="col"
+                                className="   px-8"
+                            >
                                 Total Price
-                            </th>
-                            <th scope="col" className="  ">
+                            </TableCell>
+                            <TableCell
+                                scope="col"
+                                className=" "
+                            >
                                 Payment Method
-                            </th>
-                            <th scope="col" className=" "></th>
-                        </tr>
-                    </thead>
-                    <tbody className="table-row-group w-full  transition-colors [&>*:nth-child(even)]:bg-primary-900/80 [&>*:nth-child(even)]:text-primary-50 dark:[&>*:nth-child(even)]:bg-primary-50/80 dark:[&>*:nth-child(even)]:text-primary-900">
+                            </TableCell>
+                        </TableRow>
+                    </TableHead>
+                    <TableBody>
                         {orders.map((order) => {
                             const {
                                 id,
@@ -58,70 +85,99 @@ export default function OrdersTable({
                                 paymentMethod,
                                 totalPrice,
                             } = order;
-                            const dateFormat = new Intl.DateTimeFormat("en-US");
+                            const dateFormat =
+                                new Intl.DateTimeFormat(
+                                    "en-US",
+                                );
                             return (
-                                <tr
-                                    key={`table-item-${id}`}
-                                    className={`xl:table-row xl:text-left [&>td:not(:last-child)]:border-r [&>td]:table-cell [&>td]:h-full [&>td]:border-primary-900/25  dark:[&>td]:border-primary-50/25`}
+                                <TableRow
+                                    key={`order-${order.id}`}
+                                    className={`${
+                                        createdAt
+                                            ? "bg-tertiary-200/50"
+                                            : ""
+                                    }`}
+                                    hover
                                 >
-                                    <td scope="row" className="">
-                                        <span className="mx-auto px-2">
-                                            {dateFormat.format(
-                                                new Date(createdAt),
-                                            )}
-                                        </span>
-                                    </td>
-
-                                    <td scope="row" className=" text-center ">
-                                        {isPaid && paidAt ? (
-                                            <span className="px-2">
-                                                {dateFormat.format(
-                                                    new Date(paidAt),
-                                                )}
-                                            </span>
-                                        ) : (
-                                            <FiXCircle className="m-auto h-4 w-4 fill-red-500 lg:h-6 lg:w-6"></FiXCircle>
+                                    <TableCell
+                                        scope="row"
+                                        className=""
+                                    >
+                                        {dateFormat.format(
+                                            new Date(
+                                                createdAt,
+                                            ),
                                         )}
-                                    </td>
-                                    <td scope="row" className="text-center ">
-                                        {isDelivered && deliveredAt ? (
-                                            <span className="px-2">
+                                    </TableCell>
+                                    <TableCell
+                                        scope="row"
+                                        className="  w-full   "
+                                    >
+                                        {isPaid &&
+                                        paidAt ? (
+                                            <>
                                                 {dateFormat.format(
-                                                    new Date(deliveredAt),
+                                                    new Date(
+                                                        paidAt,
+                                                    ),
                                                 )}
-                                            </span>
+                                            </>
                                         ) : (
-                                            <FiXCircle className="m-auto h-4 w-4 fill-red-500 p-0 lg:h-6 lg:w-6 "></FiXCircle>
+                                            <CancelIcon className="m-auto h-4 w-4 fill-red-500 lg:h-6 lg:w-6"></CancelIcon>
                                         )}
-                                    </td>
-                                    <td scope="row" className="   text-center ">
-                                        <span className="px-0.5 lg:px-2">
-                                            {totalPrice.toFixed(2)}
-                                        </span>
-                                    </td>
-                                    <td scope="row" className="   text-center ">
-                                        <span className="px-0.5 lg:px-2">
-                                            {paymentMethod}
-                                        </span>
-                                    </td>
+                                    </TableCell>
+                                    <TableCell
+                                        scope="row"
+                                        className="  w-full   "
+                                    >
+                                        {isDelivered &&
+                                        deliveredAt ? (
+                                            <>
+                                                {dateFormat.format(
+                                                    new Date(
+                                                        deliveredAt,
+                                                    ),
+                                                )}
+                                            </>
+                                        ) : (
+                                            <CancelIcon className="m-auto h-4 w-4 fill-red-500 lg:h-6 lg:w-6"></CancelIcon>
+                                        )}
+                                    </TableCell>
+                                    <TableCell
+                                        scope="row"
+                                        className=" text-center "
+                                    >
+                                        {totalPrice.toFixed(
+                                            2,
+                                        )}
+                                    </TableCell>
+                                    <TableCell
+                                        scope="row"
+                                        className="text-center "
+                                    >
+                                        {paymentMethod}
+                                    </TableCell>
 
-                                    <td scope="row" className="  w-10 lg:w-16">
-                                        <p className="px-2">
-                                            <Link
-                                                href={`/order/${id}`}
-                                                className="link-border group/details place-orders-center relative m-0 grid h-1/2 p-0  transition-all "
-                                            >
-                                                <FaEdit className="m-auto h-4 w-4 lg:h-6 lg:w-6" />
-                                            </Link>
-                                        </p>
-                                    </td>
-                                </tr>
+                                    <TableCell
+                                        scope="row"
+                                        className=""
+                                    >
+                                        <Link
+                                            href={`/order/${id}`}
+                                            className="link-border group/details place-orders-center relative m-0 grid h-1/2 p-0  transition-all "
+                                        >
+                                            <EditIcon className="m-auto h-4 w-4 lg:h-6 lg:w-6" />
+                                        </Link>
+                                    </TableCell>
+                                </TableRow>
                             );
                         })}
-                    </tbody>
-                </table>
+                    </TableBody>
+                </Table>
             )}
-            {(!orders || orders.length < 1) && <div> No orders yet</div>}
-        </>
+            {(!orders || orders.length < 1) && (
+                <div> No orders yet</div>
+            )}
+        </TableContainer>
     );
 }

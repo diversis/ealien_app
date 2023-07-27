@@ -274,12 +274,12 @@ export async function getOrderWithItemsById({
 }: {
     id: Order["id"];
 }): Promise<
-| (Order & {
-      orderItems: (CompactOrderItem & {
-          product: CompactProduct;
-      })[];
-  })
-| never[]
+    | (Order & {
+          orderItems: (CompactOrderItem & {
+              product: CompactProduct;
+          })[];
+      })
+    | never[]
 > {
     try {
         const order = prisma.order.findUniqueOrThrow({
@@ -317,7 +317,11 @@ export async function getOrderWithItemsById({
     }
 }
 
-export async function getOrdersByUserId(id: User["id"]) {
+export async function getOrdersByUserId({
+    id,
+}: {
+    id: User["id"];
+}): Promise<Order[]> {
     try {
         const orders = await prisma.order.findMany({
             where: { userId: id },
@@ -325,6 +329,6 @@ export async function getOrdersByUserId(id: User["id"]) {
         return orders;
     } catch (e) {
         orderLogger.error(e);
-        return { errors: e };
+        return [];
     }
 }

@@ -17,23 +17,19 @@ import {
     CompactProduct,
 } from "@/lib/prisma/types";
 import { Order, OrderItem } from "@prisma/client";
+import OrdersTable from "@/components/tables/orders";
 
-export default function OrderPage({
-    order,
+export default function Profile({
+    orders,
 }: {
-    order: SerializableNext<Order> & {
-        orderItems: (SerializableNext<CompactOrderItem> & {
-            product: SerializableNext<CompactProduct>;
-        })[];
-    };
+    orders?: SerializableNext<Order>[];
 }) {
-    const { totalPrice, orderItems: items } = order;
-    const [render, setRender] = useState(false);
+    // const [render, setRender] = useState(false);
     // const [editable, setEditable] = useState(true);
-    useEffect(() => {
-        setRender(true);
-    }, []);
-    if (!render) return null;
+    // useEffect(() => {
+    //     setRender(true);
+    // }, []);
+    // if (!render) return null;
     return (
         <>
             <div className="container flex grid-cols-2 flex-col-reverse gap-8  px-4 xl:grid">
@@ -41,16 +37,12 @@ export default function OrderPage({
                     layout
                     className="flex flex-col items-center rounded-xl bg-primary-50/20 dark:bg-primary-900/20"
                 >
-                    {items.length > 0 ? (
+                    <Typography variant="h3">
+                        Your Orders
+                    </Typography>
+                    {!!orders && orders.length > 0 ? (
                         <>
-                            <Typography variant="h3">
-                                Your Order
-                            </Typography>
-                            <ProductTable
-                                editable={false}
-                                items={items}
-                                total={totalPrice}
-                            />
+                            <OrdersTable orders={orders} />
                         </>
                     ) : (
                         <div>

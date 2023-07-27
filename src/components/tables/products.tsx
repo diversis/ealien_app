@@ -108,7 +108,7 @@ export default function ProductTable({
                                         <Link
                                             href={`/catalogue/${id}`}
                                         >
-                                            <picture className="absolute inset-0 grid w-full place-items-center">
+                                            <picture className="grid w-full place-items-center">
                                                 <Image
                                                     alt={
                                                         name
