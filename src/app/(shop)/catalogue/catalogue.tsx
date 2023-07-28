@@ -26,7 +26,7 @@ import ProductCard from "@/components/catalogue/productCard";
 import { SerializableNext } from "@/lib/prisma/types";
 
 import { STAGGER_VARIANTS } from "@/lib/constants";
-import ProductFilters from "@/components/catalogue/productFilters";
+import ProductFilters from "@/components/catalogue/productFilters/productFilters";
 
 export default function Catalogue({
     products,
@@ -44,10 +44,26 @@ export default function Catalogue({
 
     const searchParams = useSearchParams();
 
-    const handleSearch=useCallback(()=>{
-        
-        router.push(`/${3}`)
-    },[])
+    const handleSearch = useCallback(
+        ({ filters }: { filters:{[key: string]: string} }) => {
+            const searchString = new URLSearchParams(
+                searchParams.toString(),
+            );
+            if (filters) {
+                for (let [key, value] of Object.entries(
+                    filters,
+                )) {
+                    searchString.set(key, value);
+                }
+                console.log(
+                    "search string: ",
+                    searchString,
+                );
+                router.push(`${pathname}?${searchString}`);
+            }
+        },
+        [searchParams, router, pathname],
+    );
 
     const page =
         searchParams.has("page") &&
@@ -117,8 +133,10 @@ export default function Catalogue({
     if (products.length === 0) router.back();
     return (
         <div className="flex w-full flex-row">
-            <aside className="sticky top-24 flex h-screen flex-grow basis-16 flex-col">
-                <ProductFilters />
+            <aside className="sticky top-28 flex h-min flex-grow basis-16 flex-col pl-2  lg:basis-72 lg:pl-4">
+                <ProductFilters
+                    handleSearch={handleSearch}
+                />
             </aside>
             <div className="container flex flex-col gap-y-4 px-4  lg:mx-4 lg:gap-y-8">
                 <Breadcrumbs className="self-start">
