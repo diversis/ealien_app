@@ -13,7 +13,7 @@ export default function FilterPrice({
 }: {
     setFilters: Dispatch<
         SetStateAction<{
-            [key: string]: string;
+            [key: string]: string | null;
         }>
     >;
 }) {

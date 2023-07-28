@@ -18,7 +18,7 @@ export type FiltersProps = {
     handleSearch: ({
         filters,
     }: {
-        filters: { [key: string]: string };
+        filters: { [key: string]: string | null };
     }) => void;
 };
 
@@ -26,7 +26,7 @@ export default function ProductFilters({
     handleSearch,
 }: FiltersProps) {
     const [filters, setFilters] = useState<{
-        [key: string]: string;
+        [key: string]: string | null;
     }>({});
 
     const debouncedFilters = useDebounce(filters, 500);
@@ -49,19 +49,17 @@ export default function ProductFilters({
                     <Box className="flex flex-row items-center gap-4">
                         <Typography>Category</Typography>
 
-                        {"category" in filters ? (
+                        {"category" in filters &&
+                        !!filters.category ? (
                             <Button
                                 variant="text"
                                 type="button"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    setFilters((state) => {
-                                        const newState = {
-                                            ...state,
-                                        };
-                                        delete newState.category;
-                                        return newState;
-                                    });
+                                    setFilters((state) => ({
+                                        ...state,
+                                        category: null,
+                                    }));
                                 }}
                             >
                                 <ClearIcon />
@@ -91,13 +89,10 @@ export default function ProductFilters({
                                 type="button"
                                 onClick={(e) => {
                                     e.stopPropagation();
-                                    setFilters((state) => {
-                                        const newState = {
-                                            ...state,
-                                        };
-                                        delete newState.price;
-                                        return newState;
-                                    });
+                                    setFilters((state) => ({
+                                        ...state,
+                                        price: null,
+                                    }));
                                 }}
                             >
                                 <ClearIcon />

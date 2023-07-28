@@ -45,7 +45,11 @@ export default function Catalogue({
     const searchParams = useSearchParams();
 
     const handleSearch = useCallback(
-        ({ filters }: { filters:{[key: string]: string} }) => {
+        ({
+            filters,
+        }: {
+            filters: { [key: string]: string | null };
+        }) => {
             const searchString = new URLSearchParams(
                 searchParams.toString(),
             );
@@ -53,14 +57,15 @@ export default function Catalogue({
                 for (let [key, value] of Object.entries(
                     filters,
                 )) {
-                    searchString.set(key, value);
+                    if (value) {
+                        searchString.set(key, value);
+                    } else {
+                        searchString.delete(key);
+                    }
                 }
-                console.log(
-                    "search string: ",
-                    searchString,
-                );
-                router.push(`${pathname}?${searchString}`);
             }
+
+            router.push(`${pathname}?${searchString}`);
         },
         [searchParams, router, pathname],
     );

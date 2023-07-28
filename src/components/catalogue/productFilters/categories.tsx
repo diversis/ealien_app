@@ -11,10 +11,10 @@ export default function FilterCategories({
 }: {
     setFilters: Dispatch<
         SetStateAction<{
-            [key: string]: string;
+            [key: string]: string | null;
         }>
     >;
-    selectedCategory: string | undefined;
+    selectedCategory: string | null;
 }) {
     return (
         <Box className="flex flex-col">
