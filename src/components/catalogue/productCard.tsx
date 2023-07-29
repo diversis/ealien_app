@@ -33,7 +33,6 @@ export default function ProductCard({
 }) {
     const ref = useRef(null);
     const isInView = useInView(ref);
-    const MoCard = m(Card);
     const { enqueueSnackbar, closeSnackbar } =
         useSnackbar();
     const { addItem } = useCart((state) => ({
