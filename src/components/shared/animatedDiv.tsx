@@ -42,7 +42,8 @@ export default function AnimatedDiv({
     animationType,
     duration,
     animateInView = true,
-    variants, overflowHidden = true
+    variants,
+    overflowHidden = true,
 }: {
     children?: ReactNode;
     className?: string;
@@ -60,56 +61,78 @@ export default function AnimatedDiv({
     const resultVariants: Variants = variants
         ? variants
         : {
-            hidden: {
-                ...(direction &&
-                    (direction === "top"
-                        ? { translateY: "-50%" }
-                        : direction === "bottom"
-                            ? { translateY: "50%" }
-                            : direction === "left"
-                                ? { translateX: "-20%" }
-                                : direction === "right"
-                                    ? { translateX: "20%" }
-                                    : { opacity: 0 })),
-                transition: { type: "spring", damping: 15, stiffness: 120 },
-            },
-            visible: {
-                ...(direction &&
-                    (direction === "top" || direction === "bottom"
-                        ? { translateY: "0%" }
-                        : direction === "left" || direction === "right"
-                            ? { translateX: "0%" }
-                            : { opacity: 1 })),
-                transition: { type: "spring", damping: 15, stiffness: 120 },
-            },
-            exit: {
-                ...(direction &&
-                    (direction === "top"
-                        ? { translateY: "-50%" }
-                        : direction === "bottom"
-                            ? { translateY: "50%" }
-                            : direction === "left"
-                                ? { translateX: "-20%" }
-                                : direction === "right"
-                                    ? { translateX: "20%" }
-                                    : { opacity: 0 })),
-                transition: { type: "spring", damping: 15, stiffness: 120 },
-            },
-        };
+              hidden: {
+                  ...(direction &&
+                      (direction === "top"
+                          ? { translateY: "-50%" }
+                          : direction === "bottom"
+                          ? { translateY: "50%" }
+                          : direction === "left"
+                          ? { translateX: "-20%" }
+                          : direction === "right"
+                          ? { translateX: "20%" }
+                          : { opacity: 0 })),
+                  transition: {
+                      type: "spring",
+                      damping: 15,
+                      stiffness: 120,
+                  },
+              },
+              visible: {
+                  ...(direction &&
+                      (direction === "top" ||
+                      direction === "bottom"
+                          ? { translateY: "0%" }
+                          : direction === "left" ||
+                            direction === "right"
+                          ? { translateX: "0%" }
+                          : { opacity: 1 })),
+                  transition: {
+                      type: "spring",
+                      damping: 15,
+                      stiffness: 120,
+                  },
+              },
+              exit: {
+                  ...(direction &&
+                      (direction === "top"
+                          ? { translateY: "-50%" }
+                          : direction === "bottom"
+                          ? { translateY: "50%" }
+                          : direction === "left"
+                          ? { translateX: "-20%" }
+                          : direction === "right"
+                          ? { translateX: "20%" }
+                          : { opacity: 0 })),
+                  transition: {
+                      type: "spring",
+                      damping: 15,
+                      stiffness: 120,
+                  },
+              },
+          };
 
     return (
         <m.div
             tabIndex={0}
             initial="hidden"
             animate={
-                animateInView ? (isInView ? "visible" : "hidden") : "visible"
+                animateInView
+                    ? isInView
+                        ? "visible"
+                        : "hidden"
+                    : "visible"
             }
             exit="exit"
             ref={ref}
-            className={`${overflowHidden ? "overflow-hidden " : " "} ${classNameWrapper ? classNameWrapper : ""
-                }`}
+            className={`${
+                overflowHidden ? "overflow-hidden " : " "
+            } ${classNameWrapper ? classNameWrapper : ""}`}
         >
-            <m.div variants={resultVariants} className={className}>
+            <m.div
+                variants={resultVariants}
+                className={className}
+            >
                 {children}
             </m.div>
         </m.div>

@@ -18,7 +18,7 @@ export default function MainLayout({
             <main
                 key="main"
                 id="main"
-                className="mb-16 flex min-h-screen w-screen flex-col md:mt-24 md:min-h-[calc(100vh_-_6rem)] lg:mb-20 xl:mb-24"
+                className="mb-0 flex min-h-screen w-screen flex-col md:mt-24 md:min-h-[calc(100vh_-_6rem)] "
             >
                 <Suspense fallback={<CircularProgress />}>
                     <PageTransition>

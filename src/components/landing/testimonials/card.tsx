@@ -51,12 +51,17 @@ export default function TestimonialsCard({
                     <m.blockquote
                         variants={SLIDE_Y_P_VARIANTS}
                         initial="hidden"
-                        animate={isInView ? "visible" : "hidden"}
+                        animate={
+                            isInView ? "visible" : "hidden"
+                        }
                         exit="hidden"
                         tabIndex={isInView ? 0 : undefined}
-                        className="flex w-full items-center relative text-base text-primary-900 dark:text-primary-50 xl:text-lg"
+                        className="relative flex w-full items-center text-base text-primary-900 dark:text-primary-50 xl:text-lg"
                     >
-                        <Balancer ratio={0.5} className="break-all w-full text-justify">
+                        <Balancer
+                            ratio={0.5}
+                            className="w-full break-all text-justify"
+                        >
                             <em className="mr-2" />
                             Pharetra et ultrices neque
                             ornare aenean euismod elementum.
@@ -66,7 +71,7 @@ export default function TestimonialsCard({
                             tincidunt ornare massa eget
                             egestas purus viverra.
                         </Balancer>
-                        <FormatQuoteIcon className="absolute left-0 -top-12 z-[-1] h-12 w-12 fill-surface-500" />
+                        <FormatQuoteIcon className="absolute -top-12 left-0 z-[-1] h-12 w-12 fill-surface-500" />
                     </m.blockquote>
                 </div>
             </article>

@@ -1,8 +1,11 @@
-"use client"
+"use client";
 import Image from "next/image";
 import { m, useInView } from "framer-motion";
 import { useRef } from "react";
-import { OPACITY_VARIANTS, TITLE_VARIANTS } from "@/lib/constants";
+import {
+    OPACITY_VARIANTS,
+    TITLE_VARIANTS,
+} from "@/lib/constants";
 import bg from "@public/images/bg/r/23/2048.webp";
 
 export default function BG({
@@ -27,7 +30,9 @@ export default function BG({
             exit="hidden"
         >
             <div
-                style={{ backgroundImage: "url(" + bgSrc + ")" }}
+                style={{
+                    backgroundImage: "url(" + bgSrc + ")",
+                }}
                 className={`hero-bg inset-0 h-full  w-full  !transform-none  ${classNames?.bg}`}
             >
                 {/* <Image

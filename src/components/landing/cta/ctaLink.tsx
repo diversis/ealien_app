@@ -13,7 +13,7 @@ export default function CTALink({
             href={"/catalogue"}
             className={`group/cta link-border relative flex aspect-square items-center justify-center self-center rounded-full bg-primary-900/60 px-6  xl:!bg-transparent ${className}`}
         >
-            <span className="xl:group-hover/cta:scale-100 ease-out xl:group-focus/cta:ease-fancy-xl xl:group-hover/cta:ease-fancy-xl duration-500 xl:group-focus/cta:scale-100 transition-transform text-bold text-lg text-tertiary-400 mix-blend-difference lg:text-xl xl:text-4xl xl:scale-0 xl:group-hover/cta:text-tertiary-500 xl:group-focus/cta:text-tertiary-500 ">
+            <span className="text-bold text-lg text-tertiary-400 mix-blend-difference transition-transform duration-500 ease-out lg:text-xl xl:scale-0 xl:text-4xl xl:group-hover/cta:scale-100 xl:group-hover/cta:text-tertiary-500 xl:group-hover/cta:ease-fancy-xl xl:group-focus/cta:scale-100 xl:group-focus/cta:text-tertiary-500 xl:group-focus/cta:ease-fancy-xl ">
                 Do it!
             </span>
 

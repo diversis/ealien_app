@@ -40,7 +40,7 @@ export default function Home({
                 <title>AAlien</title>
                 <meta name="description" content="aalien" />
             </Head>
-            <div className=" mb-8 flex w-full flex-col items-center justify-center gap-y-4 lg:gap-y-8 xl:mb-16 xl:gap-y-16">
+            <div className=" flex w-full flex-col items-center justify-center gap-y-4 lg:gap-y-8 xl:gap-y-16">
                 <AnimatePresence>
                     {/* <Social /> */}
                     <HeroSection key="hero-section" />
