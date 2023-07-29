@@ -44,8 +44,14 @@ export default function FilterPrice({
     useEffect(() => {
         setFilters((state) => ({
             ...state,
-            minPrice: "" + price[0],
-            maxPrice: "" + price[1],
+            minPrice:
+                price[0] > 0 && price[0] <= price[1]
+                    ? "" + price[0]
+                    : null,
+            maxPrice:
+                price[1] < 1000 && price[0] <= price[1]
+                    ? "" + price[1]
+                    : null,
         }));
     }, [price, setFilters]);
 

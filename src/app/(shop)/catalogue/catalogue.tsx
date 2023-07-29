@@ -65,7 +65,7 @@ export default function Catalogue({
                 for (let [key, value] of Object.entries(
                     filters,
                 )) {
-                    if (value) {
+                    if (!!value) {
                         searchString.set(key, value);
                     } else {
                         searchString.delete(key);
