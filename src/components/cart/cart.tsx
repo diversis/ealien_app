@@ -114,10 +114,10 @@ export default function Cart() {
             }
             console.log(error);
         }
-    }, []);
+    }, [items]);
 
     useEffect(() => {
-        // if (items && items.length > 0) refresh();
+        if (items && items.length > 0) refresh();
         setRender(true);
     }, []);
     return (

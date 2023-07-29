@@ -4,6 +4,8 @@ import {
     Button,
     Pagination,
     PaginationItem,
+    SwipeableDrawer,
+    Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
 import {
@@ -25,8 +27,13 @@ import { Product } from "@prisma/client";
 import ProductCard from "@/components/catalogue/productCard";
 import { SerializableNext } from "@/lib/prisma/types";
 
-import { STAGGER_VARIANTS } from "@/lib/constants";
+import {
+    DRAWER_BLEEDING,
+    STAGGER_VARIANTS,
+} from "@/lib/constants";
 import ProductFilters from "@/components/catalogue/productFilters/productFilters";
+import useWindowSize from "@/lib/hooks/use-window-size";
+import MUISwipeableDrawer from "@/components/mui/swipeableDrawer";
 
 export default function Catalogue({
     products,
@@ -43,6 +50,7 @@ export default function Catalogue({
     const pathname = usePathname();
 
     const searchParams = useSearchParams();
+    const { isMobile, isDesktop } = useWindowSize();
 
     const handleSearch = useCallback(
         ({
@@ -135,14 +143,22 @@ export default function Catalogue({
 
     // console.log(products);
     // console.log(newsData);
-    if (products.length === 0) router.back();
+    // if (products.length === 0) router.back();
     return (
         <div className="flex w-full flex-row">
-            <aside className="sticky top-28 flex h-min flex-grow basis-16 flex-col pl-2  lg:basis-72 lg:pl-4">
-                <ProductFilters
-                    handleSearch={handleSearch}
-                />
-            </aside>
+            {isMobile ? (
+                <MUISwipeableDrawer>
+                    <ProductFilters
+                        handleSearch={handleSearch}
+                    />
+                </MUISwipeableDrawer>
+            ) : (
+                <aside className="sticky top-28 flex h-min flex-grow basis-16 flex-col pl-2  lg:basis-72 lg:pl-4">
+                    <ProductFilters
+                        handleSearch={handleSearch}
+                    />
+                </aside>
+            )}
             <div className="container flex flex-col gap-y-4 px-4  lg:mx-4 lg:gap-y-8">
                 <Breadcrumbs className="self-start">
                     <Link href={`/catalogue/`}>
@@ -156,26 +172,28 @@ export default function Catalogue({
                         </Link>
                     ) : null}
                 </Breadcrumbs>
-                <div className="flex flex-row justify-center ">
-                    <Pagination
-                        count={Math.ceil(count / 16)}
-                        renderItem={(item) => {
-                            return (
-                                <PaginationItem
-                                    component={Link}
-                                    href={getLinkWithSearchParams(
-                                        item.page,
-                                    )}
-                                    {...item}
-                                />
-                            );
-                        }}
-                        page={page}
-                    />
-                </div>
+                {page > 1 || hasMore ? (
+                    <div className="flex flex-row justify-center ">
+                        <Pagination
+                            count={Math.ceil(count / 16)}
+                            renderItem={(item) => {
+                                return (
+                                    <PaginationItem
+                                        component={Link}
+                                        href={getLinkWithSearchParams(
+                                            item.page,
+                                        )}
+                                        {...item}
+                                    />
+                                );
+                            }}
+                            page={page}
+                        />
+                    </div>
+                ) : null}
                 <m.div className="grid w-full grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3  xl:grid-cols-4">
                     {Array.isArray(products) &&
-                        products.length > 0 &&
+                    products.length > 0 ? (
                         products.map((prod) => {
                             return (
                                 <ProductCard
@@ -183,26 +201,33 @@ export default function Catalogue({
                                     product={prod}
                                 ></ProductCard>
                             );
-                        })}
+                        })
+                    ) : (
+                        <Typography variant="body1">
+                            Nothing found
+                        </Typography>
+                    )}
                 </m.div>
 
-                <div className="flex flex-row justify-center ">
-                    <Pagination
-                        count={Math.ceil(count / 16)}
-                        renderItem={(item) => {
-                            return (
-                                <PaginationItem
-                                    component={Link}
-                                    href={getLinkWithSearchParams(
-                                        item.page,
-                                    )}
-                                    {...item}
-                                />
-                            );
-                        }}
-                        page={page}
-                    />
-                </div>
+                {page > 1 || hasMore ? (
+                    <div className="flex flex-row justify-center ">
+                        <Pagination
+                            count={Math.ceil(count / 16)}
+                            renderItem={(item) => {
+                                return (
+                                    <PaginationItem
+                                        component={Link}
+                                        href={getLinkWithSearchParams(
+                                            item.page,
+                                        )}
+                                        {...item}
+                                    />
+                                );
+                            }}
+                            page={page}
+                        />
+                    </div>
+                ) : null}
             </div>
         </div>
     );

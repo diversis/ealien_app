@@ -1,7 +1,12 @@
 import Box from "@mui/material/Box";
 import Slider from "@mui/material/Slider";
 import Button from "@mui/material/Button";
-import { Dispatch, SetStateAction, useState } from "react";
+import {
+    Dispatch,
+    SetStateAction,
+    useEffect,
+    useState,
+} from "react";
 import { Input, Typography } from "@mui/material";
 
 function valuetext(value: number) {
@@ -17,9 +22,7 @@ export default function FilterPrice({
         }>
     >;
 }) {
-    const [price, setPrice] = useState<number[]>([
-        0, 10000,
-    ]);
+    const [price, setPrice] = useState<number[]>([0, 1000]);
     const handleChange = (
         event: Event,
         newValue: number | number[],
@@ -33,19 +36,30 @@ export default function FilterPrice({
         }
     };
     const handleBlurMax = () => {
-        if (price[1] > 100) {
-            setPrice((state) => [state[0], 10000]);
+        if (price[1] > 1000) {
+            setPrice((state) => [state[0], 1000]);
         }
     };
+
+    useEffect(() => {
+        setFilters((state) => ({
+            ...state,
+            minPrice: "" + price[0],
+            maxPrice: "" + price[1],
+        }));
+    }, [price, setFilters]);
 
     return (
         <Box className="flex flex-col">
             <Slider
-                getAriaLabel={() => "Temperature range"}
+                getAriaLabel={() => "Price"}
                 value={price}
                 onChange={handleChange}
                 valueLabelDisplay="auto"
                 getAriaValueText={valuetext}
+                aria-labelledby="filters-price-label"
+                min={0}
+                max={1000}
             />
             <Box className="flex flex-row flex-wrap gap-2">
                 <Box className="flex flex-row gap-2">
@@ -69,9 +83,11 @@ export default function FilterPrice({
                         inputProps={{
                             step: 10,
                             min: 0,
-                            max: 10000,
+                            max: 1000,
                             type: "number",
                             "aria-labelledby": "price-from",
+                            "aria-valuemax": 1000,
+                            "aria-label": "price minimum",
                         }}
                     />
                 </Box>
@@ -90,13 +106,13 @@ export default function FilterPrice({
                                       ),
                             ])
                         }
-                        onBlur={handleBlurMin}
+                        onBlur={handleBlurMax}
                         inputProps={{
                             step: 10,
                             min: 0,
-                            max: 10000,
+                            max: 1000,
                             type: "number",
-                            "aria-labelledby": "price-from",
+                            "aria-labelledby": "price-to",
                         }}
                     />
                 </Box>

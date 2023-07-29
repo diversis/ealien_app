@@ -36,10 +36,6 @@ export default function ProductFilters({
         handleSearch({ filters: debouncedFilters });
     }, [debouncedFilters, handleSearch]);
 
-    useEffect(() => {
-        console.log("filters: ", filters);
-    }, [filters]);
-
     return (
         <Box className="flex flex-col gap-2">
             <Accordion>
@@ -79,7 +75,9 @@ export default function ProductFilters({
                     expandIcon={<ExpandMoreIcon />}
                 >
                     <Box className="flex flex-row items-center gap-4">
-                        <Typography>Price</Typography>
+                        <Typography id="filters-price-label">
+                            Price
+                        </Typography>
                         <Typography>
                             {filters.price || null}
                         </Typography>
@@ -91,7 +89,8 @@ export default function ProductFilters({
                                     e.stopPropagation();
                                     setFilters((state) => ({
                                         ...state,
-                                        price: null,
+                                        minPrice: null,
+                                        maxPrice: null,
                                     }));
                                 }}
                             >

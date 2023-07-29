@@ -106,7 +106,7 @@ export default async function Page({
     // catalogueLogger.info({ products });
     // catalogueLogger.info({ productListItems });
 
-    if (products && products.length > 0) {
+    if (products) {
         // Forward fetched data to your Client Component
         return (
             <Catalogue
