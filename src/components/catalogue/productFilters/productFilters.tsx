@@ -81,7 +81,10 @@ export default function ProductFilters({
                         <Typography>
                             {filters.price || null}
                         </Typography>
-                        {"price" in filters ? (
+                        {("minPrice" in filters &&
+                            !!filters.minPrice) ||
+                        ("maxPrice" in filters &&
+                            !!filters.maxPrice) ? (
                             <Button
                                 variant="text"
                                 type="button"
@@ -100,7 +103,11 @@ export default function ProductFilters({
                     </Box>
                 </AccordionSummary>
                 <AccordionDetails>
-                    <FilterPrice setFilters={setFilters} />
+                    <FilterPrice
+                        setFilters={setFilters}
+                        minPrice={filters.minPrice}
+                        maxPrice={filters.maxPrice}
+                    />
                 </AccordionDetails>
             </Accordion>
         </Box>
