@@ -152,6 +152,8 @@ export const useCart = create<CartState & CartAction>()(
                                     countInStock:
                                         product.countInStock,
                                     qty: 1,
+                                    currencyId:
+                                        product.currencyId,
                                 },
                             ],
                         };

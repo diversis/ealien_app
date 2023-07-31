@@ -9,16 +9,9 @@ export type ToNumber<T> = T extends Decimal | Date
     ? number
     : T;
 
-export type CartItem = Pick<
-    SerializedNext<CompactProduct>,
-    | "id"
-    | "price"
-    | "image"
-    | "rating"
-    | "name"
-    | "countInStock"
-    | "currencyId"
-> & {
+export type CartItem = 
+    SerializedNext<CompactProduct> 
+ & {
     qty: number;
 };
 
