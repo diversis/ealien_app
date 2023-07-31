@@ -11,7 +11,7 @@ import {
 import {
     CartItem,
     CompactProduct,
-    SerializedNext,
+    SerializedPrisma,
 } from "../prisma/types";
 
 type Logger = <
@@ -57,8 +57,8 @@ type CartState = {
 type CartAction = {
     addItem: (
         product:
-            | SerializedNext<Product>
-            | SerializedNext<CompactProduct>,
+            | SerializedPrisma<Product>
+            | SerializedPrisma<CompactProduct>,
         qty: number,
         setQty?: boolean,
     ) => void;
@@ -101,8 +101,8 @@ export const useCart = create<CartState & CartAction>()(
 
                 addItem: (
                     product:
-                        | SerializedNext<Product>
-                        | SerializedNext<CompactProduct>,
+                        | SerializedPrisma<Product>
+                        | SerializedPrisma<CompactProduct>,
                     qty: number,
                     setQty: boolean = false,
                 ) => {

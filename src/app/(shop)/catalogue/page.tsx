@@ -13,7 +13,7 @@ import {
     serializeCompactProduct,
     serializeProduct,
 } from "@/lib/prisma/serialization";
-import { SerializedNext } from "@/lib/prisma/types";
+import { SerializedPrisma } from "@/lib/prisma/types";
 
 const logger = require("@/lib/utils/logger");
 const catalogueLogger = logger.child({
@@ -93,15 +93,15 @@ export default async function Page({
                 : {}),
         });
 
-    const products: SerializedNext<Product>[] =
+    const products: SerializedPrisma<Product>[] =
         productListItems
             .map(
                 (
                     prod: Product,
-                ): SerializedNext<Product> | null =>
+                ): SerializedPrisma<Product> | null =>
                     serializeProduct(prod),
             )
-            .filter(Boolean) as SerializedNext<Product>[];
+            .filter(Boolean) as SerializedPrisma<Product>[];
 
     // catalogueLogger.info({ products });
     // catalogueLogger.info({ productListItems });

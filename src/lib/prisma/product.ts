@@ -2,7 +2,7 @@ import { serializeProduct } from "./serialization";
 import type { Product, Category } from "@prisma/client";
 import prisma from "./prisma";
 import { Decimal } from "@prisma/client/runtime/library";
-import { CompactProduct, SerializedNext } from "./types";
+import { CompactProduct, SerializedPrisma } from "./types";
 export type { Product, Category } from "@prisma/client";
 
 const logger = require("@/lib/utils/logger");
@@ -11,7 +11,7 @@ const productLogger = logger.child({
 });
 
 export type ProductWithCategories =
-    SerializedNext<CompactProduct> & {
+    SerializedPrisma<CompactProduct> & {
         categories: { name: string }[];
     };
 
@@ -284,6 +284,7 @@ export async function getBrandProducts(): Promise<{
                 currencyId: true,
             },
             orderBy: { rating: "desc" },
+
         });
     // productLogger.info("aalien products: ", data);
     return { productListItems: data };
@@ -339,11 +340,7 @@ export async function getBestProducts(): Promise<{
     // productLogger.info("best products get \n ");
     let data: CompactProduct[] =
         await prisma.product.findMany({
-            where: {
-                rating: {
-                    gte: new Decimal(4),
-                },
-            },
+            orderBy: { rating: "desc" },
             select: {
                 id: true,
                 name: true,
@@ -353,7 +350,7 @@ export async function getBestProducts(): Promise<{
                 rating: true,
                 currencyId: true,
             },
-            orderBy: { rating: "desc" },
+            take: 12,
         });
     // productLogger.info("best products: ", data);
     return { productListItems: data };
@@ -456,7 +453,7 @@ export const getSerializableProduct = async ({
 }: {
     id: string;
 }): Promise<
-    | (SerializedNext<Product> & {
+    | (SerializedPrisma<Product> & {
         categories: { name: Category["name"] }[];
     })
     | null
@@ -470,11 +467,11 @@ export const getSerializableProduct = async ({
         });
     if (prismaRes) {
         const product:
-            | (SerializedNext<Product> & {
+            | (SerializedPrisma<Product> & {
                 categories: { name: Category["name"] }[];
             })
             | null = serializeProduct(prismaRes) as
-            | (SerializedNext<Product> & {
+            | (SerializedPrisma<Product> & {
                 categories: { name: Category["name"] }[];
             })
             | null;

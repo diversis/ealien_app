@@ -24,9 +24,13 @@ const getReviewsSchema = z.object({
 
 export async function GET(request: NextRequest) {
     try {
-        const req = await request.json();
-        if ("productId" in request && typeof request.productId === "string") {
-            const productReviews = await getProductReviews({ productId: request.productId })
+        // const req = await request.json();
+        const { searchParams } = new URL(request.url)
+        const productId = searchParams.get("productId")
+        const page = searchParams.get("page")
+        if (productId) {
+
+            const productReviews = await getProductReviews({ productId, ...page ? { page } : null })
             const serializedReviews = productReviews.reviews.map(review => serializeReview(review))
             return NextResponse.json(
                 { data: { reviews: serializedReviews, count: productReviews.count } },

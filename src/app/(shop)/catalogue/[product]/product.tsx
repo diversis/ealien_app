@@ -19,7 +19,7 @@ import {
     Typography,
 } from "@mui/material";
 
-import { SerializedNext } from "@/lib/prisma/types";
+import { SerializedPrisma } from "@/lib/prisma/types";
 import { Category, Product, Review } from "@prisma/client";
 import { OPACITY_VARIANTS } from "@/lib/constants";
 import ImageMagnifier from "@/components/shared/magnifier";
@@ -35,12 +35,13 @@ import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
 export default function ProductPage({
     product,
     reviews,
+    reviewsCount,
 }: {
-    product: SerializedNext<Product> & {
+    product: SerializedPrisma<Product> & {
         categories: { name: Category["name"] }[];
     };
     reviews:
-        | SerializedNext<
+        | SerializedPrisma<
               Review & {
                   user: {
                       name: string | null;
@@ -49,6 +50,7 @@ export default function ProductPage({
               }
           >[]
         | null;
+    reviewsCount: number;
 }) {
     const { data: session, status } = useSession();
     const { email, image } = session?.user || {};
@@ -176,7 +178,11 @@ export default function ProductPage({
                         )}
                     </div>
                     {reviews && reviews.length > 0 ? (
-                        <Reviews reviews={reviews} />
+                        <Reviews
+                            reviews={reviews}
+                            productId={product.id}
+                            reviewsCount={reviewsCount}
+                        />
                     ) : (
                         <div>
                             <Typography variant="body1">

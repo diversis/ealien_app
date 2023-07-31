@@ -5,7 +5,7 @@ import { m, AnimatePresence } from "framer-motion";
 import { Serializable } from "child_process";
 import {
     CompactProduct,
-    SerializedNext,
+    SerializedPrisma,
 } from "@/lib/prisma/types";
 import Image from "next/image";
 import HeroSection from "@/components/landing/hero";
@@ -32,7 +32,7 @@ import CTABottom from "@/components/landing/cta-bottom";
 export default function Home({
     products,
 }: {
-    products: SerializedNext<CompactProduct>[];
+    products: SerializedPrisma<CompactProduct>[];
 }) {
     return (
         <>

@@ -1,6 +1,6 @@
 import type { Review } from "@prisma/client";
 import prisma from "./prisma";
-import { SerializedNext } from "./types";
+import { SerializedPrisma } from "./types";
 import { serializeReview } from "./serialization";
 export type { Review } from "@prisma/client";
 const logger = require("@/lib/utils/logger");

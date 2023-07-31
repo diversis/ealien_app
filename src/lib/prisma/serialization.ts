@@ -2,7 +2,7 @@ import { Product } from "./product";
 import {
     CompactOrderItem,
     CompactProduct,
-    SerializedNext,
+    SerializedPrisma,
 } from "./types";
 import {
     Order,
@@ -17,7 +17,7 @@ const serializationLogger = logger.child({
 
 export const serializeProduct = (
     product: Product,
-): SerializedNext<Product> | null => {
+): SerializedPrisma<Product> | null => {
     try {
         const serializableProduct = {
             ...product,
@@ -41,7 +41,7 @@ export const serializeProduct = (
 
 export const serializeCompactProduct = (
     product: CompactProduct,
-): SerializedNext<CompactProduct> | null => {
+): SerializedPrisma<CompactProduct> | null => {
     try {
         const serializableProduct = {
             ...product,
@@ -59,7 +59,7 @@ export const serializeCompactProduct = (
 
 export const serializeOrder = (
     order: Order,
-): SerializedNext<Order> | null => {
+): SerializedPrisma<Order> | null => {
     try {
         const serializableOrder = {
             ...order,
@@ -110,9 +110,9 @@ export const serializeOrderWithItems = (
         })[];
     },
 ):
-    | (SerializedNext<Order> & {
-        orderItems: (SerializedNext<CompactOrderItem> & {
-            product: SerializedNext<CompactProduct>;
+    | (SerializedPrisma<Order> & {
+        orderItems: (SerializedPrisma<CompactOrderItem> & {
+            product: SerializedPrisma<CompactProduct>;
         })[];
     })
     | null => {
@@ -131,8 +131,8 @@ export const serializeOrderWithItems = (
                     ({
                         product,
                         ...item
-                    }): SerializedNext<CompactOrderItem> & {
-                        product: SerializedNext<CompactProduct>;
+                    }): SerializedPrisma<CompactOrderItem> & {
+                        product: SerializedPrisma<CompactProduct>;
                     } => ({
                         ...item,
                         price: Number(item.price),
@@ -155,7 +155,7 @@ export const serializeOrderWithItems = (
 
 export const serializeShippingAddress = (
     shippingAddress: ShippingAddress,
-): SerializedNext<ShippingAddress> | null => {
+): SerializedPrisma<ShippingAddress> | null => {
     try {
         const serializableShippingAddress = {
             ...shippingAddress,

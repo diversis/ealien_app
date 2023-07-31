@@ -17,7 +17,7 @@ import {
     serializeProduct,
     serializeReview,
 } from "@/lib/prisma/serialization";
-import { SerializedNext } from "@/lib/prisma/types";
+import { SerializedPrisma } from "@/lib/prisma/types";
 import { redirect } from "next/navigation";
 import { Review } from "@prisma/client";
 import {
@@ -79,7 +79,7 @@ export default async function Page({
     });
     const serializedReviews = productReviews.reviews.map(
         (review) =>
-            serializeReview(review) as SerializedNext<
+            serializeReview(review) as SerializedPrisma<
                 Review & {
                     user: {
                         name: string | null;
@@ -96,6 +96,7 @@ export default async function Page({
         <ProductPage
             product={product}
             reviews={serializedReviews}
+            reviewsCount={productReviews.count}
         />
     );
 }

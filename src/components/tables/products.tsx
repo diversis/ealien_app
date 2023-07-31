@@ -10,7 +10,7 @@ import {
     CartItem,
     CompactOrderItem,
     CompactProduct,
-    SerializedNext,
+    SerializedPrisma,
 } from "@/lib/prisma/types";
 import {
     Table,
@@ -34,8 +34,8 @@ export default function ProductTable({
     editable?: boolean;
     items:
         | CartItem[]
-        | (SerializedNext<CompactOrderItem> & {
-              product: SerializedNext<CompactProduct>;
+        | (SerializedPrisma<CompactOrderItem> & {
+              product: SerializedPrisma<CompactProduct>;
           })[];
     removeItem?: (id: string) => void;
     addQty?: (

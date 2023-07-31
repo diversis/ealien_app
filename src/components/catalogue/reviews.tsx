@@ -1,4 +1,4 @@
-import { SerializedNext } from "@/lib/prisma/types";
+import { useEffect, useRef } from "react";
 import {
     Box,
     Divider,
@@ -6,14 +6,49 @@ import {
     Rating,
     Typography,
 } from "@mui/material";
-import { Review } from "@prisma/client";
+import { useIntersectionObserver } from "usehooks-ts";
 import { m, AnimatePresence } from "framer-motion";
 import Image from "next/image";
+import axios, { AxiosError, AxiosResponse } from "axios";
+import {
+    type ZodString,
+    z,
+    ZodError,
+    ZodObject,
+} from "zod";
+
+import { Review } from "@prisma/client";
+import { SerializedPrisma } from "@/lib/prisma/types";
+import { useState } from "react";
+
+const reviewsPerPage = 10;
+
+const endpoint = "/api/reviews";
+
+const getReviewsSchema = z.object({
+    productId: z.string(),
+    page: z.number(),
+});
+
+async function getReviews({
+    // data,
+    url,
+}: {
+    // data: { productId: string; page: string };
+    url: string;
+}): Promise<AxiosResponse<any, any>> {
+    return await axios({
+        method: "get",
+        url: url,
+    });
+}
 
 export default function Reviews({
     reviews,
+    productId,
+    reviewsCount,
 }: {
-    reviews: SerializedNext<
+    reviews: SerializedPrisma<
         Review & {
             user: {
                 name: string | null;
@@ -21,7 +56,31 @@ export default function Reviews({
             };
         }
     >[];
+    productId: string;
+    reviewsCount: number;
 }) {
+    const [page, setPage] = useState<number>(1);
+    const [loadedReviews, setLoadedReviews] = useState<
+        SerializedPrisma<
+            Review & {
+                user: {
+                    name: string | null;
+                    image: string | null;
+                };
+            }
+        >[]
+    >(reviews);
+    const [count, setCount] =
+        useState<number>(reviewsCount);
+    const endOfList = useRef<HTMLDivElement | null>(null);
+    const entry = useIntersectionObserver(endOfList, {});
+    const reachedEnd = !!entry?.isIntersecting;
+
+    useEffect(() => {
+        if (reachedEnd && count > page * reviewsPerPage) {
+        }
+    }, [reachedEnd, count, page]);
+
     return (
         <div className="flex w-full flex-col items-center gap-y-4">
             <AnimatePresence>
@@ -100,6 +159,10 @@ export default function Reviews({
                     );
                 })}
             </AnimatePresence>
+            <div
+                ref={endOfList}
+                className="h-0 w-full"
+            ></div>
         </div>
     );
 }

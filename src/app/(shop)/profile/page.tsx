@@ -16,7 +16,7 @@ import {
     serializeOrderWithItems,
     serializeProduct,
 } from "@/lib/prisma/serialization";
-import { SerializedNext } from "@/lib/prisma/types";
+import { SerializedPrisma } from "@/lib/prisma/types";
 import {
     getOrderById,
     getOrderWithItemsById,
@@ -49,11 +49,14 @@ export default async function Page({
             session?.user || {};
         if (!email) redirect("/catalogue");
         const orders = await getOrdersByUserId({ id });
-        let serializedOrders: SerializedNext<Order>[] = [];
+        let serializedOrders: SerializedPrisma<Order>[] =
+            [];
         if (orders.length > 0)
             serializedOrders = orders
                 .map((order) => serializeOrder(order))
-                .filter(Boolean) as SerializedNext<Order>[];
+                .filter(
+                    Boolean,
+                ) as SerializedPrisma<Order>[];
 
         return <Profile orders={serializedOrders} />;
     } catch (e) {

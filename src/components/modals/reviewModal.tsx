@@ -38,7 +38,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import Slide from "@mui/material/Slide";
 import { ControlledTextField } from "../form/fields/controlledTextField";
 import { Product } from "@prisma/client";
-import { SerializedNext } from "@/lib/prisma/types";
+import { SerializedPrisma } from "@/lib/prisma/types";
 import { ControlledRating } from "../form/fields/controlledRating";
 
 const endpoint = "/api/review";
@@ -60,7 +60,7 @@ interface ReviewFields {
 interface ReviewModalProps
     extends ComponentPropsWithoutRef<"div"> {
     triggerText?: string;
-    product: SerializedNext<Product>;
+    product: SerializedPrisma<Product>;
     classNames?: {
         root?: string;
         trigger?: string;

@@ -2,7 +2,7 @@ import "./globals.css";
 import type { Session } from "next-auth";
 import { Orbitron } from "next/font/google";
 import { Metadata } from "next";
-import { Providers } from "./providers";
+import { Providers } from "../utils/providers";
 import Filters from "@/components/shared/filters";
 import Header from "@/components/layout/header";
 
