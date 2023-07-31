@@ -2,7 +2,7 @@ import { serializeProduct } from "./serialization";
 import type { Product, Category } from "@prisma/client";
 import prisma from "./prisma";
 import { Decimal } from "@prisma/client/runtime/library";
-import { CompactProduct, SerializableNext } from "./types";
+import { CompactProduct, SerializedNext } from "./types";
 export type { Product, Category } from "@prisma/client";
 
 const logger = require("@/lib/utils/logger");
@@ -11,7 +11,7 @@ const productLogger = logger.child({
 });
 
 export type ProductWithCategories =
-    SerializableNext<CompactProduct> & {
+    SerializedNext<CompactProduct> & {
         categories: { name: string }[];
     };
 
@@ -47,8 +47,8 @@ export async function getProduct({
     id: string;
 }): Promise<
     | (Product & {
-          categories: { name: Category["name"] }[];
-      })
+        categories: { name: Category["name"] }[];
+    })
     | null
 > {
     let prod;
@@ -144,49 +144,49 @@ export async function getProductListItems({
         where: {
             ...(searchString
                 ? {
-                      name: {
-                          contains: searchString,
-                          mode: "insensitive",
-                      },
-                  }
+                    name: {
+                        contains: searchString,
+                        mode: "insensitive",
+                    },
+                }
                 : {}),
             ...(reqColor
                 ? {
-                      color: {
-                          equals: reqColor,
-                      },
-                  }
+                    color: {
+                        equals: reqColor,
+                    },
+                }
                 : {}),
             ...(reqBrand
                 ? {
-                      brand: {
-                          equals: reqBrand,
-                      },
-                  }
+                    brand: {
+                        equals: reqBrand,
+                    },
+                }
                 : {}),
             ...(reqHighPrice
                 ? {
-                      price: {
-                          lte: reqHighPrice,
-                          gte: reqLowPrice,
-                      },
-                  }
+                    price: {
+                        lte: reqHighPrice,
+                        gte: reqLowPrice,
+                    },
+                }
                 : {
-                      price: {
-                          gte: reqLowPrice,
-                      },
-                  }),
+                    price: {
+                        gte: reqLowPrice,
+                    },
+                }),
             ...(reqCategory
                 ? {
-                      categories: {
-                          some: {
-                              name: {
-                                  contains: reqCategory,
-                                  mode: "insensitive",
-                              },
-                          },
-                      },
-                  }
+                    categories: {
+                        some: {
+                            name: {
+                                contains: reqCategory,
+                                mode: "insensitive",
+                            },
+                        },
+                    },
+                }
                 : {}),
         },
     });
@@ -194,49 +194,49 @@ export async function getProductListItems({
         where: {
             ...(searchString
                 ? {
-                      name: {
-                          contains: searchString,
-                          mode: "insensitive",
-                      },
-                  }
+                    name: {
+                        contains: searchString,
+                        mode: "insensitive",
+                    },
+                }
                 : {}),
             ...(reqColor
                 ? {
-                      color: {
-                          equals: reqColor,
-                      },
-                  }
+                    color: {
+                        equals: reqColor,
+                    },
+                }
                 : {}),
             ...(reqBrand
                 ? {
-                      brand: {
-                          equals: reqBrand,
-                      },
-                  }
+                    brand: {
+                        equals: reqBrand,
+                    },
+                }
                 : {}),
             ...(reqHighPrice
                 ? {
-                      price: {
-                          lte: reqHighPrice,
-                          gte: reqLowPrice,
-                      },
-                  }
+                    price: {
+                        lte: reqHighPrice,
+                        gte: reqLowPrice,
+                    },
+                }
                 : {
-                      price: {
-                          gte: reqLowPrice,
-                      },
-                  }),
+                    price: {
+                        gte: reqLowPrice,
+                    },
+                }),
             ...(reqCategory
                 ? {
-                      categories: {
-                          some: {
-                              name: {
-                                  contains: reqCategory,
-                                  mode: "insensitive",
-                              },
-                          },
-                      },
-                  }
+                    categories: {
+                        some: {
+                            name: {
+                                contains: reqCategory,
+                                mode: "insensitive",
+                            },
+                        },
+                    },
+                }
                 : {}),
         },
         // select: {
@@ -368,16 +368,16 @@ export async function getCategoryProducts(
         where: {
             categories: category
                 ? {
-                      some: {
-                          name: {
-                              contains: category,
-                              mode: "insensitive",
-                          },
-                      },
-                  }
+                    some: {
+                        name: {
+                            contains: category,
+                            mode: "insensitive",
+                        },
+                    },
+                }
                 : {
-                      none: {},
-                  },
+                    none: {},
+                },
         },
         select: {
             id: true,
@@ -456,27 +456,27 @@ export const getSerializableProduct = async ({
 }: {
     id: string;
 }): Promise<
-    | (SerializableNext<Product> & {
-          categories: { name: Category["name"] }[];
-      })
+    | (SerializedNext<Product> & {
+        categories: { name: Category["name"] }[];
+    })
     | null
 > => {
     const prismaRes:
         | (Product & {
-              categories: { name: Category["name"] }[];
-          })
+            categories: { name: Category["name"] }[];
+        })
         | null = await getProduct({
-        id,
-    });
+            id,
+        });
     if (prismaRes) {
         const product:
-            | (SerializableNext<Product> & {
-                  categories: { name: Category["name"] }[];
-              })
+            | (SerializedNext<Product> & {
+                categories: { name: Category["name"] }[];
+            })
             | null = serializeProduct(prismaRes) as
-            | (SerializableNext<Product> & {
-                  categories: { name: Category["name"] }[];
-              })
+            | (SerializedNext<Product> & {
+                categories: { name: Category["name"] }[];
+            })
             | null;
         return product;
     }

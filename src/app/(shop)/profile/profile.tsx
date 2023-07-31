@@ -13,7 +13,7 @@ import Link from "next/link";
 import { Typography } from "@mui/material";
 import {
     CompactOrderItem,
-    SerializableNext,
+    SerializedNext,
     CompactProduct,
 } from "@/lib/prisma/types";
 import { Order, OrderItem } from "@prisma/client";
@@ -22,7 +22,7 @@ import OrdersTable from "@/components/tables/orders";
 export default function Profile({
     orders,
 }: {
-    orders?: SerializableNext<Order>[];
+    orders?: SerializedNext<Order>[];
 }) {
     // const [render, setRender] = useState(false);
     // const [editable, setEditable] = useState(true);

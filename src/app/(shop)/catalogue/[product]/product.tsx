@@ -19,7 +19,7 @@ import {
     Typography,
 } from "@mui/material";
 
-import { SerializableNext } from "@/lib/prisma/types";
+import { SerializedNext } from "@/lib/prisma/types";
 import { Category, Product, Review } from "@prisma/client";
 import { OPACITY_VARIANTS } from "@/lib/constants";
 import ImageMagnifier from "@/components/shared/magnifier";
@@ -36,11 +36,11 @@ export default function ProductPage({
     product,
     reviews,
 }: {
-    product: SerializableNext<Product> & {
+    product: SerializedNext<Product> & {
         categories: { name: Category["name"] }[];
     };
     reviews:
-        | SerializableNext<
+        | SerializedNext<
               Review & {
                   user: {
                       name: string | null;

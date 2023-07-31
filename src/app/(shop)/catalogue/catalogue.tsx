@@ -25,7 +25,7 @@ import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
 
 import { Product } from "@prisma/client";
 import ProductCard from "@/components/catalogue/productCard";
-import { SerializableNext } from "@/lib/prisma/types";
+import { SerializedNext } from "@/lib/prisma/types";
 
 import {
     DRAWER_BLEEDING,
@@ -41,7 +41,7 @@ export default function Catalogue({
     hasMore,
     count,
 }: {
-    products: SerializableNext<Product>[];
+    products: SerializedNext<Product>[];
     data?: JSON;
     hasMore: boolean;
     count: number;

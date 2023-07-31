@@ -29,15 +29,16 @@ const formSchema = z.object({
 });
 
 export async function POST(request: NextRequest) {
-    const req = await request.json();
-
-    const session = await getServerSession(authOptions);
-    if (!session)
-        return NextResponse.json(
-            { message: "session was not provided" },
-            { status: 401 },
-        );
     try {
+        const req = await request.json();
+
+        const session = await getServerSession(authOptions);
+        if (!session)
+            return NextResponse.json(
+                { message: "session was not provided" },
+                { status: 401 },
+            );
+
         formSchema.parse(req);
 
         reviewLogger.info("CREATE REVIEW", req);

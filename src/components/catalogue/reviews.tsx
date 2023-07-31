@@ -1,4 +1,4 @@
-import { SerializableNext } from "@/lib/prisma/types";
+import { SerializedNext } from "@/lib/prisma/types";
 import {
     Box,
     Divider,
@@ -13,7 +13,7 @@ import Image from "next/image";
 export default function Reviews({
     reviews,
 }: {
-    reviews: SerializableNext<
+    reviews: SerializedNext<
         Review & {
             user: {
                 name: string | null;
@@ -49,6 +49,7 @@ export default function Reviews({
                                         value={
                                             review.rating
                                         }
+                                        precision={0.5}
                                     />
                                 </Box>
                                 <Box className="overflow-hidden">

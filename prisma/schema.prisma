@@ -134,7 +134,7 @@ model Product {
 
 model Review {
   id        String   @id @default(cuid())
-  rating    Int
+  rating    Decimal
   content   String?
   product   Product  @relation(fields: [productId], references: [id], onDelete: Cascade, onUpdate: Cascade)
   productId String

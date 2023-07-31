@@ -1,7 +1,7 @@
 import { OrderItem, Product, Order } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime";
 
-export type SerializableNext<T> = {
+export type SerializedNext<T> = {
     [Property in keyof T]: ToNumber<T[Property]>;
 };
 
@@ -10,7 +10,7 @@ export type ToNumber<T> = T extends Decimal | Date
     : T;
 
 export type CartItem = Pick<
-    SerializableNext<CompactProduct>,
+    SerializedNext<CompactProduct>,
     | "id"
     | "price"
     | "image"
@@ -38,7 +38,7 @@ export type CompactOrderItem = Pick<
     "id" | "orderId" | "qty" | "price"
 >;
 
-export type SerializableCompactOrderItem = Pick<
-    SerializableNext<OrderItem>,
-    "id" | "orderId" | "qty" | "price"
->;
+// export type SerializableCompactOrderItem = Pick<
+//     SerializedNext<OrderItem>,
+//     "id" | "orderId" | "qty" | "price"
+// >;

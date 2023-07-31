@@ -38,7 +38,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import Slide from "@mui/material/Slide";
 import { ControlledTextField } from "../form/fields/controlledTextField";
 import { Product } from "@prisma/client";
-import { SerializableNext } from "@/lib/prisma/types";
+import { SerializedNext } from "@/lib/prisma/types";
 import { ControlledRating } from "../form/fields/controlledRating";
 
 const endpoint = "/api/review";
@@ -60,7 +60,7 @@ interface ReviewFields {
 interface ReviewModalProps
     extends ComponentPropsWithoutRef<"div"> {
     triggerText?: string;
-    product: SerializableNext<Product>;
+    product: SerializedNext<Product>;
     classNames?: {
         root?: string;
         trigger?: string;
@@ -310,17 +310,21 @@ export default function ReviewModal({
                             )}
                         /> */}
                     </Box>
-                    <div className="flex flex-row justify-end">
-                        <Button onClick={handleClose}>
+                    <Box className="flex flex-row justify-end gap-4">
+                        <Button
+                            onClick={handleClose}
+                            variant="contained"
+                        >
                             Cancel
                         </Button>
                         <Button
                             onClick={handleSubmit(onSubmit)}
                             type="submit"
+                            variant="contained"
                         >
                             Submit
                         </Button>
-                    </div>
+                    </Box>
                 </FormGroup>
             </Dialog>
         </>

@@ -2,7 +2,7 @@ import { Product } from "./product";
 import {
     CompactOrderItem,
     CompactProduct,
-    SerializableNext,
+    SerializedNext,
 } from "./types";
 import {
     Order,
@@ -17,7 +17,7 @@ const serializationLogger = logger.child({
 
 export const serializeProduct = (
     product: Product,
-): SerializableNext<Product> | null => {
+): SerializedNext<Product> | null => {
     try {
         const serializableProduct = {
             ...product,
@@ -41,7 +41,7 @@ export const serializeProduct = (
 
 export const serializeCompactProduct = (
     product: CompactProduct,
-): SerializableNext<CompactProduct> | null => {
+): SerializedNext<CompactProduct> | null => {
     try {
         const serializableProduct = {
             ...product,
@@ -59,7 +59,7 @@ export const serializeCompactProduct = (
 
 export const serializeOrder = (
     order: Order,
-): SerializableNext<Order> | null => {
+): SerializedNext<Order> | null => {
     try {
         const serializableOrder = {
             ...order,
@@ -79,12 +79,18 @@ export const serializeOrder = (
     return null;
 };
 
-export const serializeReview = <T extends Review>(
+export const serializeReview = <T extends Review | (Review & {
+    user: {
+        name: string | null;
+        image: string | null;
+    };
+})>(
     review: T,
 ) => {
     try {
         const serializableReview = {
             ...review,
+            rating: Number(review.rating),
             createdAt: Number(review.createdAt),
             updatedAt: Number(review.updatedAt),
         };
@@ -96,6 +102,7 @@ export const serializeReview = <T extends Review>(
     return null;
 };
 
+
 export const serializeOrderWithItems = (
     order: Order & {
         orderItems: (CompactOrderItem & {
@@ -103,11 +110,11 @@ export const serializeOrderWithItems = (
         })[];
     },
 ):
-    | (SerializableNext<Order> & {
-          orderItems: (SerializableNext<CompactOrderItem> & {
-              product: SerializableNext<CompactProduct>;
-          })[];
-      })
+    | (SerializedNext<Order> & {
+        orderItems: (SerializedNext<CompactOrderItem> & {
+            product: SerializedNext<CompactProduct>;
+        })[];
+    })
     | null => {
     try {
         const serializableOrder = {
@@ -124,8 +131,8 @@ export const serializeOrderWithItems = (
                     ({
                         product,
                         ...item
-                    }): SerializableNext<CompactOrderItem> & {
-                        product: SerializableNext<CompactProduct>;
+                    }): SerializedNext<CompactOrderItem> & {
+                        product: SerializedNext<CompactProduct>;
                     } => ({
                         ...item,
                         price: Number(item.price),
@@ -148,7 +155,7 @@ export const serializeOrderWithItems = (
 
 export const serializeShippingAddress = (
     shippingAddress: ShippingAddress,
-): SerializableNext<ShippingAddress> | null => {
+): SerializedNext<ShippingAddress> | null => {
     try {
         const serializableShippingAddress = {
             ...shippingAddress,

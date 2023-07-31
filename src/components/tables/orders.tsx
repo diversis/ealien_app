@@ -13,7 +13,7 @@ import EditIcon from "@mui/icons-material/Edit";
 
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { SerializableNext } from "@/lib/prisma/types";
+import { SerializedNext } from "@/lib/prisma/types";
 import { Order } from "@prisma/client";
 
 export default function OrdersTable({
@@ -23,7 +23,7 @@ export default function OrdersTable({
 }: {
     total?: number;
     editable?: boolean;
-    orders: SerializableNext<Order>[];
+    orders: SerializedNext<Order>[];
 }) {
     const [render, setRender] = useState(false);
     useEffect(() => {

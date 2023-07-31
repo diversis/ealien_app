@@ -13,7 +13,7 @@ import Link from "next/link";
 import { Typography } from "@mui/material";
 import {
     CompactOrderItem,
-    SerializableNext,
+    SerializedNext,
     CompactProduct,
 } from "@/lib/prisma/types";
 import { Order, OrderItem } from "@prisma/client";
@@ -21,9 +21,9 @@ import { Order, OrderItem } from "@prisma/client";
 export default function OrderPage({
     order,
 }: {
-    order: SerializableNext<Order> & {
-        orderItems: (SerializableNext<CompactOrderItem> & {
-            product: SerializableNext<CompactProduct>;
+    order: SerializedNext<Order> & {
+        orderItems: (SerializedNext<CompactOrderItem> & {
+            product: SerializedNext<CompactProduct>;
         })[];
     };
 }) {

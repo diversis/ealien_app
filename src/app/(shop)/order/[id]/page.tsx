@@ -15,7 +15,7 @@ import {
     serializeOrderWithItems,
     serializeProduct,
 } from "@/lib/prisma/serialization";
-import { SerializableNext } from "@/lib/prisma/types";
+import { SerializedNext } from "@/lib/prisma/types";
 import {
     getOrderById,
     getOrderWithItemsById,

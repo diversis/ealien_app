@@ -18,7 +18,7 @@ import { m, useInView } from "framer-motion";
 
 import {
     CompactProduct,
-    SerializableNext,
+    SerializedNext,
 } from "@/lib/prisma/types";
 import { OPACITY_VARIANTS } from "@/lib/constants";
 import { useCart } from "@/lib/hooks/use-cart";
@@ -28,7 +28,7 @@ export default function ProductCard({
     product,
     orderedId,
 }: {
-    product: SerializableNext<CompactProduct>;
+    product: SerializedNext<CompactProduct>;
     orderedId?: number;
 }) {
     const ref = useRef(null);

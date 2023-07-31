@@ -17,12 +17,12 @@ import {
     serializeProduct,
     serializeReview,
 } from "@/lib/prisma/serialization";
-import { SerializableNext } from "@/lib/prisma/types";
+import { SerializedNext } from "@/lib/prisma/types";
 import { redirect } from "next/navigation";
 import { Review } from "@prisma/client";
 import {
     getProductReviews,
-    getSerializableReviews,
+    // getSerializableReviews,
 } from "@/lib/prisma/review";
 
 export type ProductPageProps = {
@@ -74,14 +74,28 @@ export default async function Page({
     if (!product) {
         redirect("/catalogue");
     }
-    const reviews = await getSerializableReviews({
-        id: params.product,
+    const productReviews = await getProductReviews({
+        productId: params.product,
     });
+    const serializedReviews = productReviews.reviews.map(
+        (review) =>
+            serializeReview(review) as SerializedNext<
+                Review & {
+                    user: {
+                        name: string | null;
+                        image: string | null;
+                    };
+                }
+            >,
+    );
     // catalogueLogger.info({ products });
     // catalogueLogger.info({ productListItems });
 
     // Forward fetched data to your Client Component
     return (
-        <ProductPage product={product} reviews={reviews} />
+        <ProductPage
+            product={product}
+            reviews={serializedReviews}
+        />
     );
 }
