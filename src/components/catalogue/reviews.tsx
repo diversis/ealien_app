@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import {
     Box,
     Divider,
@@ -16,12 +16,16 @@ import {
     ZodError,
     ZodObject,
 } from "zod";
+import { useInfiniteQuery } from "@tanstack/react-query";
 
-import { Review } from "@prisma/client";
-import { SerializedPrisma } from "@/lib/prisma/types";
-import { useState } from "react";
+import {
+    ReviewWithAuthor,
+    SerializedPrisma,
+} from "@/lib/prisma/types";
+import { isSerializedReview } from "@/lib/prisma/typeguards";
+import Review from "./review";
 
-const reviewsPerPage = 10;
+const reviewsPerPage = 5;
 
 const endpoint = "/api/reviews";
 
@@ -36,11 +40,38 @@ async function getReviews({
 }: {
     // data: { productId: string; page: string };
     url: string;
-}): Promise<AxiosResponse<any, any>> {
-    return await axios({
-        method: "get",
-        url: url,
-    });
+}): Promise<{
+    reviews: SerializedPrisma<ReviewWithAuthor>[];
+    nextId: string | null;
+} | null> {
+    try {
+        // console.log("url: ", url);
+        const res = await axios({
+            method: "get",
+            url: url,
+        });
+        // console.log("res: ", res.data);
+        if (
+            res &&
+            "reviews" in res.data &&
+            Array.isArray(res.data.reviews)
+        ) {
+            const resReviews = res.data.reviews.filter(
+                (review: unknown) =>
+                    isSerializedReview(review),
+            );
+            return res.data as {
+                reviews: SerializedPrisma<ReviewWithAuthor>[];
+                nextId: string | null;
+            };
+        }
+    } catch (error) {
+        // if (error instanceof AxiosError) {
+
+        // }
+        console.error(error);
+    }
+    return null;
 }
 
 export default function Reviews({
@@ -48,116 +79,97 @@ export default function Reviews({
     productId,
     reviewsCount,
 }: {
-    reviews: SerializedPrisma<
-        Review & {
-            user: {
-                name: string | null;
-                image: string | null;
-            };
-        }
-    >[];
+    reviews?: SerializedPrisma<ReviewWithAuthor>[];
     productId: string;
-    reviewsCount: number;
+    reviewsCount?: number;
 }) {
-    const [page, setPage] = useState<number>(1);
-    const [loadedReviews, setLoadedReviews] = useState<
-        SerializedPrisma<
-            Review & {
-                user: {
-                    name: string | null;
-                    image: string | null;
-                };
-            }
-        >[]
-    >(reviews);
-    const [count, setCount] =
-        useState<number>(reviewsCount);
+    // const [page, setPage] = useState<number>(1);
+    // const [loadedReviews, setLoadedReviews] = useState<
+    //     SerializedPrisma<
+    //         Review & {
+    //             user: {
+    //                 name: string | null;
+    //                 image: string | null;
+    //             };
+    //         }
+    //     >[]
+    // >(reviews);
+    const {
+        status,
+        data: fetchedReviews,
+        error,
+        isFetching,
+        isFetchingNextPage,
+        isFetchingPreviousPage,
+        fetchNextPage,
+        fetchPreviousPage,
+        hasNextPage,
+        hasPreviousPage,
+    } = useInfiniteQuery({
+        queryKey: [`stream-hydrate-reviews-${productId}`],
+        queryFn: async ({
+            pageParam = reviews
+                ? reviews[reviews.length - 1]?.id
+                : "",
+        }) =>
+            getReviews({
+                url:
+                    endpoint +
+                    `?productId=${productId}` +
+                    (pageParam
+                        ? `&cursor=${pageParam}`
+                        : ""),
+            }),
+        suspense: true,
+        staleTime: 5 * 1000,
+        // getPreviousPageParam: (firstPage) =>
+        //     "previousId" in firstPage
+        //         ? firstPage.previousId
+        //         : undefined,
+        getNextPageParam: (lastPage) =>
+            lastPage && "nextId" in lastPage
+                ? lastPage.nextId
+                : undefined,
+    });
+
     const endOfList = useRef<HTMLDivElement | null>(null);
     const entry = useIntersectionObserver(endOfList, {});
     const reachedEnd = !!entry?.isIntersecting;
 
     useEffect(() => {
-        if (reachedEnd && count > page * reviewsPerPage) {
+        if (reachedEnd && hasNextPage) {
+            fetchNextPage();
         }
-    }, [reachedEnd, count, page]);
+    }, [reachedEnd, hasNextPage]);
 
     return (
         <div className="flex w-full flex-col items-center gap-y-4">
             <AnimatePresence>
-                {reviews.map((review) => {
-                    const date = new Date(review.createdAt);
-                    const options: Intl.DateTimeFormatOptions =
-                        {
-                            weekday: "short",
-                            year: "numeric",
-                            month: "numeric",
-                            day: "numeric",
-                            hour: "numeric",
-                            minute: "numeric",
-                        };
-                    return (
-                        <Paper
-                            key={`review-${review.id}`}
-                            className="grid w-full grid-cols-[auto_2px_1fr] items-center gap-4 p-2"
-                            component={m.div}
-                        >
-                            <Box className="flex flex-col gap-2">
-                                <Box>
-                                    <Rating
-                                        readOnly
-                                        value={
-                                            review.rating
-                                        }
-                                        precision={0.5}
-                                    />
-                                </Box>
-                                <Box className="overflow-hidden">
-                                    <Image
-                                        alt={`avatar-${review.user.name}`}
-                                        width={100}
-                                        height={100}
-                                        src={`${
-                                            review.user
-                                                .image ||
-                                            "/logo2.png"
-                                        }`}
-                                        className="h-auto  w-24 rounded object-cover"
-                                    />
-                                </Box>
-                                <div>
-                                    <Typography variant="body2">
-                                        {review.user.name}
-                                    </Typography>
-                                </div>
-                            </Box>
-                            <Divider
-                                variant="middle"
-                                orientation="vertical"
-                            />
-                            <Box className="grid h-full grid-cols-1 grid-rows-[auto_2px_1fr] gap-2 self-start">
-                                <Box className="flex flex-row items-center gap-y-2">
-                                    <div className="px-1">
-                                        🕛
-                                    </div>
-                                    <div className="">
-                                        <Typography variant="body2">
-                                            {date.toLocaleDateString(
-                                                "en-US",
-                                                options,
-                                            )}
-                                        </Typography>
-                                    </div>
-                                </Box>
-                                <Divider />
-                                <Box className="">
-                                    <Typography variant="body2">
-                                        {review.content}
-                                    </Typography>
-                                </Box>
-                            </Box>
-                        </Paper>
-                    );
-                })}
+                {!!reviews && reviews.length > 0
+                    ? reviews.map((review) => (
+                          <Review
+                              key={`review-${review.id}`}
+                              review={review}
+                          />
+                      ))
+                    : null}
+
+                {!!fetchedReviews
+                    ? fetchedReviews.pages.flatMap(
+                          (page) => {
+                              if (!page) return null;
+                              const { reviews } = page;
+                              return reviews.map(
+                                  (review) => (
+                                      <Review
+                                          key={`fetched-review-${review.id}`}
+                                          review={review}
+                                      />
+                                  ),
+                              );
+                          },
+                      )
+                    : null}
             </AnimatePresence>
             <div
                 ref={endOfList}

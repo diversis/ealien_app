@@ -79,12 +79,7 @@ export const serializeOrder = (
     return null;
 };
 
-export const serializeReview = <T extends Review | (Review & {
-    user: {
-        name: string | null;
-        image: string | null;
-    };
-})>(
+export const serializeReview = <T extends Review>(
     review: T,
 ) => {
     try {

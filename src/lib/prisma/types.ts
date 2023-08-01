@@ -1,4 +1,4 @@
-import { OrderItem, Product, Order } from "@prisma/client";
+import { OrderItem, Product, Order, Prisma } from "@prisma/client";
 import { Decimal } from "@prisma/client/runtime";
 
 export type SerializedPrisma<T> = {
@@ -35,3 +35,5 @@ export type CompactOrderItem = Pick<
 //     SerializedNext<OrderItem>,
 //     "id" | "orderId" | "qty" | "price"
 // >;
+
+export type ReviewWithAuthor = Prisma.ReviewGetPayload<{ include: { user: { select: { name: true, image: true } } } }>

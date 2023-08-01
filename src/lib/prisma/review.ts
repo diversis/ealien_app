@@ -1,11 +1,11 @@
-import type { Review } from "@prisma/client";
+import type { Prisma, Review } from "@prisma/client";
 import prisma from "./prisma";
-import { SerializedPrisma } from "./types";
+import { ReviewWithAuthor, SerializedPrisma } from "./types";
 import { serializeReview } from "./serialization";
 export type { Review } from "@prisma/client";
 const logger = require("@/lib/utils/logger");
-const productLogger = logger.child({
-    origin: "prisma product",
+const reviewLogger = logger.child({
+    origin: "prisma review",
 });
 
 export async function createProductReview({
@@ -51,34 +51,46 @@ export async function createProductReview({
                 rating,
             },
         });
+        const updatedRating = await prisma.review.aggregate({
+            where: {
+                productId
+            },
+            _avg: {
+                rating: true
+            }
+        })
+
+        await prisma.product.update({
+            where: {
+                id: productId,
+            },
+            data: {
+                rating: Number(updatedRating),
+            }
+        })
         return { reviewId: review.id };
     }
 }
 
 export async function getProductReviews({
     productId,
-    reqPage = 1,
-    reviewsPerPage = 10
+    cursor,
+    reviewsPerPage = 5
 }: {
     productId: string;
-    reqPage?: number;
+    cursor?: { id: string };
     reviewsPerPage?: number
 }): Promise<
     {
-        reviews: (Review & {
-            user: {
-                name: string | null;
-                image: string | null;
-            };
-        })[], count: number
+        reviews: ReviewWithAuthor[]
     }
 > {
-    const page = reqPage ? (reqPage < 1 ? 1 : reqPage) : 1;
-    const count = await prisma.review.count({
-        where: {
-            productId,
-        }
-    })
+    // const count = await prisma.review.count({
+    //     where: {
+    //         productId,
+    //     }
+    // })
+    reviewLogger.info('cursor: ' + cursor?.id)
     const data: (Review & {
         user: {
             name: string | null;
@@ -91,12 +103,13 @@ export async function getProductReviews({
         include: {
             user: { select: { name: true, image: true } },
         },
-        skip: 10 * (page - 1),
-        take: 10,
+        skip: !!cursor ? 1 : 0,
+        ...!!cursor && { cursor },
+        take: reviewsPerPage,
         orderBy: { updatedAt: "desc" },
     });
     // const hasMore: Boolean = !data.pop() ? false : true;
-    return { reviews: data, count };
+    return { reviews: data };
 }
 
 // export const getSerializableReviews = async ({

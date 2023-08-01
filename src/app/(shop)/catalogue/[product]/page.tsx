@@ -17,7 +17,10 @@ import {
     serializeProduct,
     serializeReview,
 } from "@/lib/prisma/serialization";
-import { SerializedPrisma } from "@/lib/prisma/types";
+import {
+    ReviewWithAuthor,
+    SerializedPrisma,
+} from "@/lib/prisma/types";
 import { redirect } from "next/navigation";
 import { Review } from "@prisma/client";
 import {
@@ -79,16 +82,11 @@ export default async function Page({
     });
     const serializedReviews = productReviews.reviews.map(
         (review) =>
-            serializeReview(review) as SerializedPrisma<
-                Review & {
-                    user: {
-                        name: string | null;
-                        image: string | null;
-                    };
-                }
-            >,
+            serializeReview(
+                review,
+            ) as SerializedPrisma<ReviewWithAuthor>,
     );
-    // catalogueLogger.info({ products });
+    // productLogger.info({ serializedReviews });
     // catalogueLogger.info({ productListItems });
 
     // Forward fetched data to your Client Component
@@ -96,7 +94,6 @@ export default async function Page({
         <ProductPage
             product={product}
             reviews={serializedReviews}
-            reviewsCount={productReviews.count}
         />
     );
 }

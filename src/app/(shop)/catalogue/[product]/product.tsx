@@ -1,5 +1,5 @@
 "use client";
-import { useRef, useState } from "react";
+import { Suspense, useRef, useState } from "react";
 import {
     AnimatePresence,
     m,
@@ -14,9 +14,12 @@ import {
 } from "react-hook-form";
 import { useSession } from "next-auth/react";
 import {
+    Box,
     Breadcrumbs,
     Button,
+    Skeleton,
     Typography,
+    Paper,
 } from "@mui/material";
 
 import { SerializedPrisma } from "@/lib/prisma/types";
@@ -31,11 +34,11 @@ import Link from "next/link";
 import { useSnackbar } from "notistack";
 import { useCart } from "@/lib/hooks/use-cart";
 import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
+import ReviewPlaceholder from "@/components/placeholder/review";
 
 export default function ProductPage({
     product,
     reviews,
-    reviewsCount,
 }: {
     product: SerializedPrisma<Product> & {
         categories: { name: Category["name"] }[];
@@ -50,7 +53,6 @@ export default function ProductPage({
               }
           >[]
         | null;
-    reviewsCount: number;
 }) {
     const { data: session, status } = useSession();
     const { email, image } = session?.user || {};
@@ -178,14 +180,30 @@ export default function ProductPage({
                         )}
                     </div>
                     {reviews && reviews.length > 0 ? (
-                        <Reviews
-                            reviews={reviews}
-                            productId={product.id}
-                            reviewsCount={reviewsCount}
-                        />
+                        <Suspense
+                            fallback={
+                                <div className="flex w-full flex-col items-center gap-y-4">
+                                    {new Array(10).map(
+                                        (_, id) => (
+                                            <ReviewPlaceholder
+                                                key={`review-placeholder-${id}`}
+                                            />
+                                        ),
+                                    )}
+                                </div>
+                            }
+                        >
+                            <Reviews
+                                reviews={reviews}
+                                productId={product.id}
+                            />
+                        </Suspense>
                     ) : (
                         <div>
-                            <Typography variant="body1">
+                            <Typography
+                                variant="body1"
+                                className="text-center"
+                            >
                                 No reviews yet
                             </Typography>
                         </div>
