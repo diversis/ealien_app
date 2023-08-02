@@ -23,7 +23,9 @@ import {
     SerializedPrisma,
 } from "@/lib/prisma/types";
 import { isSerializedReview } from "@/lib/prisma/typeguards";
-import Review from "./review";
+import ReviewCard from "./review";
+import ReviewPlaceholder from "@/components/placeholder/review";
+import { REVIEWS_PER_PAGE } from "@/lib/constants";
 
 const reviewsPerPage = 5;
 
@@ -143,16 +145,16 @@ export default function Reviews({
     }, [reachedEnd, hasNextPage]);
 
     return (
-        <div className="flex w-full flex-col items-center gap-y-4">
+        <>
             <AnimatePresence>
-                {!!reviews && reviews.length > 0
+                {/* {!!reviews && reviews.length > 0
                     ? reviews.map((review) => (
                           <Review
                               key={`review-${review.id}`}
                               review={review}
                           />
                       ))
-                    : null}
+                    : null} */}
 
                 {!!fetchedReviews
                     ? fetchedReviews.pages.flatMap(
@@ -161,7 +163,7 @@ export default function Reviews({
                               const { reviews } = page;
                               return reviews.map(
                                   (review) => (
-                                      <Review
+                                      <ReviewCard
                                           key={`fetched-review-${review.id}`}
                                           review={review}
                                       />
@@ -170,11 +172,20 @@ export default function Reviews({
                           },
                       )
                     : null}
+                {isFetching || isFetchingNextPage
+                    ? new Array(REVIEWS_PER_PAGE).map(
+                          (_, id) => (
+                              <ReviewPlaceholder
+                                  key={`review-placeholder-${id}`}
+                              />
+                          ),
+                      )
+                    : null}
             </AnimatePresence>
             <div
                 ref={endOfList}
                 className="h-0 w-full"
             ></div>
-        </div>
+        </>
     );
 }

@@ -1,3 +1,4 @@
+import { REVIEWS_PER_PAGE } from './../constants';
 import type { Prisma, Review } from "@prisma/client";
 import prisma from "./prisma";
 import { ReviewWithAuthor, SerializedPrisma } from "./types";
@@ -75,7 +76,7 @@ export async function createProductReview({
 export async function getProductReviews({
     productId,
     cursor,
-    reviewsPerPage = 5
+    reviewsPerPage = REVIEWS_PER_PAGE
 }: {
     productId: string;
     cursor?: { id: string };

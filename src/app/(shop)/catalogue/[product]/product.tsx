@@ -24,7 +24,10 @@ import {
 
 import { SerializedPrisma } from "@/lib/prisma/types";
 import { Category, Product, Review } from "@prisma/client";
-import { OPACITY_VARIANTS } from "@/lib/constants";
+import {
+    OPACITY_VARIANTS,
+    REVIEWS_PER_PAGE,
+} from "@/lib/constants";
 import ImageMagnifier from "@/components/shared/magnifier";
 
 import Reviews from "@/components/catalogue/reviews";
@@ -35,6 +38,7 @@ import { useSnackbar } from "notistack";
 import { useCart } from "@/lib/hooks/use-cart";
 import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
 import ReviewPlaceholder from "@/components/placeholder/review";
+import ReviewCard from "@/components/catalogue/review";
 
 export default function ProductPage({
     product,
@@ -43,7 +47,7 @@ export default function ProductPage({
     product: SerializedPrisma<Product> & {
         categories: { name: Category["name"] }[];
     };
-    reviews:
+    reviews?:
         | SerializedPrisma<
               Review & {
                   user: {
@@ -179,35 +183,47 @@ export default function ProductPage({
                             </Button>
                         )}
                     </div>
-                    {reviews && reviews.length > 0 ? (
-                        <Suspense
-                            fallback={
-                                <div className="flex w-full flex-col items-center gap-y-4">
-                                    {new Array(10).map(
-                                        (_, id) => (
-                                            <ReviewPlaceholder
-                                                key={`review-placeholder-${id}`}
-                                            />
-                                        ),
-                                    )}
-                                </div>
-                            }
-                        >
-                            <Reviews
-                                reviews={reviews}
-                                productId={product.id}
-                            />
-                        </Suspense>
-                    ) : (
-                        <div>
-                            <Typography
-                                variant="body1"
-                                className="text-center"
+                    <Box className="flex w-full flex-col items-center gap-y-4">
+                        {!!reviews && reviews.length > 0 ? (
+                            reviews.map((review) => (
+                                <ReviewCard
+                                    key={`review-${review.id}`}
+                                    review={review}
+                                />
+                            ))
+                        ) : (
+                            <div>
+                                <Typography
+                                    variant="body1"
+                                    className="text-center"
+                                >
+                                    No reviews yet
+                                </Typography>
+                            </div>
+                        )}
+                        {!!reviews &&
+                        reviews.length >=
+                            REVIEWS_PER_PAGE ? (
+                            <Suspense
+                                fallback={
+                                    <>
+                                        {new Array(5).map(
+                                            (_, id) => (
+                                                <ReviewPlaceholder
+                                                    key={`review-placeholder-${id}`}
+                                                />
+                                            ),
+                                        )}
+                                    </>
+                                }
                             >
-                                No reviews yet
-                            </Typography>
-                        </div>
-                    )}
+                                <Reviews
+                                    reviews={reviews}
+                                    productId={product.id}
+                                />
+                            </Suspense>
+                        ) : null}
+                    </Box>
                 </div>
             </div>
         </m.section>

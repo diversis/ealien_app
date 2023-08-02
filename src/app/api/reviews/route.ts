@@ -1,3 +1,4 @@
+
 import { ReviewWithAuthor, SerializedPrisma } from '@/lib/prisma/types';
 import { serializeReview } from '@/lib/prisma/serialization';
 import { NextRequest, NextResponse } from "next/server";
@@ -11,6 +12,7 @@ import {
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Review, createProductReview, getProductReviews } from "@/lib/prisma/review";
+import { REVIEWS_PER_PAGE } from '@/lib/constants';
 
 const logger = require("@/lib/utils/logger");
 const reviewsLogger = logger.child({
@@ -22,8 +24,6 @@ const getReviewsSchema = z.object({
         .string(),
     page: z.number(),
 });
-
-const reviewsPerPage = 5
 
 export async function GET(request: NextRequest) {
     try {
@@ -39,7 +39,7 @@ export async function GET(request: NextRequest) {
         reviewsLogger.info(cursor);
         if (productId) {
 
-            const productReviews = await getProductReviews({ productId, ...!!cursor && { cursor: { id: cursor } }, reviewsPerPage })
+            const productReviews = await getProductReviews({ productId, ...!!cursor && { cursor: { id: cursor } }, reviewsPerPage:REVIEWS_PER_PAGE })
             if (!productReviews) {
                 return NextResponse.json(
                     {},
@@ -53,7 +53,7 @@ export async function GET(request: NextRequest) {
                     { status: 400 },
                 );
             }
-            const nextId = serializedReviews.length >= reviewsPerPage ? serializedReviews[reviewsPerPage - 1].id : undefined
+            const nextId = serializedReviews.length >= REVIEWS_PER_PAGE ? serializedReviews[REVIEWS_PER_PAGE - 1].id : undefined
             reviewsLogger.info({ serializedReviews });
             return NextResponse.json(
                 { reviews: serializedReviews, nextId },

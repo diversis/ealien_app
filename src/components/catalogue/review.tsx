@@ -6,11 +6,12 @@ import {
     Rating,
     Typography,
 } from "@mui/material";
+import AccessTimeIcon from "@mui/icons-material/AccessTime";
 
 import { Review } from "@prisma/client";
 import { SerializedPrisma } from "@/lib/prisma/types";
 
-export default function Review({
+export default function ReviewCard({
     review,
 }: {
     review: SerializedPrisma<
@@ -33,10 +34,7 @@ export default function Review({
     };
 
     return (
-        <Paper
-            
-            className="grid w-full grid-cols-[auto_2px_1fr] items-center gap-4 p-2"
-        >
+        <Paper className="grid w-full grid-cols-[auto_2px_1fr] items-center gap-4 p-2">
             <Box className="flex flex-col gap-2">
                 <Box>
                     <Rating
@@ -69,7 +67,12 @@ export default function Review({
             />
             <Box className="grid h-full grid-cols-1 grid-rows-[auto_2px_1fr] gap-2 self-start">
                 <Box className="flex flex-row items-center gap-y-2">
-                    <div className="px-1">🕛</div>
+                    <div className="px-1">
+                        <AccessTimeIcon
+                            width={16}
+                            height={16}
+                        />
+                    </div>
                     <div className="">
                         <Typography variant="body2">
                             {date.toLocaleDateString(
