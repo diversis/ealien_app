@@ -13,63 +13,63 @@ import { Input, Typography } from "@mui/material";
 import RangeSlider from "@/components/mui/rangeSlider";
 
 function valuetext(value: number) {
-    return `$${value}`;
+    return `${value}`;
 }
 
-export default function FilterPrice({
+export default function FilterRating({
     setFilters,
-    minPrice,
-    maxPrice,
+    minRating,
+    maxRating,
 }: {
     setFilters: Dispatch<
         SetStateAction<{
             [key: string]: string | null;
         }>
     >;
-    minPrice: string | null;
-    maxPrice: string | null;
+    minRating: string | null;
+    maxRating: string | null;
 }) {
-    const handleChangeMinPrice = (
+    const handleChangeMinRating = (
         event: ChangeEvent<
             HTMLTextAreaElement | HTMLInputElement
         >,
     ) => {
         setFilters((state) => ({
             ...state,
-            minPrice:
+            minRating:
                 event.target.value === "" ||
                 Number(event.target.value) <= 0 ||
-                Number(event.target.value) >= 1000
+                Number(event.target.value) >= 5
                     ? null
                     : event.target.value,
         }));
     };
 
-    const handleChangeMaxPrice = (
+    const handleChangeMaxRating = (
         event: ChangeEvent<
             HTMLTextAreaElement | HTMLInputElement
         >,
     ) => {
         setFilters((state) => ({
             ...state,
-            maxPrice:
+            maxRating:
                 event.target.value === "" ||
                 Number(event.target.value) <= 0 ||
-                Number(event.target.value) >= 1000
+                Number(event.target.value) >= 5
                     ? null
                     : event.target.value,
         }));
     };
 
-    const handleChangePriceRange = useCallback(
+    const handleChangeRatingRange = useCallback(
         (event: Event, newValue: number | number[]) => {
             if (Array.isArray(newValue)) {
                 const min = newValue[0];
                 const max = newValue[1];
                 setFilters((state) => ({
                     ...state,
-                    minPrice: min <= 0 ? null : "" + min,
-                    maxPrice: max >= 1000 ? null : "" + max,
+                    minRating: min <= 0 ? null : "" + min,
+                    maxRating: max >= 5 ? null : "" + max,
                 }));
             }
         },
@@ -80,13 +80,14 @@ export default function FilterPrice({
         <RangeSlider
             key="price-filter-range-slider"
             label="Price"
-            minValue={minPrice}
-            maxValue={maxPrice}
+            step={0.1}
+            minValue={minRating}
+            maxValue={maxRating}
             setFilters={setFilters}
-            rangeLimit={[0, 1000]}
-            handleChangeMaxInput={handleChangeMaxPrice}
-            handleChangeMinInput={handleChangeMinPrice}
-            handleChangeRange={handleChangePriceRange}
+            rangeLimit={[0, 5]}
+            handleChangeMaxInput={handleChangeMaxRating}
+            handleChangeMinInput={handleChangeMinRating}
+            handleChangeRange={handleChangeRatingRange}
             valuetext={valuetext}
         />
     );

@@ -1,5 +1,10 @@
 import { useEffect, useState } from "react";
 import {
+    usePathname,
+    ReadonlyURLSearchParams,
+} from "next/navigation";
+import { useDebounce } from "usehooks-ts";
+import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
@@ -10,9 +15,11 @@ import {
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";
 import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+
 import FilterCategories from "./categories";
 import FilterPrice from "./price";
-import { useDebounce } from "usehooks-ts";
+import FilterAccordion from "./filterAccordion";
+import FilterRating from "./rating";
 
 export type FiltersProps = {
     handleSearch: ({
@@ -20,14 +27,16 @@ export type FiltersProps = {
     }: {
         filters: { [key: string]: string | null };
     }) => void;
+    searchParams: ReadonlyURLSearchParams;
 };
 
 export default function ProductFilters({
     handleSearch,
+    searchParams,
 }: FiltersProps) {
     const [filters, setFilters] = useState<{
         [key: string]: string | null;
-    }>({});
+    }>(Object.fromEntries(searchParams.entries()));
 
     const debouncedFilters = useDebounce(filters, 500);
 
@@ -38,78 +47,70 @@ export default function ProductFilters({
 
     return (
         <Box className="flex flex-col gap-2">
-            <Accordion>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                >
-                    <Box className="flex flex-row items-center gap-4">
-                        <Typography>Category</Typography>
+            <FilterAccordion
+                label="Category"
+                isActive={
+                    "category" in filters &&
+                    !!filters.category
+                }
+                handleClearFilter={() =>
+                    setFilters((state) => ({
+                        ...state,
+                        category: null,
+                    }))
+                }
+            >
+                <FilterCategories
+                    setFilters={setFilters}
+                    selectedCategory={filters.category}
+                />
+            </FilterAccordion>
 
-                        {"category" in filters &&
-                        !!filters.category ? (
-                            <Button
-                                variant="text"
-                                type="button"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setFilters((state) => ({
-                                        ...state,
-                                        category: null,
-                                    }));
-                                }}
-                            >
-                                <ClearIcon />
-                            </Button>
-                        ) : null}
-                    </Box>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <FilterCategories
-                        setFilters={setFilters}
-                        selectedCategory={filters.category}
-                    />
-                </AccordionDetails>
-            </Accordion>
-            <Accordion>
-                <AccordionSummary
-                    expandIcon={<ExpandMoreIcon />}
-                >
-                    <Box className="flex flex-row items-center gap-4">
-                        <Typography id="filters-price-label">
-                            Price
-                        </Typography>
-                        <Typography>
-                            {filters.price || null}
-                        </Typography>
-                        {("minPrice" in filters &&
-                            !!filters.minPrice) ||
-                        ("maxPrice" in filters &&
-                            !!filters.maxPrice) ? (
-                            <Button
-                                variant="text"
-                                type="button"
-                                onClick={(e) => {
-                                    e.stopPropagation();
-                                    setFilters((state) => ({
-                                        ...state,
-                                        minPrice: null,
-                                        maxPrice: null,
-                                    }));
-                                }}
-                            >
-                                <ClearIcon />
-                            </Button>
-                        ) : null}
-                    </Box>
-                </AccordionSummary>
-                <AccordionDetails>
-                    <FilterPrice
-                        setFilters={setFilters}
-                        minPrice={filters.minPrice}
-                        maxPrice={filters.maxPrice}
-                    />
-                </AccordionDetails>
-            </Accordion>
+            <FilterAccordion
+                label="Price"
+                isActive={
+                    ("minPrice" in filters &&
+                        !!filters.minPrice) ||
+                    ("maxPrice" in filters &&
+                        !!filters.maxPrice)
+                }
+                handleClearFilter={() =>
+                    setFilters((state) => ({
+                        ...state,
+                        minPrice: null,
+                        maxPrice: null,
+                    }))
+                }
+            >
+                <FilterPrice
+                    setFilters={setFilters}
+                    minPrice={filters.minPrice}
+                    maxPrice={filters.maxPrice}
+                />
+            </FilterAccordion>
+
+            <FilterAccordion
+                label="Rating"
+                isActive={
+                    ("minRating" in filters &&
+                        !!filters.minRating) ||
+                    ("maxRating" in filters &&
+                        !!filters.maxRating)
+                }
+                handleClearFilter={() =>
+                    setFilters((state) => ({
+                        ...state,
+                        minRating: null,
+                        maxRating: null,
+                    }))
+                }
+            >
+                <FilterRating
+                    setFilters={setFilters}
+                    minRating={filters.minRating}
+                    maxRating={filters.maxRating}
+                />
+            </FilterAccordion>
         </Box>
     );
 }

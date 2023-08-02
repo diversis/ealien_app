@@ -59,13 +59,13 @@ export async function createProductReview({
                 rating: true
             }
         })
-
+        reviewLogger.info(updatedRating)
         await prisma.product.update({
             where: {
                 id: productId,
             },
             data: {
-                rating: Number(updatedRating),
+                rating: Number(updatedRating._avg.rating),
             }
         })
         return { reviewId: review.id };
