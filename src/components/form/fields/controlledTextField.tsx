@@ -41,6 +41,7 @@ export const ControlledTextField = <
                     error={!!error}
                     onChange={onChange}
                     value={value}
+                    
                     {...rest}
                 />
             )}

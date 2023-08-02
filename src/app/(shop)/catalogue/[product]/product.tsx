@@ -39,6 +39,7 @@ import { useCart } from "@/lib/hooks/use-cart";
 import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
 import ReviewPlaceholder from "@/components/placeholder/review";
 import ReviewCard from "@/components/catalogue/review";
+import AddToCart from "@/components/form/addToCart";
 
 export default function ProductPage({
     product,
@@ -69,25 +70,6 @@ export default function ProductPage({
             hideSignInModal: state.hideSignInModal,
             showSignInModal: state.showSignInModal,
         }));
-
-    const { enqueueSnackbar, closeSnackbar } =
-        useSnackbar();
-
-    const { addItem } = useCart((state) => ({
-        addItem: state.addItem,
-    }));
-    const isStockEmpty = product.countInStock
-        ? product.countInStock <= 0
-        : true;
-    function handleAddToCartClick() {
-        addItem(product, 1, false);
-
-        enqueueSnackbar({
-            message: `Added  to cart: ${product.name} for $${product.price}`,
-            variant: "success",
-            autoHideDuration: 6000,
-        });
-    }
     return (
         <m.section
             ref={ref}
@@ -130,30 +112,7 @@ export default function ProductPage({
                             {product.description}
                         </Typography>
                     </article>
-                    <div className="flex flex-col items-center">
-                        {isStockEmpty ? (
-                            <Typography variant="body2">
-                                Not in stock
-                            </Typography>
-                        ) : null}
-                        <Typography variant="body2">
-                            ${product.price}
-                        </Typography>
-                        <Button
-                            variant="contained"
-                            className=" "
-                            title={
-                                isStockEmpty
-                                    ? "Product not in stock"
-                                    : ""
-                            }
-                            color="secondary"
-                            disabled={isStockEmpty}
-                            onClick={handleAddToCartClick}
-                        >
-                            Add to Cart
-                        </Button>
-                    </div>
+                    <AddToCart product={product} />
                 </div>
                 <div className="flex w-full flex-col">
                     <div className="my-2 flex w-full flex-row justify-between">

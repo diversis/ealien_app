@@ -55,13 +55,17 @@ type CartState = {
 };
 
 type CartAction = {
-    addItem: (
+    addItem: ({
+        product,
+        qty,
+        setQty,
+    }: {
         product:
             | SerializedPrisma<Product>
-            | SerializedPrisma<CompactProduct>,
-        qty: number,
-        setQty?: boolean,
-    ) => void;
+            | SerializedPrisma<CompactProduct>;
+        qty: number;
+        setQty?: boolean;
+    }) => void;
     addQty: (
         id: string,
         qty: number,
@@ -99,16 +103,26 @@ export const useCart = create<CartState & CartAction>()(
                 show: false,
                 total: 0,
 
-                addItem: (
+                addItem: ({
+                    product,
+                    qty,
+                    setQty,
+                }: {
                     product:
                         | SerializedPrisma<Product>
-                        | SerializedPrisma<CompactProduct>,
-                    qty: number,
-                    setQty: boolean = false,
-                ) => {
+                        | SerializedPrisma<CompactProduct>;
+                    qty: number;
+                    setQty?: boolean;
+                }) => {
                     if (!get().editable) {
                         return;
                     }
+                    console.log(
+                        "adding x: ",
+                        qty,
+                        " ",
+                        typeof qty,
+                    );
                     set((state): { items: CartItem[] } => {
                         const itemInCart = state.items.find(
                             (item) =>
@@ -132,6 +146,11 @@ export const useCart = create<CartState & CartAction>()(
                                                   ...item,
                                                   qty: setQty
                                                       ? qty
+                                                      : product.countInStock &&
+                                                        item.qty +
+                                                            qty >
+                                                            product.countInStock
+                                                      ? product.countInStock
                                                       : item.qty +
                                                         qty,
                                               }
@@ -151,7 +170,12 @@ export const useCart = create<CartState & CartAction>()(
                                     rating: product.rating,
                                     countInStock:
                                         product.countInStock,
-                                    qty: 1,
+                                    qty:
+                                        product.countInStock &&
+                                        qty >
+                                            product.countInStock
+                                            ? product.countInStock
+                                            : qty,
                                     currencyId:
                                         product.currencyId,
                                 },

@@ -40,7 +40,7 @@ export default function ProductCard({
     }));
 
     function handleAddToCartClick() {
-        addItem(product, 1, false);
+        addItem({ product, qty: 1, setQty: false });
 
         enqueueSnackbar({
             message: `Added  to cart: ${product.name} for $${product.price}`,
