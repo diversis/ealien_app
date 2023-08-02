@@ -78,6 +78,8 @@ export async function getProductListItems({
     color,
     minPrice,
     maxPrice,
+    minRating,
+    maxRating
 }: {
     page?: number;
     searchKey?: string;
@@ -86,6 +88,8 @@ export async function getProductListItems({
     color?: string;
     minPrice?: number;
     maxPrice?: number;
+    minRating?: number;
+    maxRating?: number;
 }): Promise<{
     productListItems: Product[];
     page: number;
@@ -95,8 +99,10 @@ export async function getProductListItems({
     const reqColor = color;
     const reqBrand = brand;
     const reqCategory = category;
-    const reqHighPrice = maxPrice || undefined;
-    const reqLowPrice = minPrice || 0;
+    const reqMaxPrice = maxPrice || undefined;
+    const reqMinPrice = minPrice || 0;
+    const reqMaxRating = maxRating || undefined;
+    const reqMinRating = minRating || 0;
     const reqPage = page ? (page < 1 ? 1 : page) : 1;
     let data: Product[] = [];
     let count = 0;
@@ -164,16 +170,28 @@ export async function getProductListItems({
                     },
                 }
                 : {}),
-            ...(reqHighPrice
+            ...(reqMaxPrice
                 ? {
                     price: {
-                        lte: reqHighPrice,
-                        gte: reqLowPrice,
+                        lte: reqMaxPrice,
+                        gte: reqMinPrice,
                     },
                 }
                 : {
                     price: {
-                        gte: reqLowPrice,
+                        gte: reqMinPrice,
+                    },
+                }),
+            ...(reqMaxRating
+                ? {
+                    rating: {
+                        lte: reqMaxRating,
+                        gte: reqMinRating,
+                    },
+                }
+                : {
+                    rating: {
+                        gte: reqMinRating,
                     },
                 }),
             ...(reqCategory
@@ -214,16 +232,28 @@ export async function getProductListItems({
                     },
                 }
                 : {}),
-            ...(reqHighPrice
+            ...(reqMaxPrice
                 ? {
                     price: {
-                        lte: reqHighPrice,
-                        gte: reqLowPrice,
+                        lte: reqMaxPrice,
+                        gte: reqMinPrice,
                     },
                 }
                 : {
                     price: {
-                        gte: reqLowPrice,
+                        gte: reqMinPrice,
+                    },
+                }),
+            ...(reqMaxRating
+                ? {
+                    rating: {
+                        lte: reqMaxRating,
+                        gte: reqMinRating,
+                    },
+                }
+                : {
+                    rating: {
+                        gte: reqMinRating,
                     },
                 }),
             ...(reqCategory

@@ -66,6 +66,8 @@ export default async function Page({
         color,
         minPrice,
         maxPrice,
+        minRating,
+        maxRating,
     } = searchParams;
 
     const { productListItems, hasMore, count } =
@@ -90,6 +92,12 @@ export default async function Page({
                 : {}),
             ...(maxPrice && typeof +maxPrice === "number"
                 ? { maxPrice: +maxPrice }
+                : {}),
+            ...(maxRating && typeof +maxRating === "number"
+                ? { maxRating: +maxRating }
+                : {}),
+            ...(minRating && typeof +minRating === "number"
+                ? { minRating: +minRating }
                 : {}),
         });
 
