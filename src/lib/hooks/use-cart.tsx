@@ -114,15 +114,9 @@ export const useCart = create<CartState & CartAction>()(
                     qty: number;
                     setQty?: boolean;
                 }) => {
-                    if (!get().editable) {
+                    if (!get().editable || qty < 1) {
                         return;
                     }
-                    console.log(
-                        "adding x: ",
-                        qty,
-                        " ",
-                        typeof qty,
-                    );
                     set((state): { items: CartItem[] } => {
                         const itemInCart = state.items.find(
                             (item) =>

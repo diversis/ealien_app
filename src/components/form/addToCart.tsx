@@ -24,7 +24,7 @@ import { ControlledSelect } from "./fields/controlledSelect";
 import { ControlledTextField } from "./fields/controlledTextField";
 
 interface FormValues {
-    qty: number;
+    qty: string;
 }
 
 export default function AddToCart({
@@ -40,7 +40,7 @@ export default function AddToCart({
 
     const methods = useForm({
         defaultValues: {
-            qty: 1,
+            qty: "1",
         },
     });
     const {
@@ -54,6 +54,7 @@ export default function AddToCart({
         trigger,
         setValue,
         clearErrors,
+        watch,
         formState: {
             isSubmitting,
             errors,
@@ -67,6 +68,7 @@ export default function AddToCart({
         data: FormValues,
     ) => {
         try {
+            if (Number(data.qty) < 1) return;
             addItem({
                 product,
                 qty: Number(data.qty),
@@ -76,7 +78,7 @@ export default function AddToCart({
                 message: `Added  to cart: ${
                     product.name
                 } x ${data.qty} for $${
-                    product.price || 0 * data.qty
+                    (product.price || 0) * Number(data.qty)
                 }`,
                 variant: "success",
                 autoHideDuration: 6000,
@@ -119,6 +121,13 @@ export default function AddToCart({
                 <Typography variant="body2">
                     ${product.price}
                 </Typography>
+                <Box>
+                    <Typography variant="body2">
+                        Total: $
+                        {(product.price || 0) *
+                            Number(watch("qty"))}
+                    </Typography>
+                </Box>
                 <ControlledTextField
                     name="qty"
                     control={control}
