@@ -10,13 +10,19 @@ import {
 } from "framer-motion";
 import OrderForm from "@/components/form/order/create/orderForm";
 import Link from "next/link";
-import { Typography } from "@mui/material";
+import {
+    Box,
+    Button,
+    Paper,
+    Typography,
+} from "@mui/material";
 import {
     CompactOrderItem,
     SerializedPrisma,
     CompactProduct,
 } from "@/lib/prisma/types";
 import { Order, OrderItem } from "@prisma/client";
+
 
 export default function OrderPage({
     order,
@@ -58,6 +64,47 @@ export default function OrderPage({
                                 This order is empty
                             </Typography>
                         </div>
+                    )}
+                </m.div>
+                <m.div
+                    layout
+                    className="sticky top-24 flex h-min flex-col items-center gap-2 rounded-xl bg-primary-50/20 p-2 dark:bg-primary-900/20"
+                >
+                    {order.isPaid ? (
+                        <Paper className="w-full p-2">
+                            <Box className="flex flex-row gap-2">
+                                <Typography variant="body2">
+                                    Paid on{" "}
+                                    {order.paidAt || ""}
+                                </Typography>
+                            </Box>
+                        </Paper>
+                    ) : (
+                        <Paper className="flex w-full flex-row items-center justify-between p-2">
+                            <Typography variant="body2">
+                                Not paid
+                            </Typography>
+                            <Button variant="contained">
+                                Pay
+                            </Button>
+                        </Paper>
+                    )}
+                    {order.isDelivered ? (
+                        <Paper className="w-full p-2">
+                            <Box className="flex flex-row gap-2">
+                                <Typography variant="body2">
+                                    Delivered on{" "}
+                                    {order.deliveredAt ||
+                                        ""}
+                                </Typography>
+                            </Box>
+                        </Paper>
+                    ) : (
+                        <Paper className="w-full flex-row items-center justify-between p-2">
+                            <Typography variant="body2">
+                                Not delivered
+                            </Typography>
+                        </Paper>
                     )}
                 </m.div>
             </div>
