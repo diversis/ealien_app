@@ -2,20 +2,11 @@
 import { useTheme } from "next-themes";
 import { useEffect, useState } from "react";
 import { useIsomorphicLayoutEffect } from "usehooks-ts";
-// import {
-//     useTheme as useMUITheme,
-//     ThemeProvider,
-//     createTheme,
-// } from "@mui/material/styles";
+import LightModeIcon from "@mui/icons-material/LightMode";
+import DarkModeIcon from "@mui/icons-material/DarkMode";
 
-// import { AnimatePresence, m } from "framer-motion";
-// import { FaMoon, FaSun } from "react-icons/fa";
-
-import {
-    MOON_VARIANTS,
-    SUN_VARIANTS,
-} from "@/lib/constants";
 import Switch from "@mui/material/Switch";
+import { Box } from "@mui/material";
 
 const SwitchTheme = () => {
     const { systemTheme, theme, setTheme, resolvedTheme } =
@@ -42,20 +33,32 @@ const SwitchTheme = () => {
 
     if (!mounted) return null;
     return (
-        <Switch
-            title={
-                theme === "light"
-                    ? "Сменить тему на темную"
-                    : "Сменить тему на светлую"
-            }
-            checked={resolvedTheme === "dark"}
-            className="h-10"
-            onChange={async () =>
-                await setTheme(
-                    theme === "dark" ? "light" : "dark",
-                )
-            }
-        />
+        <Box className="flex flex-row items-center gap-0">
+            <LightModeIcon
+                width={16}
+                height={16}
+                className="text-secondary-400 transition-colors duration-500 dark:text-surface-600"
+            />
+            <Switch
+                title={
+                    theme === "light"
+                        ? "Switch to dark theme"
+                        : "Switch to light theme"
+                }
+                checked={resolvedTheme === "dark"}
+                className="h-10"
+                onChange={async () =>
+                    await setTheme(
+                        theme === "dark" ? "light" : "dark",
+                    )
+                }
+            />
+            <DarkModeIcon
+                width={16}
+                height={16}
+                className="text-surface-600 transition-colors duration-500 dark:text-tertiary-500"
+            />
+        </Box>
     );
 };
 export default SwitchTheme;
