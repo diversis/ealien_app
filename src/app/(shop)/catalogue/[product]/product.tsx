@@ -1,25 +1,19 @@
 "use client";
-import { Suspense, useRef, useState } from "react";
+import { Suspense, useRef, } from "react";
 import {
-    AnimatePresence,
+
     m,
     useInView,
 } from "framer-motion";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import {
-    Controller,
-    FieldValues,
-    SubmitHandler,
-    useForm,
-} from "react-hook-form";
+
 import { useSession } from "next-auth/react";
 import {
     Box,
     Breadcrumbs,
     Button,
-    Skeleton,
+  
     Typography,
-    Paper,
+
 } from "@mui/material";
 
 import { SerializedPrisma } from "@/lib/prisma/types";

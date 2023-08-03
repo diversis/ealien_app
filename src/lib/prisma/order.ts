@@ -149,22 +149,22 @@ export async function createOrder({
             );
             const shippingAddress =
                 user?.shippingAddress &&
-                user?.shippingAddress.length > 0
+                    user?.shippingAddress.length > 0
                     ? user.shippingAddress[0]
                     : await prisma.shippingAddress.create({
-                          data: {
-                              shippingPrice,
-                              address,
-                              city,
-                              postalCode,
-                              country,
-                              users: {
-                                  connect: {
-                                      id: userId,
-                                  },
-                              },
-                          },
-                      });
+                        data: {
+                            shippingPrice,
+                            address,
+                            city,
+                            postalCode,
+                            country,
+                            users: {
+                                connect: {
+                                    id: userId,
+                                },
+                            },
+                        },
+                    });
 
             if (!shippingAddress) {
                 throw new Error(
@@ -269,16 +269,66 @@ export async function getOrderById({
     }
 }
 
+export async function updateOrderById({
+    id,
+    isPaid,
+    isDelivered,
+    shippingAddressId,
+    paypalID
+}: {
+    id: Order["id"];
+    isPaid?: boolean;
+    isDelivered?: boolean;
+    shippingAddressId?: string;
+    paypalID?: string
+}) {
+    try {
+        const order = await prisma.order.update({
+            where: { id },
+            data: {
+                ...isPaid ? { isPaid: true, paidAt: new Date() } : null,
+                ...isDelivered ? { isDelivered: true, deliveredAt: new Date() } : null,
+                ...!!shippingAddressId ? { shippingAddressId } : null,
+                ...!!paypalID ? { paypalID } : null
+            }
+        });
+        return order;
+    } catch (e) {
+        orderLogger.error(e);
+        return { errors: e };
+    }
+}
+
+export async function updateOrderPaymentStatus({
+    paypalID
+}: {
+    paypalID: string
+}) {
+    try {
+        orderLogger.info({ paypalID });
+        const order = await prisma.order.update({
+            where: { paypalID },
+            data: {
+                isPaid: true, paidAt: new Date(),
+            }
+        });
+        return order;
+    } catch (e) {
+        orderLogger.error(e);
+        return { errors: e };
+    }
+}
+
 export async function getOrderWithItemsById({
     id,
 }: {
     id: Order["id"];
 }): Promise<
     | (Order & {
-          orderItems: (CompactOrderItem & {
-              product: CompactProduct;
-          })[];
-      })
+        orderItems: (CompactOrderItem & {
+            product: CompactProduct;
+        })[];
+    })
     | never[]
 > {
     try {

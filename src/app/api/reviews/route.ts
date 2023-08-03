@@ -39,17 +39,17 @@ export async function GET(request: NextRequest) {
         reviewsLogger.info(cursor);
         if (productId) {
 
-            const productReviews = await getProductReviews({ productId, ...!!cursor && { cursor: { id: cursor } }, reviewsPerPage:REVIEWS_PER_PAGE })
+            const productReviews = await getProductReviews({ productId, ...!!cursor && { cursor: { id: cursor } }, reviewsPerPage: REVIEWS_PER_PAGE })
             if (!productReviews) {
                 return NextResponse.json(
-                    {},
+                    { success: false, message: "Error receiving product reviews" },
                     { status: 400 },
                 );
             }
             const serializedReviews = productReviews.reviews.map(review => serializeReview<ReviewWithAuthor>(review)).filter(Boolean) as SerializedPrisma<ReviewWithAuthor>[]
             if (!serializedReviews || serializedReviews.length < 1) {
                 return NextResponse.json(
-                    {},
+                    { success: false, message: "Error serializing product reviews" },
                     { status: 400 },
                 );
             }

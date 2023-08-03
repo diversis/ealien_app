@@ -22,7 +22,7 @@ import {
     CompactProduct,
 } from "@/lib/prisma/types";
 import { Order, OrderItem } from "@prisma/client";
-
+import PaymentModal from "@/components/modals/paymentModal";
 
 export default function OrderPage({
     order,
@@ -35,6 +35,7 @@ export default function OrderPage({
 }) {
     const { totalPrice, orderItems: items } = order;
     const [render, setRender] = useState(false);
+    const dateFormat = new Intl.DateTimeFormat("en-US");
     // const [editable, setEditable] = useState(true);
     useEffect(() => {
         setRender(true);
@@ -72,10 +73,16 @@ export default function OrderPage({
                 >
                     {order.isPaid ? (
                         <Paper className="w-full p-2">
-                            <Box className="flex flex-row gap-2">
+                            <Box className="flex flex-row gap-2 bg-tertiary-300 px-1 dark:bg-tertiary-800">
                                 <Typography variant="body2">
                                     Paid on{" "}
-                                    {order.paidAt || ""}
+                                    {order.paidAt
+                                        ? dateFormat.format(
+                                              new Date(
+                                                  order.paidAt,
+                                              ),
+                                          )
+                                        : ""}
                                 </Typography>
                             </Box>
                         </Paper>
@@ -84,14 +91,12 @@ export default function OrderPage({
                             <Typography variant="body2">
                                 Not paid
                             </Typography>
-                            <Button variant="contained">
-                                Pay
-                            </Button>
+                            <PaymentModal order={order} />
                         </Paper>
                     )}
                     {order.isDelivered ? (
                         <Paper className="w-full p-2">
-                            <Box className="flex flex-row gap-2">
+                            <Box className="flex flex-row gap-2 bg-tertiary-300 px-1 dark:bg-tertiary-800">
                                 <Typography variant="body2">
                                     Delivered on{" "}
                                     {order.deliveredAt ||
