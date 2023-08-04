@@ -112,7 +112,7 @@ export default function CTA({
             data-test="hero-section-cta"
             key="hero-text"
             ref={ref}
-            className="peer/cta  max-w-screen z-10 flex h-[calc(100vh_-_7rem)] max-h-full flex-col items-center justify-center gap-y-4 px-4 [grid-area:1/1/2/3] lg:gap-y-16  lg:[grid-area:1/1/2/8]"
+            className="peer/cta  max-w-screen z-10 flex h-[calc(100vh_-_7rem)] max-h-full flex-col items-center justify-center gap-y-4 px-4 [grid-area:1/1/2/3] lg:gap-y-8 lg:py-[5%]  lg:[grid-area:1/1/2/8]"
             variants={OPACITY_VARIANTS}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
@@ -128,7 +128,7 @@ export default function CTA({
                         }% ${resY.get() * 10 + 50}%`,
                     }}
                     tabIndex={0}
-                    className="text-stroke title-bg linear-mask-heading relative mb-[0.15em] bg-[size:200%_200%] bg-clip-text bg-no-repeat text-[15vw] font-black tracking-widest text-transparent transition-[background-position] delay-100 duration-[2s] ease-out  will-change-[background-position] lg:text-[12vw] "
+                    className="text-stroke title-bg linear-mask-heading relative bg-[size:200%_200%] bg-clip-text bg-no-repeat text-[15vw] font-black tracking-widest text-transparent transition-[background-position] delay-100 duration-[2s] ease-out  will-change-[background-position] lg:text-[12vw] "
                 >
                     AALIEN
                 </m.h1>

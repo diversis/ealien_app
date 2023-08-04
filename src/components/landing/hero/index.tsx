@@ -1,8 +1,14 @@
 "use client";
-import { AnimatePresence, m, useInView, useScroll } from "framer-motion";
+import {
+    AnimatePresence,
+    m,
+    useInView,
+    useScroll,
+} from "framer-motion";
 import { useRef, useState } from "react";
 import CTA from "./cta";
 import Hero from "./image";
+import { OPACITY_VARIANTS } from "@/lib/constants";
 
 export default function HeroSection() {
     const ref = useRef<HTMLDivElement>(null);
@@ -13,14 +19,20 @@ export default function HeroSection() {
     const isInView = useInView(ref);
     const [mouseX, setMouseX] = useState<number>(0);
     const [mouseY, setMouseY] = useState<number>(0);
-    const [mousePosition, setMousePosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 })
+    const [mousePosition, setMousePosition] = useState<{
+        x: number;
+        y: number;
+    }>({ x: 0, y: 0 });
     const handleMouseMove = async (
         e: React.MouseEvent<HTMLElement, MouseEvent>,
     ) => {
         if (isInView && e) {
             // setMouseX(e.clientX);
             // setMouseY(e.clientY);
-            setMousePosition({ x: e.clientX, y: e.clientY })
+            setMousePosition({
+                x: e.clientX,
+                y: e.clientY,
+            });
         }
     };
     return (
@@ -34,9 +46,18 @@ export default function HeroSection() {
             {/* <div className="linear-mask-bottom absolute inset-x-0 -top-24 bottom-0 hidden xl:block">
                 <div className="xl:linear-mask-angle relative h-full w-full bg-surface-50 bg-cover bg-fixed bg-no-repeat dark:bg-surface-800 "></div>
             </div> */}
-            <div className="absolute inset-x-0 -top-24 bottom-0 before:absolute before:inset-0 before:bg-gradient-to-t before:from-primary-100 before:to-tertiary-100 before:leading-[0] before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-gradient-to-t after:from-primary-900 after:to-secondary-900 after:leading-[0] after:opacity-0 after:transition-opacity after:duration-500 dark:before:opacity-0 dark:after:opacity-100"></div>
-
-            <article className="container pb-24 relative grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)_auto] justify-center overflow-visible px-4 py-12 md:px-8 lg:grid lg:grid-cols-12 lg:grid-rows-1 lg:px-12 xl:py-2">
+            <AnimatePresence>
+                {isInView ? (
+                    <m.div
+                        initial="hidden"
+                        exit="exit"
+                        animate="visible"
+                        variants={OPACITY_VARIANTS}
+                        className="waves absolute inset-x-0 -bottom-96 -top-24 before:absolute before:inset-0 before:bg-gradient-to-t before:from-primary-100/50 before:to-tertiary-100/50 before:leading-[0] before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-gradient-to-t after:from-primary-600/50 after:to-secondary-800/50 after:leading-[0] after:opacity-0 after:transition-opacity after:duration-500 dark:before:opacity-0 dark:after:opacity-100"
+                    ></m.div>
+                ) : null}
+            </AnimatePresence>
+            <article className="container relative grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)_auto] justify-center overflow-visible px-4 py-12 pb-24 md:px-8 lg:grid lg:grid-cols-12 lg:grid-rows-1 lg:px-12 xl:py-2">
                 {/* <AnimatePresence>
                     {isInView && (
                         <> */}
@@ -50,8 +71,8 @@ export default function HeroSection() {
                 <Hero
                     key="hero-image"
                     mousePosition={mousePosition}
-                // mouseX={mouseX}
-                // mouseY={mouseY}
+                    // mouseX={mouseX}
+                    // mouseY={mouseY}
                 />
                 {/* </>
                     )}

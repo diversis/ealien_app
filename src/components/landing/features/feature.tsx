@@ -33,7 +33,7 @@ export default function Feature({
     // });
     const isInView = useInView(ref);
     // const scale = useTransform(scrollYProgress, [0.5, 0.8], [1, 0.5]);
-
+    const isEven = id % 2 === 0;
     return (
         <m.section
             data-test={`feature-${"" + id}`}
@@ -49,14 +49,22 @@ export default function Feature({
                     testLabel={`feature-${id}`}
                     bgSrc={`/images/bg/r/${bg}/2048.webp`}
                     classNames={{
-                        root: "diagonal-mask-right h-[90%]  w-full ",
-                        bg: "bg-[position:50%_30%!important] radial-mask bg-fixed",
+                        root: `${
+                            isEven
+                                ? "clip-poly-right"
+                                : "clip-poly-left"
+                        } h-[90%]  w-full `,
+                        bg: "bg-[position:50%_30%!important] bg-fixed",
                     }}
                 />
             </div>
             <article
                 data-test={`feature-${id}-article`}
-                className="flex w-full flex-col gap-y-12 overflow-x-hidden rounded-xl bg-primary-50/50 px-6 py-2 dark:bg-primary-900/50 xl:bg-transparent xl:[grid-area:1/6/2/13] dark:xl:bg-transparent"
+                className={`flex w-full flex-col gap-y-12 overflow-x-hidden rounded-xl bg-primary-50/50 px-6 py-2 dark:bg-primary-900/50 xl:bg-transparent  ${
+                    isEven
+                        ? "xl:[grid-area:1/6/2/13]"
+                        : "xl:[grid-area:1/1/2/8]"
+                } dark:xl:bg-transparent`}
             >
                 <h2 tabIndex={0} className="h2">
                     {title}
@@ -70,7 +78,11 @@ export default function Feature({
             </article>
             <div
                 data-test={`feature-${id}-photo`}
-                className="flex aspect-square h-auto max-h-[50dvh] w-full justify-center xl:sticky xl:top-0 xl:mb-[25rem] xl:self-start xl:pt-40 xl:[grid-area:1/1/2/6]"
+                className={`flex aspect-square h-auto max-h-[50dvh] w-full justify-center xl:sticky xl:top-0 xl:mb-[25rem] xl:self-start xl:pt-40 ${
+                    isEven
+                        ? "xl:[grid-area:1/1/2/6]"
+                        : "xl:[grid-area:1/8/2/13]"
+                } `}
             >
                 <div className="aspect-square h-auto w-full">
                     <Photo imgSrc={photo} />

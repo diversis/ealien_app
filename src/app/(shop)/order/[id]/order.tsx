@@ -71,9 +71,16 @@ export default function OrderPage({
                     layout
                     className="sticky top-24 flex h-min flex-col items-center gap-2 rounded-xl bg-primary-50/20 p-2 dark:bg-primary-900/20"
                 >
+                    {order.shippingAddressId ? (
+                        <Paper>
+                            <Box className="flex flex-col">
+                                {/* {Object.entries(order)} */}
+                            </Box>
+                        </Paper>
+                    ) : null}
                     {order.isPaid ? (
                         <Paper className="w-full p-2">
-                            <Box className="flex flex-row gap-2 bg-tertiary-300 px-1 dark:bg-tertiary-800">
+                            <Box className="flex flex-row gap-2 rounded bg-tertiary-300 px-1 dark:bg-tertiary-800 lg:px-2">
                                 <Typography variant="body2">
                                     Paid on{" "}
                                     {order.paidAt
@@ -96,7 +103,7 @@ export default function OrderPage({
                     )}
                     {order.isDelivered ? (
                         <Paper className="w-full p-2">
-                            <Box className="flex flex-row gap-2 bg-tertiary-300 px-1 dark:bg-tertiary-800">
+                            <Box className="flex flex-row gap-2 rounded bg-tertiary-300 px-1 dark:bg-tertiary-800 lg:px-2">
                                 <Typography variant="body2">
                                     Delivered on{" "}
                                     {order.deliveredAt ||
