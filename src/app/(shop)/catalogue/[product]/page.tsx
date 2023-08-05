@@ -77,15 +77,15 @@ export default async function Page({
     if (!product) {
         redirect("/catalogue");
     }
-    const productReviews = await getProductReviews({
-        productId: params.product,
-    });
-    const serializedReviews = productReviews.reviews.map(
-        (review) =>
-            serializeReview(
-                review,
-            ) as SerializedPrisma<ReviewWithAuthor>,
-    );
+    // const productReviews = await getProductReviews({
+    //     productId: params.product,
+    // });
+    // const serializedReviews = productReviews.reviews.map(
+    //     (review) =>
+    //         serializeReview(
+    //             review,
+    //         ) as SerializedPrisma<ReviewWithAuthor>,
+    // );
     // productLogger.info({ serializedReviews });
     // catalogueLogger.info({ productListItems });
 
@@ -93,7 +93,7 @@ export default async function Page({
     return (
         <ProductPage
             product={product}
-            reviews={serializedReviews}
+            // reviews={serializedReviews}
         />
     );
 }

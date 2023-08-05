@@ -40,10 +40,10 @@ export async function GET(request: NextRequest) {
         if (productId) {
 
             const productReviews = await getProductReviews({ productId, ...!!cursor && { cursor: { id: cursor } }, reviewsPerPage: REVIEWS_PER_PAGE })
-            if (!productReviews) {
+            if (!productReviews || productReviews.reviews.length < 1) {
                 return NextResponse.json(
-                    { success: false, message: "Error receiving product reviews" },
-                    { status: 400 },
+                    { reviews: [] },
+                    { status: 200 },
                 );
             }
             const serializedReviews = productReviews.reviews.map(review => serializeReview<ReviewWithAuthor>(review)).filter(Boolean) as SerializedPrisma<ReviewWithAuthor>[]

@@ -30,9 +30,11 @@ import { zodResolver } from "@hookform/resolvers/zod";
 import StarIcon from "@mui/icons-material/Star";
 import {
     ComponentPropsWithoutRef,
+    Dispatch,
     ReactNode,
     forwardRef,
     useState,
+    SetStateAction,
 } from "react";
 import { TransitionProps } from "@mui/material/transitions";
 import Slide from "@mui/material/Slide";
@@ -59,12 +61,8 @@ interface ReviewFields {
 
 interface ReviewModalProps
     extends ComponentPropsWithoutRef<"div"> {
-    triggerText?: string;
     product: SerializedPrisma<Product>;
-    classNames?: {
-        root?: string;
-        trigger?: string;
-    };
+    setPosted: Dispatch<SetStateAction<boolean>>;
 }
 
 const schema = z.object({
@@ -98,6 +96,7 @@ async function sendFormData({
 
 export default function ReviewModal({
     product,
+    setPosted,
     ...rest
 }: ReviewModalProps) {
     const [open, setOpen] = useState(false);
@@ -156,6 +155,7 @@ export default function ReviewModal({
                     variant: "success",
                     autoHideDuration: 6000,
                 });
+                setPosted(true);
                 handleClose();
             }
         } catch (error) {

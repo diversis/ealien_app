@@ -1,4 +1,9 @@
-import { useEffect, useRef, useState } from "react";
+import {
+    useCallback,
+    useEffect,
+    useRef,
+    useState,
+} from "react";
 import {
     Box,
     Divider,
@@ -16,7 +21,10 @@ import {
     ZodError,
     ZodObject,
 } from "zod";
-import { useInfiniteQuery } from "@tanstack/react-query";
+import {
+    useInfiniteQuery,
+    useQueryClient,
+} from "@tanstack/react-query";
 
 import {
     ReviewWithAuthor,
@@ -26,8 +34,6 @@ import { isSerializedReview } from "@/lib/prisma/typeguards";
 import ReviewCard from "./review";
 import ReviewPlaceholder from "@/components/placeholder/review";
 import { REVIEWS_PER_PAGE } from "@/lib/constants";
-
-const reviewsPerPage = 5;
 
 const endpoint = "/api/reviews";
 
@@ -82,10 +88,12 @@ export default function Reviews({
     reviews,
     productId,
     reviewsCount,
+    postedNewReview,
 }: {
     reviews?: SerializedPrisma<ReviewWithAuthor>[];
     productId: string;
     reviewsCount?: number;
+    postedNewReview: boolean;
 }) {
     // const [page, setPage] = useState<number>(1);
     // const [loadedReviews, setLoadedReviews] = useState<
@@ -98,6 +106,7 @@ export default function Reviews({
     //         }
     //     >[]
     // >(reviews);
+    const queryClient = useQueryClient();
     const {
         status,
         data: fetchedReviews,
@@ -109,6 +118,7 @@ export default function Reviews({
         fetchPreviousPage,
         hasNextPage,
         hasPreviousPage,
+        refetch,
     } = useInfiniteQuery({
         queryKey: [`stream-hydrate-reviews-${productId}`],
         queryFn: async ({
@@ -140,11 +150,22 @@ export default function Reviews({
     const entry = useIntersectionObserver(endOfList, {});
     const reachedEnd = !!entry?.isIntersecting;
 
+    const refreshReviews = useCallback(() => {
+        queryClient.invalidateQueries({
+            queryKey: [
+                `stream-hydrate-reviews-${productId}`,
+            ],
+        });
+    }, [queryClient, productId]);
+
     useEffect(() => {
         if (reachedEnd && hasNextPage) {
             fetchNextPage();
         }
-    }, [reachedEnd, hasNextPage]);
+    }, [reachedEnd, hasNextPage, fetchNextPage]);
+    useEffect(() => {
+        refreshReviews();
+    }, [postedNewReview]);
 
     return (
         <>

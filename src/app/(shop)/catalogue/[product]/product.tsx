@@ -1,19 +1,13 @@
 "use client";
-import { Suspense, useRef, } from "react";
-import {
-
-    m,
-    useInView,
-} from "framer-motion";
+import { Suspense, useRef, useState } from "react";
+import { m, useInView } from "framer-motion";
 
 import { useSession } from "next-auth/react";
 import {
     Box,
     Breadcrumbs,
     Button,
-  
     Typography,
-
 } from "@mui/material";
 
 import { SerializedPrisma } from "@/lib/prisma/types";
@@ -57,6 +51,8 @@ export default function ProductPage({
     const { email, image } = session?.user || {};
     const ref = useRef(null);
     const isInView = useInView(ref);
+    const [postedNewReview, setPostedNewReview] =
+        useState(false);
 
     const { visible, hideSignInModal, showSignInModal } =
         useSignInModal((state) => ({
@@ -125,6 +121,9 @@ export default function ProductPage({
                         {email ? (
                             <ReviewModal
                                 product={product}
+                                setPosted={
+                                    setPostedNewReview
+                                }
                             />
                         ) : (
                             <Button
@@ -137,7 +136,7 @@ export default function ProductPage({
                         )}
                     </div>
                     <Box className="flex w-full flex-col items-center gap-y-4">
-                        {!!reviews && reviews.length > 0 ? (
+                        {/* {!!reviews && reviews.length > 0 ? (
                             reviews.map((review) => (
                                 <ReviewCard
                                     key={`review-${review.id}`}
@@ -153,29 +152,29 @@ export default function ProductPage({
                                     No reviews yet
                                 </Typography>
                             </div>
-                        )}
-                        {!!reviews &&
-                        reviews.length >=
-                            REVIEWS_PER_PAGE ? (
-                            <Suspense
-                                fallback={
-                                    <>
-                                        {new Array(5).map(
-                                            (_, id) => (
-                                                <ReviewPlaceholder
-                                                    key={`review-placeholder-${id}`}
-                                                />
-                                            ),
-                                        )}
-                                    </>
+                        )} */}
+
+                        <Suspense
+                            fallback={
+                                <>
+                                    {new Array(5).map(
+                                        (_, id) => (
+                                            <ReviewPlaceholder
+                                                key={`review-placeholder-${id}`}
+                                            />
+                                        ),
+                                    )}
+                                </>
+                            }
+                        >
+                            <Reviews
+                                // reviews={reviews}
+                                productId={product.id}
+                                postedNewReview={
+                                    postedNewReview
                                 }
-                            >
-                                <Reviews
-                                    reviews={reviews}
-                                    productId={product.id}
-                                />
-                            </Suspense>
-                        ) : null}
+                            />
+                        </Suspense>
                     </Box>
                 </div>
             </div>
