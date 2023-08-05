@@ -22,6 +22,7 @@ import {
     Typography,
 } from "@mui/material";
 import axios, { AxiosError, AxiosResponse } from "axios";
+import { useMutation } from "@tanstack/react-query";
 
 import {
     CompactOrderItem,
@@ -89,17 +90,29 @@ export default function OrderPage({
             })[];
         }
     >(order);
+    const refreshMutation = useMutation<
+        { data: any },
+        AxiosError,
+        any,
+        Response
+    >((url): any => axios.get(url));
+
     const { totalPrice, orderItems: items } = order;
     const dateFormat = new Intl.DateTimeFormat("en-US");
 
     const refreshOrder = useCallback(async () => {
-        const res = await getOrder({
-            url: `${endpoint}/?orderId=${order.id}`,
-        });
-        if (res && "order" in res) {
-            setRenderedOrder(res.order);
+        const res = await refreshMutation.mutateAsync(
+            `${endpoint}/?orderId=${order.id}`,
+        );
+        if (
+            res &&
+            "order" in res.data &&
+            typeof res.data.order === "object" &&
+            "id" in res.data.order
+        ) {
+            setRenderedOrder(res.data.order);
         }
-    }, [order]);
+    }, [order, refreshMutation]);
     // const [editable, setEditable] = useState(true);
     return (
         <>
@@ -158,7 +171,10 @@ export default function OrderPage({
                             <Typography variant="body2">
                                 Not paid
                             </Typography>
-                            <PaymentModal order={order} refreshOrder={refreshOrder}/>
+                            <PaymentModal
+                                order={order}
+                                refreshOrder={refreshOrder}
+                            />
                         </Paper>
                     )}
                     {order.isDelivered ? (
