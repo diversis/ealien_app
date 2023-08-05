@@ -110,11 +110,12 @@ export default function Cart() {
                 enqueueSnackbar({
                     message: `There was an error updating your cart`,
                     variant: "error",
+                    autoHideDuration: 6000,
                 });
             }
             console.log(error);
         }
-    }, [items]);
+    }, [items, setCountInStock, enqueueSnackbar]);
 
     useEffect(() => {
         if (items && items.length > 0) refresh();
@@ -124,7 +125,7 @@ export default function Cart() {
         <>
             <SwipeableDrawer
                 classes={{
-                    paper: "lg:max-w-[50vw] max-w-screen p-2 min-w-[40rem] w-sreen",
+                    paper: "lg:max-w-[50vw] w-screen max-w-screen p-2 lg:min-w-[40rem] w-sreen",
                 }}
                 anchor={`${isDesktop ? "right" : "bottom"}`}
                 open={show}

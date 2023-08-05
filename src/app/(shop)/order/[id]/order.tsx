@@ -1,7 +1,12 @@
 "use client";
 import ProductTable from "@/components/tables/products";
 import { useCart } from "@/lib/hooks/use-cart";
-import { useEffect, useMemo, useState } from "react";
+import {
+    useCallback,
+    useEffect,
+    useMemo,
+    useState,
+} from "react";
 
 import {
     AnimatePresence,
@@ -16,6 +21,8 @@ import {
     Paper,
     Typography,
 } from "@mui/material";
+import axios, { AxiosError, AxiosResponse } from "axios";
+
 import {
     CompactOrderItem,
     SerializedPrisma,
@@ -23,6 +30,48 @@ import {
 } from "@/lib/prisma/types";
 import { Order, OrderItem } from "@prisma/client";
 import PaymentModal from "@/components/modals/paymentModal";
+
+async function getOrder({
+    // data,
+    url,
+}: {
+    // data: { productId: string; page: string };
+    url: string;
+}): Promise<{
+    order: SerializedPrisma<Order> & {
+        orderItems: (SerializedPrisma<CompactOrderItem> & {
+            product: SerializedPrisma<CompactProduct>;
+        })[];
+    };
+} | null> {
+    try {
+        // console.log("url: ", url);
+        const res = await axios({
+            method: "get",
+            url: url,
+        });
+        if (
+            res &&
+            "order" in res.data &&
+            typeof res.data.order === "object" &&
+            "id" in res.data.order
+        ) {
+            return res.data.order as {
+                order: SerializedPrisma<Order> & {
+                    orderItems: (SerializedPrisma<CompactOrderItem> & {
+                        product: SerializedPrisma<CompactProduct>;
+                    })[];
+                };
+            };
+        }
+        return null;
+    } catch (error) {
+        console.log(error);
+        return null;
+    }
+}
+
+const endpoint = "/api/order";
 
 export default function OrderPage({
     order,
@@ -33,14 +82,25 @@ export default function OrderPage({
         })[];
     };
 }) {
+    const [renderedOrder, setRenderedOrder] = useState<
+        SerializedPrisma<Order> & {
+            orderItems: (SerializedPrisma<CompactOrderItem> & {
+                product: SerializedPrisma<CompactProduct>;
+            })[];
+        }
+    >(order);
     const { totalPrice, orderItems: items } = order;
-    const [render, setRender] = useState(false);
     const dateFormat = new Intl.DateTimeFormat("en-US");
+
+    const refreshOrder = useCallback(async () => {
+        const res = await getOrder({
+            url: `${endpoint}/?orderId=${order.id}`,
+        });
+        if (res && "order" in res) {
+            setRenderedOrder(res.order);
+        }
+    }, [order]);
     // const [editable, setEditable] = useState(true);
-    useEffect(() => {
-        setRender(true);
-    }, []);
-    if (!render) return null;
     return (
         <>
             <div className="container flex grid-cols-2 flex-col-reverse gap-8  px-4 xl:grid">
@@ -98,7 +158,7 @@ export default function OrderPage({
                             <Typography variant="body2">
                                 Not paid
                             </Typography>
-                            <PaymentModal order={order} />
+                            <PaymentModal order={order} refreshOrder={refreshOrder}/>
                         </Paper>
                     )}
                     {order.isDelivered ? (

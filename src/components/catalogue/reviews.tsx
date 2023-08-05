@@ -44,7 +44,7 @@ async function getReviews({
     url: string;
 }): Promise<{
     reviews: SerializedPrisma<ReviewWithAuthor>[];
-    nextId: string | null;
+    nextId: string | undefined;
 } | null> {
     try {
         // console.log("url: ", url);
@@ -58,13 +58,15 @@ async function getReviews({
             "reviews" in res.data &&
             Array.isArray(res.data.reviews)
         ) {
-            const resReviews = res.data.reviews.filter(
-                (review: unknown) =>
+            const resReviews: SerializedPrisma<ReviewWithAuthor>[] =
+                res.data.reviews.filter((review: unknown) =>
                     isSerializedReview(review),
-            );
-            return res.data as {
-                reviews: SerializedPrisma<ReviewWithAuthor>[];
-                nextId: string | null;
+                );
+            return {
+                reviews: resReviews,
+                nextId: res.data.nextId as
+                    | string
+                    | undefined,
             };
         }
     } catch (error) {

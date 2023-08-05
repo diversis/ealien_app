@@ -209,7 +209,7 @@ export default function OrderForm() {
     ) => {
         try {
             clearErrors("root");
-            console.log({ ...data, items });
+            // console.log({ ...data, items });
             const orderData: FieldValues & {
                 items: CartItem[];
             } = {
@@ -220,7 +220,7 @@ export default function OrderForm() {
                 data: orderData,
                 url: endpoint,
             });
-            console.log(response);
+            // console.log(response);
             setNewOrderId(response.data.orderId);
             clearCart();
             enqueueSnackbar({
@@ -232,7 +232,7 @@ export default function OrderForm() {
                 `/order/${response.data.orderId || "#"}`,
             );
         } catch (error) {
-            console.log("axios?: ", error);
+            // console.log("axios?: ", error);
             if (error instanceof AxiosError) {
                 //Received message from API ?
                 if (
@@ -291,10 +291,10 @@ export default function OrderForm() {
                             }
                         },
                     );
-                    console.log(
-                        "redirectForm: ",
-                        BackToStep,
-                    );
+                    // console.log(
+                    //     "redirectForm: ",
+                    //     BackToStep,
+                    // );
                     setActive(BackToStep);
                     const errorMessage =
                         fieldToErrorMessage.reduce(
@@ -346,7 +346,7 @@ export default function OrderForm() {
                     setValue("email", email || "");
                 }
                 result = await trigger(["name", "email"]);
-                console.log("result:", result);
+                // console.log("result:", result);
                 break;
             }
             case 1: {
@@ -356,7 +356,7 @@ export default function OrderForm() {
                     "postalCode",
                     "country",
                 ]);
-                console.log("result:", result);
+                // console.log("result:", result);
                 break;
             }
             case 2: {
@@ -373,39 +373,39 @@ export default function OrderForm() {
                 : current;
         });
     };
-    useEffect(() => {
-        console.log(active);
-    }, [active]);
+    // useEffect(() => {
+    //     console.log(active);
+    // }, [active]);
+
+    // useEffect(() => {
+    //     console.log(errors);
+    // }, [errors]);
+
+    // useEffect(() => {
+    //     console.log(
+    //         `\n-----\n name:  ${getValues(
+    //             "name",
+    //         )}\n-----\n email:  ${getValues(
+    //             "email",
+    //         )}\n-----\n address:  ${getValues(
+    //             "address",
+    //         )}\n-----\n city:  ${getValues(
+    //             "city",
+    //         )}\n-----\n country:  ${getValues(
+    //             "country",
+    //         )}\n-----\n postalCode:  ${getValues(
+    //             "postalCode",
+    //         )}\n-----\n paymentMethod:  ${getValues(
+    //             "paymentMethod",
+    //         )}\n-----\n`,
+    //     );
+    // });
 
     useEffect(() => {
-        console.log(errors);
-    }, [errors]);
-
-    useEffect(() => {
-        console.log(
-            `\n-----\n name:  ${getValues(
-                "name",
-            )}\n-----\n email:  ${getValues(
-                "email",
-            )}\n-----\n address:  ${getValues(
-                "address",
-            )}\n-----\n city:  ${getValues(
-                "city",
-            )}\n-----\n country:  ${getValues(
-                "country",
-            )}\n-----\n postalCode:  ${getValues(
-                "postalCode",
-            )}\n-----\n paymentMethod:  ${getValues(
-                "paymentMethod",
-            )}\n-----\n`,
-        );
-    });
-
-    useEffect(() => {
-        console.log(
-            "submit success?: ",
-            isSubmitSuccessful,
-        );
+        // console.log(
+        //     "submit success?: ",
+        //     isSubmitSuccessful,
+        // );
         if (isSubmitting || isSubmitSuccessful) {
             setEditable(false);
         }

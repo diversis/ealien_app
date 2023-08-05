@@ -36,10 +36,12 @@ interface PaymentModalProps
             product: SerializedPrisma<CompactProduct>;
         })[];
     };
+    refreshOrder: () => Promise<void>;
 }
 
 export default function PaymentModal({
     order,
+    refreshOrder,
     ...rest
 }: PaymentModalProps) {
     const [open, setOpen] = useState(false);
@@ -86,7 +88,11 @@ export default function PaymentModal({
                     $ {order.totalPrice.toFixed(2)}
                 </Typography>
                 <Divider className="mb-2" />
-                <PayPalButtonsComponent order={order} />
+                <PayPalButtonsComponent
+                    order={order}
+                    refreshOrder={refreshOrder}
+                    handleClose={handleClose}
+                />
             </Dialog>
         </>
     );

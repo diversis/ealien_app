@@ -17,12 +17,16 @@ import LoaderDots from "../shared/loaderDots";
 
 export default function PayPalButtonsComponent({
     order,
+    refreshOrder,
+    handleClose,
 }: {
     order: SerializedPrisma<Order> & {
         orderItems: (SerializedPrisma<CompactOrderItem> & {
             product: SerializedPrisma<CompactProduct>;
         })[];
     };
+    refreshOrder: () => Promise<void>;
+    handleClose: () => void;
 }) {
     const { enqueueSnackbar, closeSnackbar } =
         useSnackbar();
@@ -99,18 +103,21 @@ export default function PayPalButtonsComponent({
                     orderID: data.orderID,
                 });
             if (response) {
-                console.log(response);
+                // console.log(response);
                 // Order is successful
                 // Your custom code
                 // Like showing a success toast:
                 // toast.success('Amount Added to Wallet')
                 // And/Or Adding Balance to Redux Wallet
                 // dispatch(setWalletBalance({ balance: response.data.data.wallet.balance }))
+
+                refreshOrder();
                 enqueueSnackbar({
                     message: `Payment successful`,
                     variant: "success",
                     autoHideDuration: 6000,
                 });
+                handleClose();
             }
         } catch (error) {
             // Order is not successful

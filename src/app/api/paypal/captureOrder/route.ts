@@ -35,7 +35,15 @@ export async function POST(request: NextRequest) {
             );
         }
 
-        await updateOrderPaymentStatus({ paypalID: orderID })
+        const update = await updateOrderPaymentStatus({ paypalID: orderID })
+        if (!update || !('id' in update)) {
+            if (!response) {
+                return NextResponse.json(
+                    { success: false, message: "Server Error" },
+                    { status: 500 },
+                );
+            }
+        }
         return NextResponse.json(
             { ...response.result },
             { status: 200 },
