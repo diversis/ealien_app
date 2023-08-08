@@ -1,11 +1,10 @@
-import { OrderItem, Product, Order, Prisma } from "@prisma/client";
-import { Decimal } from "@prisma/client/runtime";
+import { OrderItem, Product, Prisma } from "@prisma/client";
 
 export type SerializedPrisma<T> = {
     [Property in keyof T]: ToNumber<T[Property]>;
 };
 
-export type ToNumber<T> = T extends Decimal | Date
+export type ToNumber<T> = T extends Prisma.Decimal | Date
     ? number
     : T;
 
