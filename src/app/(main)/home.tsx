@@ -46,17 +46,19 @@ export default function Home({
                     <HeroSection key="hero-section" />
                     <FeaturesSection key="features-section" />
                     <TestimonialsSection key="testimonials-section" />
-                    <Carousel
+                    <div
+                        className="max-h-screen w-full !overflow-y-visible px-4"
                         key="carousel-section"
-                        className="!overflow-y-visible"
                     >
-                        {products.map((product) => (
-                            <ProductCard
-                                key={`card-${product.id}`}
-                                product={product}
-                            />
-                        ))}
-                    </Carousel>
+                        <Carousel className="!overflow-y-visible px-4">
+                            {products.map((product) => (
+                                <ProductCard
+                                    key={`card-${product.id}`}
+                                    product={product}
+                                />
+                            ))}
+                        </Carousel>
+                    </div>
                     <CTABottom key="cta-bottom-section" />
                 </AnimatePresence>
             </div>

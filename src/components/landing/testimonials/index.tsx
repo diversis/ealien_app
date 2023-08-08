@@ -38,7 +38,7 @@ export default function TestimonialsSection() {
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
-            className="relative flex  min-h-screen w-full flex-col items-center md:min-h-[calc(100vh_-_6rem)]"
+            className="relative flex min-h-screen w-full flex-col items-center px-4 md:min-h-[calc(100vh_-_6rem)]"
         >
             <Typography
                 variant="h2"
@@ -57,7 +57,7 @@ export default function TestimonialsSection() {
                 }}
                 autoplayDelay={20000}
                 controls={false}
-                className="h-min"
+                className="h-min "
             >
                 {TESTIMONIALS.map((item) => (
                     <TestimonialsCard
