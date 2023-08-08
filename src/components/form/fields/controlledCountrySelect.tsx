@@ -47,10 +47,10 @@ export const ControlledCountrySelect = <
                                 Array.isArray(data)
                             )
                                 return;
-                            console.log(
-                                "change data: ",
-                                data,
-                            );
+                            // console.log(
+                            //     "change data: ",
+                            //     data,
+                            // );
                             return onChange(
                                 data.label as any,
                             );
@@ -100,10 +100,10 @@ export const ControlledCountrySelect = <
                             );
                         }}
                         renderInput={(params) => {
-                            console.info(
-                                "country params: ",
-                                params,
-                            );
+                            // console.info(
+                            //     "country params: ",
+                            //     params,
+                            // );
                             return (
                                 <TextField
                                     {...params}

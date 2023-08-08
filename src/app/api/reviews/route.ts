@@ -49,7 +49,7 @@ export async function GET(request: NextRequest) {
             const serializedReviews = productReviews.reviews.map(review => serializeReview<ReviewWithAuthor>(review)).filter(Boolean) as SerializedPrisma<ReviewWithAuthor>[]
             if (!serializedReviews || serializedReviews.length < 1) {
                 return NextResponse.json(
-                    { success: false, message: "Error serializing product reviews" },
+                    { reviews: [], success: false, message: "Error serializing product reviews" },
                     { status: 400 },
                 );
             }
@@ -64,7 +64,7 @@ export async function GET(request: NextRequest) {
     catch (error) {
         reviewsLogger.error(error);
         return NextResponse.json(
-            { error },
+            { reviews: [], error },
             { status: 400 },
         );
     }

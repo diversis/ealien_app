@@ -32,46 +32,6 @@ import {
 import { Order, OrderItem } from "@prisma/client";
 import PaymentModal from "@/components/modals/paymentModal";
 
-async function getOrder({
-    // data,
-    url,
-}: {
-    // data: { productId: string; page: string };
-    url: string;
-}): Promise<{
-    order: SerializedPrisma<Order> & {
-        orderItems: (SerializedPrisma<CompactOrderItem> & {
-            product: SerializedPrisma<CompactProduct>;
-        })[];
-    };
-} | null> {
-    try {
-        // console.log("url: ", url);
-        const res = await axios({
-            method: "get",
-            url: url,
-        });
-        if (
-            res &&
-            "order" in res.data &&
-            typeof res.data.order === "object" &&
-            "id" in res.data.order
-        ) {
-            return res.data.order as {
-                order: SerializedPrisma<Order> & {
-                    orderItems: (SerializedPrisma<CompactOrderItem> & {
-                        product: SerializedPrisma<CompactProduct>;
-                    })[];
-                };
-            };
-        }
-        return null;
-    } catch (error) {
-        console.log(error);
-        return null;
-    }
-}
-
 const endpoint = "/api/order";
 
 export default function OrderPage({
@@ -90,7 +50,7 @@ export default function OrderPage({
             })[];
         }
     >(order);
-    const refreshMutation = useMutation<
+    const getAPIMutation = useMutation<
         { data: any },
         AxiosError,
         any,
@@ -101,7 +61,7 @@ export default function OrderPage({
     const dateFormat = new Intl.DateTimeFormat("en-US");
 
     const refreshOrder = useCallback(async () => {
-        const res = await refreshMutation.mutateAsync(
+        const res = await getAPIMutation.mutateAsync(
             `${endpoint}/?orderId=${order.id}`,
         );
         if (
@@ -112,7 +72,9 @@ export default function OrderPage({
         ) {
             setRenderedOrder(res.data.order);
         }
-    }, [order, refreshMutation]);
+    }, [order, getAPIMutation]);
+
+    
     // const [editable, setEditable] = useState(true);
     return (
         <>
