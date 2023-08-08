@@ -41,7 +41,7 @@ export default function ProductFilters({
     const debouncedFilters = useDebounce(filters, 500);
 
     useEffect(() => {
-        console.log("debouncedFilters: ", debouncedFilters);
+        // console.log("debouncedFilters: ", debouncedFilters);
         handleSearch({ filters: debouncedFilters });
     }, [debouncedFilters, handleSearch]);
 

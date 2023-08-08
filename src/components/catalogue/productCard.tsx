@@ -58,7 +58,7 @@ export default function ProductCard({
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
-            className="z-0 aspect-square w-full transform-none place-self-center transition-[z-index] duration-500 ease-[cubic-bezier(1,0,1,0)] [&:is(:hover,:focus,:focus-within)]:z-20 [&:is(:hover,:focus,:focus-within)]:duration-0"
+            className="z-0 aspect-square w-full transform-none place-self-center transition-[z-index] duration-500 ease-[cubic-bezier(1,0,1,0)] [&:is(:hover,:focus,:focus-within)]:z-[100] [&:is(:hover,:focus,:focus-within)]:duration-0"
         >
             <Card className="group/card relative z-0 grid aspect-square w-full grid-cols-1 grid-rows-[1fr_auto] !overflow-visible bg-transparent ">
                 <Link
