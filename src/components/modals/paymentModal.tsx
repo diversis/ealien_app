@@ -1,24 +1,27 @@
 import {
+    ComponentPropsWithoutRef,
+    forwardRef,
+    useState,
+} from "react";
+import {
+    Box,
     Dialog,
     Button,
     DialogTitle,
     Divider,
     Typography,
 } from "@mui/material";
-import {
-    ComponentPropsWithoutRef,
-    forwardRef,
-    useState,
-} from "react";
+import WarningIcon from "@mui/icons-material/Warning";
 import { TransitionProps } from "@mui/material/transitions";
 import Slide from "@mui/material/Slide";
+
+import { Order } from "@prisma/client";
 import PayPalButtonsComponent from "../paypal/buttons";
 import {
     CompactOrderItem,
     CompactProduct,
     SerializedPrisma,
 } from "@/lib/prisma/types";
-import { Order } from "@prisma/client";
 
 const Transition = forwardRef(function Transition(
     props: TransitionProps & {
@@ -93,6 +96,14 @@ export default function PaymentModal({
                     refreshOrder={refreshOrder}
                     handleClose={handleClose}
                 />
+                <Divider className="my-2" />
+                <Box className="flex flex-row flex-wrap gap-2">
+                    <WarningIcon className="h-6 w-6 flex-grow lg:h-8 lg:w-8" />
+                    <Typography variant="body2">
+                        Only for testing. No real purchase
+                        is made.
+                    </Typography>
+                </Box>
             </Dialog>
         </>
     );
