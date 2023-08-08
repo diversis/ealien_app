@@ -1,7 +1,7 @@
 import { serializeProduct } from "./serialization";
 import type { Product, Category } from "@prisma/client";
 import prisma from "./prisma";
-import { Decimal } from "@prisma/client/runtime/library";
+
 import { CompactProduct, SerializedPrisma } from "./types";
 export type { Product, Category } from "@prisma/client";
 

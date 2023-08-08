@@ -1,8 +1,7 @@
 import { REVIEWS_PER_PAGE } from './../constants';
-import type { Prisma, Review } from "@prisma/client";
+import type { Review } from "@prisma/client";
 import prisma from "./prisma";
-import { ReviewWithAuthor, SerializedPrisma } from "./types";
-import { serializeReview } from "./serialization";
+import { ReviewWithAuthor } from "./types";
 export type { Review } from "@prisma/client";
 const logger = require("@/lib/utils/logger");
 const reviewLogger = logger.child({

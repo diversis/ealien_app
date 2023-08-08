@@ -1,6 +1,5 @@
-import { OrderItem, Prisma } from "@prisma/client";
+import { Prisma } from "@prisma/client";
 import prisma from "./prisma";
-import { getProduct } from "./product";
 import { CompactOrderItem, CompactProduct } from "./types";
 const logger = require("@/lib/utils/logger");
 const orderItemLogger = logger.child({ origin: "prisma orderItem" });

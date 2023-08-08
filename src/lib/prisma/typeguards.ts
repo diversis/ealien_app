@@ -1,4 +1,4 @@
-import { Review } from "@prisma/client";
+
 import {
     CartItem,
     ReviewWithAuthor,

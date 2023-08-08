@@ -9,10 +9,10 @@ import {
 import {
     Order,
     OrderItem,
+    Prisma,
     Product,
     User,
 } from "@prisma/client";
-import { Decimal, GetResult } from "@prisma/client/runtime";
 
 const logger = require("@/lib/utils/logger");
 const orderLogger = logger.child({
@@ -24,9 +24,9 @@ const createOrderItems = async ({
     orderId,
 }: {
     items: {
-        price: Decimal;
+        price: Prisma.Decimal;
         countInStock: number;
-        rating: Decimal;
+        rating: Prisma.Decimal;
         name: string;
         id: string;
         image: string | null;
@@ -129,9 +129,9 @@ export async function createOrder({
                 }
                 return {
                     ...item,
-                    price: price as Decimal,
+                    price: price as Prisma.Decimal,
                     countInStock: countInStock as number,
-                    rating: rating as Decimal,
+                    rating: rating as Prisma.Decimal,
                     name,
                 };
             }),
