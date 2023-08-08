@@ -142,7 +142,7 @@ export default function OrderPage({
                 </m.div>
                 <m.div
                     layout
-                    className="sticky top-24 flex h-min flex-col items-center gap-2 rounded-xl bg-primary-50/20 p-2 dark:bg-primary-900/20"
+                    className="flex h-min flex-col items-center gap-2 rounded-xl bg-primary-50/20 p-2 dark:bg-primary-900/20 lg:sticky lg:top-24"
                 >
                     {order.shippingAddressId ? (
                         <Paper>

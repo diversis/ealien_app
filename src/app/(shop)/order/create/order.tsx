@@ -79,7 +79,7 @@ export default function NewOrder() {
 
                 <m.div
                     layout
-                    className="sticky top-24 grid h-min w-full grid-cols-1 place-items-start justify-items-center"
+                    className="grid h-min w-full grid-cols-1 place-items-start justify-items-center lg:sticky lg:top-24"
                 >
                     <OrderForm></OrderForm>
                 </m.div>
