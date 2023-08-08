@@ -9,7 +9,7 @@
         "lint": "next lint",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
-        "postinstall": "prisma generate"
+        "postinstall": "prisma generate && prisma push && prisma seed"
     },
     "dependencies": {
         "@emotion/cache": "^11.11.0",
