@@ -49,6 +49,24 @@ export default function Hero({
     // const [imagePosition, setImagePosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 })
     const mouseX = useMotionValue(mousePosition.x);
     const mouseY = useMotionValue(mousePosition.y);
+    const calcX = useTransform(mouseX, (latest) =>
+        Math.abs(
+            Math.floor(mousePosition.x * 1000000 + 1111),
+        ),
+    );
+    const calcY = useTransform(mouseY, (latest) =>
+        Math.abs(
+            Math.floor(mousePosition.y * 10000000 + 1111),
+        ),
+    );
+    const bgNumberX = useSpring(calcX, {
+        damping: 50,
+        stiffness: 250,
+    });
+    const bgNumberY = useSpring(calcY, {
+        damping: 50,
+        stiffness: 250,
+    });
     const resX = useTransform(
         mouseX,
         (latest) =>
@@ -78,36 +96,6 @@ export default function Hero({
         stiffness: 250,
         damping: 150,
     });
-
-    const onMouseMove = useCallback(
-        (mousePosition: {
-            x: number;
-            y: number;
-        }): { x: number; y: number } => {
-            const width = windowSize.width || 1;
-            const height = windowSize.height || 1;
-
-            const resX =
-                Math.cos(
-                    -(width / 2 - mousePosition.x) / width,
-                ) * 10;
-            const resY =
-                Math.sin(
-                    -(height / 2 - mousePosition.y) /
-                        height,
-                ) * 10;
-
-            if (
-                typeof resX !== "number" ||
-                typeof resY !== "number"
-            ) {
-                console.log(resX, resY);
-                return { x: 0, y: 0 };
-            }
-            return { x: resX, y: resY };
-        },
-        [windowSize],
-    );
 
     // useEffect(() => {
     //     if (isInView) {
@@ -220,22 +208,17 @@ export default function Hero({
             <div className="relative isolate flex aspect-square  max-h-full w-full">
                 {/* <div className="radial-mask absolute -bottom-[10%] -left-[10%] -right-[10%] -top-[10%] isolate -z-[1] bg-black bg-gradient-to-t from-tertiary-200 to-primary-100"></div> */}
                 <div className="relative isolate z-10 aspect-[640/951] h-auto w-full">
-                    <m.span
+                    <m.div
                         style={{
                             fontSize: "20vmin",
                             x,
                             y,
                         }}
-                        className="radial-mask text-stroke absolute inset-0 break-all font-bold text-transparent"
+                        className="radial-mask text-stroke absolute inset-0 flex flex-wrap break-all font-bold text-transparent"
                     >
-                        {Math.abs(
-                            Math.floor(
-                                x.get() *
-                                    y.get() *
-                                    10000000,
-                            ),
-                        )}
-                    </m.span>
+                        <m.span>{bgNumberX}</m.span>
+                        <m.span>{bgNumberY}</m.span>
+                    </m.div>
                     <Image
                         fill
                         sizes={imageSizes}

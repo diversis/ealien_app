@@ -112,7 +112,7 @@ export default function CTA({
             data-test="hero-section-cta"
             key="hero-text"
             ref={ref}
-            className="peer/cta  max-w-screen z-10 flex h-[calc(100vh_-_7rem)] max-h-full flex-col items-center justify-center gap-y-4 px-4 [grid-area:1/1/2/3] lg:gap-y-8 lg:py-[5%]  lg:[grid-area:1/1/2/8]"
+            className="peer/cta  max-w-screen z-10 flex max-h-full flex-col items-center justify-center gap-y-4 px-4 [grid-area:1/1/2/3] lg:h-[calc(100vh_-_7rem)] lg:gap-y-8 lg:py-[5%]  lg:[grid-area:1/1/2/8]"
             variants={OPACITY_VARIANTS}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}

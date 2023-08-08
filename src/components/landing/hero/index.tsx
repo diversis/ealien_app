@@ -57,7 +57,7 @@ export default function HeroSection() {
                     ></m.div>
                 ) : null}
             </AnimatePresence>
-            <article className="container relative grid grid-cols-1 grid-rows-[auto_minmax(0,1fr)_auto] justify-center overflow-visible px-4 py-12 pb-24 md:px-8 lg:grid lg:grid-cols-12 lg:grid-rows-1 lg:px-12 xl:py-2">
+            <article className="container relative flex grid-cols-1 grid-rows-[auto_minmax(0,1fr)_auto] flex-col items-center justify-center gap-8 overflow-visible px-4 py-12 pb-24 md:px-8 lg:grid lg:grid-cols-12 lg:grid-rows-1 lg:gap-0 lg:px-12 xl:py-2">
                 {/* <AnimatePresence>
                     {isInView && (
                         <> */}
