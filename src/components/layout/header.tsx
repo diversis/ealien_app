@@ -1,6 +1,6 @@
 "use client";
 import { AnimatePresence, m } from "framer-motion";
-import { useState } from "react";
+import { useContext, useState } from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
 import useScrollTrigger from "@mui/material/useScrollTrigger";
@@ -37,6 +37,7 @@ import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
 import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
 import SignInModal from "../modals/signInModal";
 import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
+import { MenuContext } from "@/lib/nav/menuContext";
 
 const Header = () => {
     const { data: session, status } = useSession();
@@ -87,7 +88,14 @@ const Header = () => {
                         key="menu"
                         className="fixed right-0 top-0 z-[120] grid w-0 grid-cols-1 grid-rows-[0fr] place-items-center "
                     >
-                        <MobileMenu />
+                        <MenuContext.Provider
+                            value={{
+                                handleOpenUserMenu,
+                                handleCloseUserMenu,
+                            }}
+                        >
+                            <MobileMenu />
+                        </MenuContext.Provider>
                     </m.div>
                 ) : (
                     <m.div

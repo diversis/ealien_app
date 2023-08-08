@@ -1,17 +1,60 @@
 "use client";
 import { Variants, m } from "framer-motion";
-import { useRef, Dispatch, SetStateAction } from "react";
-import Social from "../shared/social";
+import {
+    useRef,
+    Dispatch,
+    SetStateAction,
+    useContext,
+    useState,
+} from "react";
+import {
+    Avatar,
+    Box,
+    Button,
+    Menu,
+    MenuItem,
+    Tooltip,
+    Typography,
+} from "@mui/material";
+import { useSession } from "next-auth/react";
 import Link from "next/link";
+import LoginIcon from "@mui/icons-material/Login";
+import LogoutIcon from "@mui/icons-material/Logout";
+
+import { signOut } from "next-auth/react";
+import Social from "../shared/social";
 import SwitchTheme from "../shared/switchTheme";
 import Cart from "../cart/cart";
+import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
+import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
+import SignInModal from "../modals/signInModal";
+import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
 
 export default function MobileMenuContainer({
     toggle,
 }: {
     toggle: Dispatch<SetStateAction<boolean>>;
 }) {
+    const { data: session, status } = useSession();
+    const { email, image, name } = session?.user || {};
     const ref = useRef<HTMLDivElement>(null);
+    const { visible, hideSignInModal, showSignInModal } =
+        useSignInModal((state) => ({
+            visible: state.visible,
+            hideSignInModal: state.hideSignInModal,
+            showSignInModal: state.showSignInModal,
+        }));
+    const [anchorElUser, setAnchorElUser] =
+        useState<null | HTMLElement>(null);
+    const handleOpenUserMenu = (
+        event: React.MouseEvent<HTMLElement>,
+    ) => {
+        setAnchorElUser(event.currentTarget);
+    };
+
+    const handleCloseUserMenu = () => {
+        setAnchorElUser(null);
+    };
 
     const variants: Variants = {
         open: {
@@ -56,8 +99,101 @@ export default function MobileMenuContainer({
                         </div>
                     </Link>
                 </m.div>
+                <Box className="flex items-center">
+                    {MAIN_MENU_LINKS.map((page) => (
+                        <Link
+                            key={`main-menu-${page.title}`}
+                            href={page.url || "#"}
+                        >
+                            {page.title}
+                        </Link>
+                    ))}
+                </Box>
                 {/* <Contacts className="flex-col" /> */}
                 <Cart />
+                <Box sx={{ flexGrow: 0 }}>
+                    <Tooltip title="Open settings">
+                        <button
+                            onClick={handleOpenUserMenu}
+                        >
+                            <Avatar
+                                alt={name || "User"}
+                                src={
+                                    image ||
+                                    "/images/logo2.png"
+                                }
+                            />
+                        </button>
+                    </Tooltip>
+                    <Menu
+                        sx={{ mt: "45px" }}
+                        id="menu-appbar"
+                        anchorEl={anchorElUser}
+                        anchorOrigin={{
+                            vertical: "top",
+                            horizontal: "right",
+                        }}
+                        keepMounted
+                        transformOrigin={{
+                            vertical: "top",
+                            horizontal: "right",
+                        }}
+                        open={Boolean(anchorElUser)}
+                        onClose={handleCloseUserMenu}
+                    >
+                        {USER_MENU_LINKS.map((setting) => (
+                            <MenuItem
+                                key={`user-menu-${setting.title}`}
+                                className="!p-0"
+                            >
+                                <Link
+                                    href={
+                                        setting.url || "#"
+                                    }
+                                    className="w-full"
+                                >
+                                    <Typography
+                                        textAlign="center"
+                                        className="px-2 py-1"
+                                    >
+                                        {setting.title}
+                                    </Typography>
+                                </Link>
+                            </MenuItem>
+                        ))}
+                        {!!email ? (
+                            <MenuItem
+                                key={`user-menu-logout`}
+                                className="!p-0"
+                            >
+                                <Button
+                                    variant="text"
+                                    onClick={() =>
+                                        signOut()
+                                    }
+                                    className="w-full"
+                                >
+                                    Logout
+                                    <LogoutIcon className="h-6 w-6" />
+                                </Button>
+                            </MenuItem>
+                        ) : (
+                            <MenuItem
+                                key={`user-menu-login`}
+                            >
+                                <Button
+                                    variant="text"
+                                    onClick={
+                                        showSignInModal
+                                    }
+                                >
+                                    Sign In
+                                    <LoginIcon className="h-6 w-6" />
+                                </Button>
+                            </MenuItem>
+                        )}
+                    </Menu>
+                </Box>
                 <Social />
             </m.div>
             <m.div
