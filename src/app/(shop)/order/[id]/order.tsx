@@ -23,16 +23,30 @@ import {
 } from "@mui/material";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useMutation } from "@tanstack/react-query";
+import { camelCase } from "lodash";
 
 import {
     CompactOrderItem,
     SerializedPrisma,
     CompactProduct,
 } from "@/lib/prisma/types";
-import { Order, OrderItem } from "@prisma/client";
+import {
+    Order,
+    OrderItem,
+    ShippingAddress,
+} from "@prisma/client";
 import PaymentModal from "@/components/modals/paymentModal";
+import { hasKey } from "@/lib/utils/tsutils";
 
-const endpoint = "/api/order";
+const orderEndpoint = "/api/order";
+const shippingEndpoint = "/api/shipping";
+const shippingAddressFields = [
+    "Address",
+    "City",
+    "Country",
+    "Postal Code",
+    "Shipping Price",
+];
 
 export default function OrderPage({
     order,
@@ -50,6 +64,9 @@ export default function OrderPage({
             })[];
         }
     >(order);
+    const [shippingAddress, setShippingAddress] =
+        useState<SerializedPrisma<ShippingAddress>>();
+
     const getAPIMutation = useMutation<
         { data: any },
         AxiosError,
@@ -60,9 +77,23 @@ export default function OrderPage({
     const { totalPrice, orderItems: items } = order;
     const dateFormat = new Intl.DateTimeFormat("en-US");
 
+    const getShippingAddress = useCallback(async () => {
+        const res = await getAPIMutation.mutateAsync(
+            `${shippingEndpoint}/?shippingAddressId=${order.shippingAddressId}`,
+        );
+        if (
+            res &&
+            "shippingAddress" in res.data &&
+            typeof res.data.shippingAddress === "object" &&
+            "id" in res.data.shippingAddress
+        ) {
+            setShippingAddress(res.data.shippingAddress);
+        }
+    }, [order, getAPIMutation]);
+
     const refreshOrder = useCallback(async () => {
         const res = await getAPIMutation.mutateAsync(
-            `${endpoint}/?orderId=${order.id}`,
+            `${orderEndpoint}/?orderId=${order.id}`,
         );
         if (
             res &&
@@ -70,11 +101,14 @@ export default function OrderPage({
             typeof res.data.order === "object" &&
             "id" in res.data.order
         ) {
-            setRenderedOrder(res.data.order);
+            await setRenderedOrder(res.data.order);
         }
     }, [order, getAPIMutation]);
 
-    
+    useEffect(() => {
+        getShippingAddress();
+    }, [order.shippingAddressId]);
+
     // const [editable, setEditable] = useState(true);
     return (
         <>
@@ -106,17 +140,49 @@ export default function OrderPage({
                     layout
                     className="flex h-min flex-col items-center gap-2 rounded-xl bg-primary-50/20 p-2 dark:bg-primary-900/20 lg:sticky lg:top-24"
                 >
-                    {order.shippingAddressId ? (
-                        <Paper>
-                            <Box className="flex flex-col">
-                                {/* {Object.entries(order)} */}
+                    {shippingAddress ? (
+                        <Paper className="w-full p-2">
+                            <Box className="flex w-full flex-col">
+                                {shippingAddressFields.map(
+                                    (field) => {
+                                        const camelField =
+                                            camelCase(
+                                                field,
+                                            );
+                                        if (
+                                            hasKey(
+                                                shippingAddress,
+                                                camelField,
+                                            )
+                                        )
+                                            return (
+                                                <Box
+                                                    key={`shipping-${field}`}
+                                                    className="grid grid-cols-2 gap-2 py-1 [&:not(:last-of-type)]:border-b"
+                                                >
+                                                    <Typography variant="body1">
+                                                        {
+                                                            field
+                                                        }
+                                                    </Typography>
+                                                    <Typography variant="body1">
+                                                        {
+                                                            shippingAddress[
+                                                                camelField
+                                                            ]
+                                                        }
+                                                    </Typography>
+                                                </Box>
+                                            );
+                                    },
+                                )}
                             </Box>
                         </Paper>
                     ) : null}
                     {order.isPaid ? (
                         <Paper className="w-full p-2">
                             <Box className="flex flex-row gap-2 rounded bg-tertiary-300 px-1 dark:bg-tertiary-800 lg:px-2">
-                                <Typography variant="body2">
+                                <Typography variant="body1">
                                     Paid on{" "}
                                     {order.paidAt
                                         ? dateFormat.format(
@@ -130,7 +196,7 @@ export default function OrderPage({
                         </Paper>
                     ) : (
                         <Paper className="flex w-full flex-row items-center justify-between p-2">
-                            <Typography variant="body2">
+                            <Typography variant="body1">
                                 Not paid
                             </Typography>
                             <PaymentModal
@@ -142,7 +208,7 @@ export default function OrderPage({
                     {order.isDelivered ? (
                         <Paper className="w-full p-2">
                             <Box className="flex flex-row gap-2 rounded bg-tertiary-300 px-1 dark:bg-tertiary-800 lg:px-2">
-                                <Typography variant="body2">
+                                <Typography variant="body1">
                                     Delivered on{" "}
                                     {order.deliveredAt ||
                                         ""}
@@ -151,7 +217,7 @@ export default function OrderPage({
                         </Paper>
                     ) : (
                         <Paper className="w-full flex-row items-center justify-between p-2">
-                            <Typography variant="body2">
+                            <Typography variant="body1">
                                 Not delivered
                             </Typography>
                         </Paper>
