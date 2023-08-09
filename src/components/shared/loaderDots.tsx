@@ -1,8 +1,17 @@
 "use client";
 import { OPACITY_VARIANTS } from "@/lib/constants";
-import { m } from "framer-motion";
+import {
+    HTMLMotionProps,
+    MotionConfigProps,
+    m,
+} from "framer-motion";
+import { ComponentPropsWithoutRef } from "react";
 
-const LoaderDots = () => {
+interface LoaderDotsProps extends HTMLMotionProps<"div"> {}
+
+export default function LoaderDots({
+    ...rest
+}: LoaderDotsProps) {
     return (
         <>
             <m.div
@@ -11,6 +20,7 @@ const LoaderDots = () => {
                 exit="exit"
                 variants={OPACITY_VARIANTS}
                 className="flex aspect-[6/1] w-full flex-row gap-1"
+                {...rest}
             >
                 {[1, 2, 3, 4, 5].map((i, id) => (
                     <div
@@ -26,6 +36,4 @@ const LoaderDots = () => {
             </m.div>
         </>
     );
-};
-
-export default LoaderDots;
+}

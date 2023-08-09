@@ -54,15 +54,11 @@ const SignInModal = ({
             {...rest}
         >
             <Paper className="w-full overflow-hidden rounded-2xl shadow-xl md:border md:border-secondary-100">
-                {/* <div className="flex flex-col items-center justify-center space-y-3 border-b border-secondary-100 bg-secondary-100 px-4 py-6 pt-8 text-center dark:bg-primary-700 md:px-16">
-                    <h3 className="font-display text-2xl font-bold text-surface-900 dark:text-surface-50">
-                        Sign In
-                    </h3>
-                    <p className="text-sm text-surface-400 dark:text-secondary-200">
-                        This is strictly for demo purposes - only your email and
-                        profile picture will be stored.
-                    </p>
-                </div> */}
+                <div className="flex flex-col items-center justify-center space-y-3 border-b border-secondary-100 bg-secondary-100 px-4 py-6 pt-8 text-center dark:bg-primary-700 md:px-16">
+                    <Typography variant="body2">
+                        This is strictly for demo purposes.
+                    </Typography>
+                </div>
 
                 <Box className="relative flex w-full flex-col items-center space-y-4 bg-surface-50/50 px-4 py-8 md:px-16">
                     <Button
@@ -79,16 +75,15 @@ const SignInModal = ({
                         }}
                     >
                         {signInClicked ? (
-                            <LoaderDots />
+                            <LoaderDots className="h-8 min-w-[20rem]" />
                         ) : (
                             <>
-                                {/* <FontAwesomeIcon
-                                    icon={faGoogle}
-                                    className="svg-icon-fasolid h-5  w-5"
-                                /> */}
-                                <p className="flex-grow">
+                                <Typography
+                                    variant="h5"
+                                    className="flex-grow"
+                                >
                                     Sign In with Google
-                                </p>
+                                </Typography>
                             </>
                         )}
                     </Button>
@@ -107,71 +102,15 @@ const SignInModal = ({
                         }}
                     >
                         {signInClicked ? (
-                            <LoaderDots />
+                            <LoaderDots className="h-8 min-w-[20rem]" />
                         ) : (
                             <>
-                                {/* <FontAwesomeIcon
-                                    icon={faGithub}
-                                    className="svg-icon-fasolid h-5  w-5"
-                                /> */}
-                                <p className="flex-grow">
+                                <Typography
+                                    variant="h5"
+                                    className="flex-grow"
+                                >
                                     Sign In with Github
-                                </p>
-                            </>
-                        )}
-                    </Button>
-
-                    <Button
-                        variant="outlined"
-                        disabled={signInClicked}
-                        className={`${
-                            signInClicked
-                                ? "cursor-not-allowed"
-                                : ""
-                        } `}
-                        onClick={() => {
-                            setSignInClicked(true);
-                            signIn("vk");
-                        }}
-                    >
-                        {signInClicked ? (
-                            <LoaderDots />
-                        ) : (
-                            <>
-                                {/* <FontAwesomeIcon
-                                    icon={faVk}
-                                    className="svg-icon-fasolid h-5  w-5"
-                                /> */}
-                                <p className="flex-grow">
-                                    Sign In with VK
-                                </p>
-                            </>
-                        )}
-                    </Button>
-                    <Button
-                        variant="outlined"
-                        disabled={signInClicked}
-                        className={`${
-                            signInClicked
-                                ? "cursor-not-allowed"
-                                : ""
-                        } `}
-                        onClick={() => {
-                            setSignInClicked(true);
-                            signIn("yandex");
-                        }}
-                    >
-                        {signInClicked ? (
-                            <LoaderDots />
-                        ) : (
-                            <>
-                                {/* <FontAwesomeIcon
-                                    icon={faYandex}
-                                    className="svg-icon-fasolid h-5  w-5"
-                                /> */}
-                                <p className="flex-grow">
-                                    Sign In with Yandex
-                                </p>
+                                </Typography>
                             </>
                         )}
                     </Button>
