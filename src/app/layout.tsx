@@ -4,7 +4,6 @@ import { Orbitron } from "next/font/google";
 import { Metadata } from "next";
 import { Providers } from "../utils/providers";
 import Filters from "@/components/shared/filters";
-import Header from "@/components/layout/header";
 
 const orbitron = Orbitron({
     weight: ["400", "500", "700", "800"],
