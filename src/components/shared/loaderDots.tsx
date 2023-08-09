@@ -8,7 +8,7 @@ import {
 import { ComponentPropsWithoutRef } from "react";
 
 interface LoaderDotsProps extends HTMLMotionProps<"div"> {
-    className: string;
+    className?: string;
 }
 
 export default function LoaderDots({
