@@ -119,8 +119,7 @@ export default function MobileMenuContainer({
                             <Avatar
                                 alt={name || "User"}
                                 src={
-                                    image ||
-                                    "/images/logo2.png"
+                                    image || "/favicon.png"
                                 }
                             />
                         </button>

@@ -165,7 +165,7 @@ const Header = () => {
                                                 }
                                                 src={
                                                     image ||
-                                                    "/images/logo2.png"
+                                                    "/favicon.png"
                                                 }
                                             />
                                         </button>
