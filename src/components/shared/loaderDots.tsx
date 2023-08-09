@@ -7,9 +7,12 @@ import {
 } from "framer-motion";
 import { ComponentPropsWithoutRef } from "react";
 
-interface LoaderDotsProps extends HTMLMotionProps<"div"> {}
+interface LoaderDotsProps extends HTMLMotionProps<"div"> {
+    className: string;
+}
 
 export default function LoaderDots({
+    className,
     ...rest
 }: LoaderDotsProps) {
     return (
@@ -19,7 +22,7 @@ export default function LoaderDots({
                 animate="visible"
                 exit="exit"
                 variants={OPACITY_VARIANTS}
-                className="flex aspect-[6/1] w-full flex-row gap-1"
+                className={` flex aspect-[6/1] w-full flex-row gap-1 ${className}`}
                 {...rest}
             >
                 {[1, 2, 3, 4, 5].map((i, id) => (
