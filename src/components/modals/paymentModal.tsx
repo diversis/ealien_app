@@ -63,6 +63,7 @@ export default function PaymentModal({
                 variant="contained"
                 onClick={handleOpen}
                 className="ml-auto"
+                disabled={open}
             >
                 Pay with PayPal
             </Button>

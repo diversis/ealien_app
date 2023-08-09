@@ -9,4 +9,5 @@ export type MenuItem = {
     submenuTitle?: string;
     submenu?: { title: string; items: MenuItem[] };
     className?: string;
+    loginRequired?: boolean
 };

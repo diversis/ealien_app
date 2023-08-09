@@ -28,6 +28,8 @@ import CloseIcon from "@mui/icons-material/Close";
 import LoaderDots from "../shared/loaderDots";
 import MUIBaseModal from "../shared/muibaseModal";
 import { TransitionProps } from "@mui/material/transitions";
+import GitHub from "@mui/icons-material/GitHub";
+import Google from "@mui/icons-material/Google";
 
 interface SignInModalProps
     extends ComponentPropsWithoutRef<"div"> {
@@ -68,7 +70,7 @@ const SignInModal = ({
                             signInClicked
                                 ? "cursor-not-allowed"
                                 : ""
-                        } `}
+                        } flex w-full items-center gap-2 lg:gap-4`}
                         onClick={() => {
                             setSignInClicked(true);
                             signIn("google");
@@ -78,8 +80,9 @@ const SignInModal = ({
                             <LoaderDots className="h-8 min-w-[20rem]" />
                         ) : (
                             <>
+                                <Google className="h-8 w-8" />
                                 <Typography
-                                    variant="h5"
+                                    variant="body1"
                                     className="flex-grow"
                                 >
                                     Sign In with Google
@@ -95,7 +98,7 @@ const SignInModal = ({
                             signInClicked
                                 ? "cursor-not-allowed"
                                 : ""
-                        } `}
+                        } flex w-full items-center gap-2 lg:gap-4`}
                         onClick={() => {
                             setSignInClicked(true);
                             signIn("github");
@@ -105,8 +108,9 @@ const SignInModal = ({
                             <LoaderDots className="h-8 min-w-[20rem]" />
                         ) : (
                             <>
+                                <GitHub className="h-8 w-8" />
                                 <Typography
-                                    variant="h5"
+                                    variant="body1"
                                     className="flex-grow"
                                 >
                                     Sign In with Github

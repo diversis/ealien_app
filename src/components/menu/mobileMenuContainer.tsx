@@ -140,26 +140,34 @@ export default function MobileMenuContainer({
                         open={Boolean(anchorElUser)}
                         onClose={handleCloseUserMenu}
                     >
-                        {USER_MENU_LINKS.map((setting) => (
-                            <MenuItem
-                                key={`user-menu-${setting.title}`}
-                                className="!p-0"
-                            >
-                                <Link
-                                    href={
-                                        setting.url || "#"
-                                    }
-                                    className="w-full"
+                        {USER_MENU_LINKS.map((setting) => {
+                            if (
+                                setting.loginRequired &&
+                                !session
+                            )
+                                return null;
+                            return (
+                                <MenuItem
+                                    key={`user-menu-${setting.title}`}
+                                    className="!p-0"
                                 >
-                                    <Typography
-                                        textAlign="center"
-                                        className="px-2 py-1"
+                                    <Link
+                                        href={
+                                            setting.url ||
+                                            "#"
+                                        }
+                                        className="w-full"
                                     >
-                                        {setting.title}
-                                    </Typography>
-                                </Link>
-                            </MenuItem>
-                        ))}
+                                        <Typography
+                                            textAlign="center"
+                                            className="px-2 py-1"
+                                        >
+                                            {setting.title}
+                                        </Typography>
+                                    </Link>
+                                </MenuItem>
+                            );
+                        })}
                         {!!email ? (
                             <MenuItem
                                 key={`user-menu-logout`}

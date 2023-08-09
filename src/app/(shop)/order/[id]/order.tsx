@@ -93,6 +93,11 @@ export default function OrderPage({
 
     const refreshOrder = useCallback(async () => {
         try {
+            await setRenderedOrder((state) => ({
+                ...state,
+                isPaid: true,
+                paidAt: Date.now(),
+            }));
             const res = await getAPIMutation.mutateAsync(
                 `${orderEndpoint}/?orderId=${order.id}`,
             );
@@ -103,20 +108,9 @@ export default function OrderPage({
                 "id" in res.data.order
             ) {
                 await setRenderedOrder(res.data.order);
-            } else {
-                await setRenderedOrder((state) => ({
-                    ...state,
-                    isPaid: true,
-                    paidAt: Date.now(),
-                }));
             }
         } catch (error) {
             console.error(error);
-            await setRenderedOrder((state) => ({
-                ...state,
-                isPaid: true,
-                paidAt: Date.now(),
-            }));
         }
     }, [order, getAPIMutation]);
 
