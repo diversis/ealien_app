@@ -29,6 +29,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={orbitron.className}>
+                <div className="absolute inset-0 -z-[1] bg-[url(/noise.svg)] bg-fixed bg-repeat lg:bg-[url(/noise-animated.svg)]" />
                 <Filters />
                 <a
                     key="skip-to-content"
