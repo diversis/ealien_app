@@ -5,11 +5,12 @@ import {
     getAlienPianos,
     getAlienViolins,
 } from "./prodlist";
+import { getProductListItems } from "./product";
 
 const prisma = new PrismaClient();
 
 async function seed() {
-    const email = "gogol@nono.yy";
+
     try {
         const guitarsProvider =
             await prisma.category.create({
@@ -41,45 +42,47 @@ async function seed() {
             });
     }
     // cleanup the existing database
-    await prisma.user
-        .delete({ where: { email } })
-        .catch(() => {
-            // no worries if it doesn't exist yet
-        });
-
-    await Promise.all(
-        getAlienGuitars().map((prod) => {
-            const data = {
-                ...prod,
-                categories: {
-                    connect: [{ name: "Guitars" }],
-                },
-            };
-            return prisma.product.create({ data });
-        }),
-    );
-    await Promise.all(
-        getAlienViolins().map((prod) => {
-            const data = {
-                ...prod,
-                categories: {
-                    connect: [{ name: "Violins" }],
-                },
-            };
-            return prisma.product.create({ data });
-        }),
-    );
-    await Promise.all(
-        getAlienPianos().map((prod) => {
-            const data = {
-                ...prod,
-                categories: {
-                    connect: [{ name: "Pianos" }],
-                },
-            };
-            return prisma.product.create({ data });
-        }),
-    );
+    // await prisma.user
+    //     .delete({ where: { email } })
+    //     .catch(() => {
+    //         // no worries if it doesn't exist yet
+    //     });
+    const { productListItems } = await getProductListItems({})
+    if (productListItems.length === 0) {
+        await Promise.all(
+            getAlienGuitars().map((prod) => {
+                const data = {
+                    ...prod,
+                    categories: {
+                        connect: [{ name: "Guitars" }],
+                    },
+                };
+                return prisma.product.create({ data });
+            }),
+        );
+        await Promise.all(
+            getAlienViolins().map((prod) => {
+                const data = {
+                    ...prod,
+                    categories: {
+                        connect: [{ name: "Violins" }],
+                    },
+                };
+                return prisma.product.create({ data });
+            }),
+        );
+        await Promise.all(
+            getAlienPianos().map((prod) => {
+                const data = {
+                    ...prod,
+                    categories: {
+                        connect: [{ name: "Pianos" }],
+                    },
+                };
+                return prisma.product.create({ data });
+            }),
+        );
+    }
 
     console.log(`Database has been seeded. 🌱`);
 }
