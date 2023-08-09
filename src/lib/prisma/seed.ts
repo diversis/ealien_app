@@ -47,8 +47,8 @@ async function seed() {
     //     .catch(() => {
     //         // no worries if it doesn't exist yet
     //     });
-    const { productListItems } = await getProductListItems({})
-    if (productListItems.length === 0) {
+    const productCount = await prisma.product.count({})
+    if (productCount === 0) {
         await Promise.all(
             getAlienGuitars().map((prod) => {
                 const data = {
