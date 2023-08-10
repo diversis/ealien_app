@@ -20,6 +20,7 @@ import FilterCategories from "./categories";
 import FilterPrice from "./price";
 import FilterAccordion from "./filterAccordion";
 import FilterRating from "./rating";
+import FilterSearch from "./search";
 
 export type FiltersProps = {
     handleSearch: ({
@@ -111,6 +112,24 @@ export default function ProductFilters({
                     setFilters={setFilters}
                     minRating={filters.minRating}
                     maxRating={filters.maxRating}
+                />
+            </FilterAccordion>
+            <FilterAccordion
+                label="Search"
+                isActive={
+                    "searchKey" in filters &&
+                    !!filters.searchKey
+                }
+                handleClearFilter={() =>
+                    setFilters((state) => ({
+                        ...state,
+                        searchKey: null,
+                    }))
+                }
+            >
+                <FilterSearch
+                    setFilters={setFilters}
+                    searchKey={filters.searchKey}
                 />
             </FilterAccordion>
         </Box>
