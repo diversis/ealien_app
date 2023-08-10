@@ -15,6 +15,8 @@ export const metadata: Metadata = {
     icons: {
         icon: "/favicon.png",
     },
+    description: "show off ecommerce website",
+    openGraph: { images: ["/images/hero/1024.webp"] },
 };
 
 export default function RootLayout({

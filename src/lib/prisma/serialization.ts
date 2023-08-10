@@ -15,9 +15,9 @@ const serializationLogger = logger.child({
     origin: "Prisma Serialization",
 });
 
-export const serializeProduct = (
-    product: Product,
-): SerializedPrisma<Product> | null => {
+export const serializeProduct = <T extends Product>(
+    product: T,
+): (T & SerializedPrisma<Product>) | null => {
     try {
         const serializableProduct = {
             ...product,
@@ -39,9 +39,9 @@ export const serializeProduct = (
     return null;
 };
 
-export const serializeCompactProduct = (
-    product: CompactProduct,
-): SerializedPrisma<CompactProduct> | null => {
+export const serializeCompactProduct = <T extends CompactProduct>(
+    product: T,
+): (T & SerializedPrisma<CompactProduct>) | null => {
     try {
         const serializableProduct = {
             ...product,
@@ -57,9 +57,9 @@ export const serializeCompactProduct = (
     return null;
 };
 
-export const serializeOrder = (
-    order: Order,
-): SerializedPrisma<Order> | null => {
+export const serializeOrder = <T extends Order>(
+    order: T,
+): (T & SerializedPrisma<Order>) | null => {
     try {
         const serializableOrder = {
             ...order,
@@ -81,7 +81,7 @@ export const serializeOrder = (
 
 export const serializeReview = <T extends Review>(
     review: T,
-) => {
+): (T & SerializedPrisma<Review>) | null => {
     try {
         const serializableReview = {
             ...review,

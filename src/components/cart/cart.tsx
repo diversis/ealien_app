@@ -185,9 +185,10 @@ export default function Cart() {
                 <Badge
                     badgeContent={cartTotal.toFixed(2) || 0}
                     className="mr-8 font-bold "
-                    max={99999.999}
+                    max={99999.99}
                 >
                     <Button
+                        aria-label="cart"
                         onClick={() => {
                             toggle(true);
                         }}

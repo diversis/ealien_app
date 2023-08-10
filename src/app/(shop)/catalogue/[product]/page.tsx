@@ -54,13 +54,24 @@ export async function generateMetadata(
     });
     return {
         title: "AAlien | " + product?.name || "",
-        // openGraph: {
-        // 	images: [
-        // 		getImageLink({ feature }) || "",
-        // 		...previousImages,
-        // 	],
-        // },
+        openGraph: {
+            images: [
+                product?.image || "",
+                ...previousImages,
+            ],
+        },
     };
+}
+
+export async function generateStaticParams() {
+    const { productListItems } = await getProductListItems(
+        {},
+    );
+    if (productListItems) {
+        return productListItems.map((product) => ({
+            slug: product.id,
+        }));
+    }
 }
 
 export default async function Page({
@@ -71,10 +82,14 @@ export default async function Page({
     productLogger.info({ searchParams });
     const session = await getServerSession(authOptions);
 
-    const product = await getSerializableProduct({
+    const product = await getProduct({
         id: params.product,
     });
     if (!product) {
+        redirect("/catalogue");
+    }
+    const serializedProduct = serializeProduct(product);
+    if (!serializedProduct) {
         redirect("/catalogue");
     }
     // const productReviews = await getProductReviews({
@@ -92,7 +107,7 @@ export default async function Page({
     // Forward fetched data to your Client Component
     return (
         <ProductPage
-            product={product}
+            product={serializedProduct}
             // reviews={serializedReviews}
         />
     );

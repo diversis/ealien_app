@@ -40,6 +40,7 @@ const SwitchTheme = () => {
                 className="text-secondary-400 transition-colors duration-500 dark:text-surface-600"
             />
             <Switch
+                aria-label="switch theme"
                 title={
                     theme === "light"
                         ? "Switch to dark theme"
