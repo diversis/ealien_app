@@ -50,7 +50,7 @@ export default function ScrollTop({
                     variants={SCALE_BOUNCE_VARIANTS}
                     onClick={handleClick}
                     role="presentation"
-                    className="fixed bottom-4 right-4 z-[1000]"
+                    className="fixed bottom-16 right-4 z-[1000] lg:bottom-4"
                 >
                     {children}
                 </m.div>
