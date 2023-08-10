@@ -67,11 +67,10 @@ export async function generateStaticParams() {
     const { productListItems } = await getProductListItems(
         {},
     );
-    if (productListItems) {
-        return productListItems.map((product) => ({
-            slug: product.id,
-        }));
-    }
+
+    return productListItems.map((product) => ({
+        product: product.id,
+    }));
 }
 
 export default async function Page({
