@@ -18,7 +18,6 @@ export const metadata: Metadata = {
     },
     description:
         "simple show off ecommerce website for my dev portfolio",
-    openGraph: { images: ["/images/hero/1024.webp"] },
 };
 
 export default function RootLayout({
