@@ -11,6 +11,7 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
+    metadataBase: new URL("https://aalien-app.vercel.app"),
     title: "AAlien Shop",
     icons: {
         icon: "/favicon.png",
