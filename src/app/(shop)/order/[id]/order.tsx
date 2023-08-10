@@ -101,7 +101,7 @@ export default function OrderPage({
             const res = await getAPIMutation.mutateAsync(
                 `${orderEndpoint}/?orderId=${order.id}`,
             );
-            console.log(res, "\n data:\n", res.data);
+
             if (
                 res &&
                 "order" in res.data &&
@@ -109,7 +109,6 @@ export default function OrderPage({
                 "id" in res.data.order
             ) {
                 await setRenderedOrder(res.data.order);
-                console.log("refreshed");
             }
         } catch (error) {
             console.error(error);
@@ -198,7 +197,7 @@ export default function OrderPage({
                                     {renderedOrder.paidAt
                                         ? dateFormat.format(
                                               new Date(
-                                                renderedOrder.paidAt,
+                                                  renderedOrder.paidAt,
                                               ),
                                           )
                                         : ""}

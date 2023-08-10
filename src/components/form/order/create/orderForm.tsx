@@ -366,7 +366,7 @@ export default function OrderForm() {
             default:
                 break;
         }
-        console.log(errors);
+        // console.log(errors);
         setActive((current) => {
             return current < 3 && result
                 ? current + 1

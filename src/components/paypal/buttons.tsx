@@ -103,10 +103,6 @@ export default function PayPalButtonsComponent({
                     orderID: data.orderID,
                 });
             if (response) {
-                console.log(
-                    "Order is successful",
-                    response,
-                );
                 // Order is successful
                 // Your custom code
                 // Like showing a success toast:

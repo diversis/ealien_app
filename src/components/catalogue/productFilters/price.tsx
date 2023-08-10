@@ -39,7 +39,7 @@ export default function FilterPrice({
             minPrice:
                 event.target.value === "" ||
                 Number(event.target.value) <= 0 ||
-                Number(event.target.value) >= 1000
+                Number(event.target.value) >= 10
                     ? null
                     : event.target.value,
         }));
@@ -55,7 +55,7 @@ export default function FilterPrice({
             maxPrice:
                 event.target.value === "" ||
                 Number(event.target.value) <= 0 ||
-                Number(event.target.value) >= 1000
+                Number(event.target.value) >= 10
                     ? null
                     : event.target.value,
         }));
@@ -69,7 +69,7 @@ export default function FilterPrice({
                 setFilters((state) => ({
                     ...state,
                     minPrice: min <= 0 ? null : "" + min,
-                    maxPrice: max >= 1000 ? null : "" + max,
+                    maxPrice: max >= 10 ? null : "" + max,
                 }));
             }
         },
@@ -83,7 +83,8 @@ export default function FilterPrice({
             minValue={minPrice}
             maxValue={maxPrice}
             setFilters={setFilters}
-            rangeLimit={[0, 1000]}
+            rangeLimit={[0, 10]}
+            step={0.1}
             handleChangeMaxInput={handleChangeMaxPrice}
             handleChangeMinInput={handleChangeMinPrice}
             handleChangeRange={handleChangePriceRange}
