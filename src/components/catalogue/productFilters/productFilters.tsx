@@ -42,8 +42,10 @@ export default function ProductFilters({
 
     useEffect(() => {
         // console.log("debouncedFilters: ", debouncedFilters);
-        handleSearch({ filters: debouncedFilters });
-    }, [debouncedFilters, handleSearch]);
+        handleSearch({
+            filters: { ...debouncedFilters, page: "1" },
+        });
+    }, [debouncedFilters]);
 
     return (
         <Box className="flex flex-col gap-2">
