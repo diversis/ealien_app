@@ -5,7 +5,6 @@ import {
     getAlienPianos,
     getAlienViolins,
 } from "./prodlist";
-import { getProductListItems } from "./product";
 
 const prisma = new PrismaClient();
 
