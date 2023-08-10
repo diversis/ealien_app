@@ -20,7 +20,7 @@ export const ControlledTextField = <
 >({
     name,
     control,
-    label,
+
     ...rest
 }: InputProps<TFieldValues, TName> & TextFieldProps) => {
     const { field } = useController({ control, name });
@@ -41,7 +41,6 @@ export const ControlledTextField = <
                     error={!!error}
                     onChange={onChange}
                     value={value}
-                    
                     {...rest}
                 />
             )}

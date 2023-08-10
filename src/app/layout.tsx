@@ -15,7 +15,8 @@ export const metadata: Metadata = {
     icons: {
         icon: "/favicon.png",
     },
-    description: "show off ecommerce website",
+    description:
+        "show off simple ecommerce website for my dev portfolio",
     openGraph: { images: ["/images/hero/1024.webp"] },
 };
 

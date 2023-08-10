@@ -202,6 +202,7 @@ export default function ProductTable({
                                     >
                                         {!!removeItem && (
                                             <Button
+                                                title="Remove"
                                                 onClick={() =>
                                                     removeItem(
                                                         item.id,

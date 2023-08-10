@@ -1,26 +1,19 @@
 import {
-    Controller,
-    FieldValues,
-    FormProvider,
     SubmitErrorHandler,
     SubmitHandler,
     useForm,
 } from "react-hook-form";
 import {
     Box,
-    Breadcrumbs,
     Button,
-    Skeleton,
     Typography,
     Paper,
-    Select,
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 
 import { useCart } from "@/lib/hooks/use-cart";
 import { SerializedPrisma } from "@/lib/prisma/types";
 import { Category, Product } from "@prisma/client";
-import { ControlledSelect } from "./fields/controlledSelect";
 import { ControlledTextField } from "./fields/controlledTextField";
 
 interface FormValues {
@@ -129,9 +122,10 @@ export default function AddToCart({
                     </Typography>
                 </Box>
                 <ControlledTextField
+                    className="w-full"
                     name="qty"
                     control={control}
-                    label="Quantity"
+                    label="Count"
                     type="number"
                     InputProps={{
                         inputProps: {

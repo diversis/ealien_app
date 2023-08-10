@@ -71,7 +71,7 @@ export default function RangeSlider({
                 onChange={handleChangeRange}
                 valueLabelDisplay="auto"
                 getAriaValueText={valuetext}
-                aria-labelledby="filters-price-label"
+                aria-labelledby={`filters-${label}-label`}
                 min={rangeLimit[0]}
                 max={rangeLimit[1]}
                 {...rest}

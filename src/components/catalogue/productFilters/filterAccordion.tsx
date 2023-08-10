@@ -36,7 +36,11 @@ export default function FilterAccordion({
                 expandIcon={<ExpandMoreIcon />}
             >
                 <Box className="flex flex-row items-center gap-4">
-                    <Typography>{label}</Typography>
+                    <Typography
+                        id={`filters-${label}-label`}
+                    >
+                        {label}
+                    </Typography>
 
                     {isActive ? (
                         <Button
