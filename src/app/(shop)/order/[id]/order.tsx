@@ -93,14 +93,15 @@ export default function OrderPage({
 
     const refreshOrder = useCallback(async () => {
         try {
-            await setRenderedOrder((state) => ({
-                ...state,
-                isPaid: true,
-                paidAt: Date.now(),
-            }));
+            // await setRenderedOrder((state) => ({
+            //     ...state,
+            //     isPaid: true,
+            //     paidAt: Date.now(),
+            // }));
             const res = await getAPIMutation.mutateAsync(
                 `${orderEndpoint}/?orderId=${order.id}`,
             );
+            console.log(res, "\n data:\n", res.data);
             if (
                 res &&
                 "order" in res.data &&
@@ -108,6 +109,7 @@ export default function OrderPage({
                 "id" in res.data.order
             ) {
                 await setRenderedOrder(res.data.order);
+                console.log("refreshed");
             }
         } catch (error) {
             console.error(error);
@@ -116,7 +118,7 @@ export default function OrderPage({
 
     useEffect(() => {
         getShippingAddress();
-    }, [order.shippingAddressId]);
+    }, [renderedOrder.shippingAddressId]);
 
     // const [editable, setEditable] = useState(true);
     return (
@@ -188,15 +190,15 @@ export default function OrderPage({
                             </Box>
                         </Paper>
                     ) : null}
-                    {order.isPaid ? (
+                    {renderedOrder.isPaid ? (
                         <Paper className="w-full p-2">
                             <Box className="flex flex-row gap-2 rounded bg-tertiary-300 px-1 dark:bg-tertiary-800 lg:px-2">
                                 <Typography variant="body1">
                                     Paid on{" "}
-                                    {order.paidAt
+                                    {renderedOrder.paidAt
                                         ? dateFormat.format(
                                               new Date(
-                                                  order.paidAt,
+                                                renderedOrder.paidAt,
                                               ),
                                           )
                                         : ""}
@@ -214,12 +216,12 @@ export default function OrderPage({
                             />
                         </Paper>
                     )}
-                    {order.isDelivered ? (
+                    {renderedOrder.isDelivered ? (
                         <Paper className="w-full p-2">
                             <Box className="flex flex-row gap-2 rounded bg-tertiary-300 px-1 dark:bg-tertiary-800 lg:px-2">
                                 <Typography variant="body1">
                                     Delivered on{" "}
-                                    {order.deliveredAt ||
+                                    {renderedOrder.deliveredAt ||
                                         ""}
                                 </Typography>
                             </Box>
