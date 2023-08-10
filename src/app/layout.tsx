@@ -4,6 +4,7 @@ import { Orbitron } from "next/font/google";
 import { Metadata } from "next";
 import { Providers } from "../utils/providers";
 import Filters from "@/components/shared/filters";
+import { DOMAIN } from "@/lib/constants";
 
 const orbitron = Orbitron({
     weight: ["400", "500", "700", "800"],
@@ -11,13 +12,26 @@ const orbitron = Orbitron({
 });
 
 export const metadata: Metadata = {
-    metadataBase: new URL("https://aalien-app.vercel.app"),
+    metadataBase: new URL(DOMAIN),
     title: "AAlien Shop",
     icons: {
         icon: "/favicon.png",
     },
     description:
         "simple show off ecommerce website for my dev portfolio",
+    openGraph: {
+        images: ["/og.webp"],
+        title: "AAlien Shop",
+        description:
+            "simple show off ecommerce website for my dev portfolio",
+        url: new URL(DOMAIN),
+    },
+    twitter: {
+        images: ["/og.webp"],
+        title: "AAlien Shop",
+        description:
+            "simple show off ecommerce website for my dev portfolio",
+    },
 };
 
 export default function RootLayout({
