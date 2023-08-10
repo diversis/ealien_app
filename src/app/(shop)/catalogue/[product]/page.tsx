@@ -27,6 +27,7 @@ import {
     getProductReviews,
     // getSerializableReviews,
 } from "@/lib/prisma/review";
+import { DOMAIN } from "@/lib/constants";
 
 export type ProductPageProps = {
     params: { product: string };
@@ -54,11 +55,23 @@ export async function generateMetadata(
     });
     return {
         title: "AAlien | " + product?.name || "",
+        description: product?.description || "",
         openGraph: {
             images: [
                 product?.image || "",
                 ...previousImages,
             ],
+            title: "AAlien | " + product?.name || "",
+            description: product?.description || "",
+            url: new URL(DOMAIN),
+        },
+        twitter: {
+            images: [
+                product?.image || "",
+                ...previousImages,
+            ],
+            title: "AAlien | " + product?.name || "",
+            description: product?.description || "",
         },
     };
 }
