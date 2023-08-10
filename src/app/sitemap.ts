@@ -1,18 +1,21 @@
+import { DOMAIN } from "@/lib/constants";
+import { getProductListItems } from "@/lib/prisma/product";
 import { MetadataRoute } from "next";
 
-export default function sitemap(): MetadataRoute.Sitemap {
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+
+    const { productListItems } = await getProductListItems({})
+    const products = productListItems.map(({ id, createdAt }) => ({
+        url: `${DOMAIN}/catalogue/${id}`,
+        lastModified: createdAt.toISOString(),
+    }));
+
+    const routes = ["", "/catalogue", "/profile", "/order/create"].map((route) => ({
+        url: `${DOMAIN}${route}`,
+        lastModified: new Date().toISOString(),
+    }));
+
     return [
-        {
-            url: "https://aalien-app.vercel.app/",
-            lastModified: new Date(),
-        },
-        {
-            url: "https://aalien-app.vercel.app/catalogue",
-            lastModified: new Date(),
-        },
-        {
-            url: "https://aalien-app.vercel.app/profile",
-            lastModified: new Date(),
-        },
+        ...routes, ...products
     ];
 }

@@ -5,7 +5,7 @@ export default function robots(): MetadataRoute.Robots {
     rules: {
       userAgent: '*',
       allow: '/',
-      disallow: '/profile/',
+      disallow: ['/profile/', '/order/'],
     },
     sitemap: 'https://aalien-app.vercel.app/sitemap.xml',
   }
