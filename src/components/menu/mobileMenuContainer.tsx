@@ -4,7 +4,6 @@ import {
     useRef,
     Dispatch,
     SetStateAction,
-    useContext,
     useState,
 } from "react";
 import {
@@ -27,7 +26,6 @@ import SwitchTheme from "../shared/switchTheme";
 import Cart from "../cart/cart";
 import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
 import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
-import SignInModal from "../modals/signInModal";
 import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
 
 export default function MobileMenuContainer({

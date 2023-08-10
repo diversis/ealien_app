@@ -1,20 +1,7 @@
 import { useEffect, useState } from "react";
-import {
-    usePathname,
-    ReadonlyURLSearchParams,
-} from "next/navigation";
+import { ReadonlyURLSearchParams } from "next/navigation";
 import { useDebounce } from "usehooks-ts";
-import {
-    Accordion,
-    AccordionDetails,
-    AccordionSummary,
-    Button,
-    Box,
-    AccordionActions,
-    Typography,
-} from "@mui/material";
-import ClearIcon from "@mui/icons-material/Clear";
-import ExpandMoreIcon from "@mui/icons-material/ExpandMore";
+import { Box } from "@mui/material";
 
 import FilterCategories from "./categories";
 import FilterPrice from "./price";

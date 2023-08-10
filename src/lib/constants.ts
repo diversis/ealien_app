@@ -1,4 +1,4 @@
-import { CustomValueType, Variants } from "framer-motion";
+import {  Variants } from "framer-motion";
 
 export const DOMAIN = "https://aalien-app.vercel.app/";
 

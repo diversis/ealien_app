@@ -1,11 +1,6 @@
 "use client";
 import { OPACITY_VARIANTS } from "@/lib/constants";
-import {
-    HTMLMotionProps,
-    MotionConfigProps,
-    m,
-} from "framer-motion";
-import { ComponentPropsWithoutRef } from "react";
+import { HTMLMotionProps, m } from "framer-motion";
 
 interface LoaderDotsProps extends HTMLMotionProps<"div"> {
     className?: string;

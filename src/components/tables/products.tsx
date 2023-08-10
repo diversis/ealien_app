@@ -1,4 +1,3 @@
-import { useEffect, useState } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import Button from "@mui/material/Button";
@@ -19,9 +18,7 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Typography,
 } from "@mui/material";
-import { OrderItem } from "@prisma/client";
 
 export default function ProductTable({
     total,

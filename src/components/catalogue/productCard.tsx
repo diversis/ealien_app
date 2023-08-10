@@ -1,19 +1,17 @@
 "use client";
-import { useEffect, useRef } from "react";
+import {  useRef } from "react";
 import Link from "next/link";
 import Image from "next/image";
 import {
     Box,
     Button,
     Card,
-    CardActionArea,
     CardActions,
     CardContent,
     CardMedia,
     Rating,
     Typography,
 } from "@mui/material";
-import Star from "@mui/icons-material/Star";
 import { m, useInView } from "framer-motion";
 
 import {

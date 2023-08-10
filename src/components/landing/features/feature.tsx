@@ -1,10 +1,5 @@
 "use client";
-import {
-    m,
-    useInView,
-    useScroll,
-    useTransform,
-} from "framer-motion";
+import { m, useInView } from "framer-motion";
 import { useRef } from "react";
 
 import { OPACITY_VARIANTS } from "@/lib/constants";

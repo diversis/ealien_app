@@ -1,10 +1,5 @@
 "use client";
-import {
-    m,
-    useInView,
-    useScroll,
-    useTransform,
-} from "framer-motion";
+import { m, useInView, useScroll } from "framer-motion";
 import { useRef } from "react";
 import BG from "@/components/shared/bg";
 import CTALink from "../cta/ctaLink";

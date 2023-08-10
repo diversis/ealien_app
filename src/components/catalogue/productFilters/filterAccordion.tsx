@@ -1,17 +1,10 @@
-import {
-    Dispatch,
-    ReactNode,
-    useEffect,
-    useState,
-    SetStateAction,
-} from "react";
+import { ReactNode } from "react";
 import {
     Accordion,
     AccordionDetails,
     AccordionSummary,
     Button,
     Box,
-    AccordionActions,
     Typography,
 } from "@mui/material";
 import ClearIcon from "@mui/icons-material/Clear";

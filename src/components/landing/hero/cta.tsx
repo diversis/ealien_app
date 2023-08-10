@@ -29,20 +29,12 @@ export default function CTA({
     containerVisible,
     mousePosition,
 }: {
-    containerVisible: boolean;
+    containerVisible?: boolean;
     mousePosition: { x: number; y: number };
-    // mouseX: number;
-    // mouseY: number;
 }) {
     const ref = useRef(null);
     const isInView = useInView(ref);
     const { windowSize } = useWindowSize();
-    // const [position, setPosition] = useState<{ x: number, y: number }>({ x: mousePosition.x, y: mousePosition.y })
-
-    // const springX = useSpring(position.x, { stiffness: 250, damping: 30 });
-    // const springY = useSpring(position.y, { stiffness: 250, damping: 30 });
-    // const x = useMotionValue(0);
-    // const y = useMotionValue(0);
 
     const onMouseMove = useCallback(
         (mousePosition: {
@@ -88,26 +80,7 @@ export default function CTA({
             ) / (windowSize.height || 1),
     );
 
-    // const x = useSpring(resX, { stiffness: 550, damping: 20 });
-    // const y = useSpring(resY, { stiffness: 550, damping: 20 });
-
-    // useEffect(() => {
-    //     if (isInView) {
-    //         // const [newX, newY] = onMouseMove(
-    //         //     mousePosition,
-    //         // );
-    //         // const setXY = async (newX: number, newY: number) => {
-    //         //     await springX.set(newX);
-    //         //     await springY.set(newY);
-    //         // }
-    //         // console.log("new coords: ", newX, " | ", newY);
-    //         setPosition(onMouseMove(mousePosition))
-    //         // console.log("new set coords: ", x.get(), " | ", y.get());
-    //     }
-    // }, [mousePosition, isInView, onMouseMove]);
-
     return (
-        // <AnimatePresence>
         <m.div
             data-test="hero-section-cta"
             key="hero-text"
@@ -148,6 +121,5 @@ export default function CTA({
             </AnimatedDiv>
             <CTALink />
         </m.div>
-        // </AnimatePresence>
     );
 }

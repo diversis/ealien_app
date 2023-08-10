@@ -3,12 +3,11 @@ import { CartItem } from "@/lib/prisma/types";
 import prisma from "./prisma";
 import { getProduct } from "./product";
 import {
-    getUserByID,
     getUserByIDWithShippingAddress,
 } from "./user";
 import {
     Order,
-    OrderItem,
+
     Prisma,
     Product,
     User,

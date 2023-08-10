@@ -1,21 +1,13 @@
 "use client";
 import {
-    AnimatePresence,
-    cubicBezier,
     m,
     useInView,
     useMotionValue,
-    useMotionValueEvent,
     useScroll,
     useSpring,
     useTransform,
 } from "framer-motion";
-import {
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 
 import { OPACITY_VARIANTS } from "@/lib/constants";
@@ -46,7 +38,6 @@ export default function Hero({
     });
     const isInView = useInView(ref);
 
-    // const [imagePosition, setImagePosition] = useState<{ x: number, y: number }>({ x: 0, y: 0 })
     const mouseX = useMotionValue(mousePosition.x);
     const mouseY = useMotionValue(mousePosition.y);
     const calcX = useTransform(mouseX, (latest) =>

@@ -1,13 +1,5 @@
-import { AnimatePresence, m } from "framer-motion";
-import { signOut, useSession } from "next-auth/react";
 import { useFormContext } from "react-hook-form";
 
-import { ControlledTextField } from "../../fields/controlledTextField";
-import SignInModal from "@/components/modals/signInModal";
-import Button from "@mui/material/Button";
-import { Session } from "next-auth/core/types";
-import Box from "@mui/material/Box";
-import { ControlledCountrySelect } from "../../fields/controlledCountrySelect";
 import Table from "@mui/material/Table";
 import {
     TableBody,

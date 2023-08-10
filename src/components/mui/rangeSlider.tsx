@@ -2,15 +2,11 @@ import Box from "@mui/material/Box";
 import Slider, {
     SliderTypeMap,
 } from "@mui/material/Slider";
-import Button from "@mui/material/Button";
 import {
     ChangeEvent,
     ComponentPropsWithoutRef,
     Dispatch,
     SetStateAction,
-    useCallback,
-    useEffect,
-    useState,
 } from "react";
 import { Input, Typography } from "@mui/material";
 import { OverridableComponent } from "@mui/material/OverridableComponent";

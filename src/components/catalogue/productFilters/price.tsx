@@ -1,15 +1,9 @@
-import Box from "@mui/material/Box";
-import Slider from "@mui/material/Slider";
-import Button from "@mui/material/Button";
 import {
     ChangeEvent,
     Dispatch,
     SetStateAction,
     useCallback,
-    useEffect,
-    useState,
 } from "react";
-import { Input, Typography } from "@mui/material";
 import RangeSlider from "@/components/mui/rangeSlider";
 
 function valuetext(value: number) {

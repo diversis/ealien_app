@@ -1,18 +1,15 @@
 "use client";
 import { AnimatePresence, m } from "framer-motion";
-import { useContext, useState } from "react";
+import { useState } from "react";
 import Link from "next/link";
 import { signOut } from "next-auth/react";
-import useScrollTrigger from "@mui/material/useScrollTrigger";
 import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
-import MenuIcon from "@mui/icons-material/Menu";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useSession } from "next-auth/react";
 
 import useScrolled from "@/lib/hooks/use-scrolled";
-import Social from "../shared/social";
 import MobileMenu from "./mobileMenu";
 import { OPACITY_VARIANTS } from "@/lib/constants";
 import useWindowSize from "@/lib/hooks/use-window-size";
@@ -24,7 +21,6 @@ import {
     Box,
     Button,
     Container,
-    IconButton,
     Menu,
     MenuItem,
     Toolbar,
@@ -32,7 +28,6 @@ import {
     Typography,
 } from "@mui/material";
 import Cart from "../cart/cart";
-import Image from "next/image";
 import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
 import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
 import SignInModal from "../modals/signInModal";
@@ -78,7 +73,7 @@ const Header = () => {
     //     target: window ? window : undefined,
     //     threshold: 300,
     // });
-    const MAppBar = m(AppBar);
+    // const MAppBar = m(AppBar);
     return (
         <header>
             <AnimatePresence mode="sync">

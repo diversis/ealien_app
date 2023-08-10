@@ -37,10 +37,10 @@ import { REVIEWS_PER_PAGE } from "@/lib/constants";
 
 const endpoint = "/api/reviews";
 
-const getReviewsSchema = z.object({
-    productId: z.string(),
-    page: z.number(),
-});
+// const getReviewsSchema = z.object({
+//     productId: z.string(),
+//     page: z.number(),
+// });
 
 async function getReviews({
     // data,

@@ -1,6 +1,6 @@
 "use client";
 import { AnimatePresence, m } from "framer-motion";
-import { useEffect, useRef, useState } from "react";
+import { useRef, useState } from "react";
 
 import { MenuToggle } from "../menu/menuToggle";
 import { useOnClickOutside } from "usehooks-ts";

@@ -7,26 +7,14 @@ import {
 } from "react";
 import {
     Dialog,
-    DialogContent,
-    DialogTitle,
-    DialogContentText,
     Button,
-    DialogActions,
-    TextField,
     Typography,
     Box,
-    Divider,
-    Snackbar,
-    Alert,
-    FormGroup,
     Slide,
     Paper,
 } from "@mui/material";
-import IconButton from "@mui/material/IconButton";
-import CloseIcon from "@mui/icons-material/Close";
 
 import LoaderDots from "../shared/loaderDots";
-import MUIBaseModal from "../shared/muibaseModal";
 import { TransitionProps } from "@mui/material/transitions";
 import GitHub from "@mui/icons-material/GitHub";
 import Google from "@mui/icons-material/Google";

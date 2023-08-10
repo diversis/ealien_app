@@ -1,12 +1,7 @@
 "use client";
-import Image from "next/image";
 import { m, useInView } from "framer-motion";
 import { useRef } from "react";
-import {
-    OPACITY_VARIANTS,
-    TITLE_VARIANTS,
-} from "@/lib/constants";
-import bg from "@public/images/bg/r/23/2048.webp";
+import { OPACITY_VARIANTS } from "@/lib/constants";
 
 export default function BG({
     bgSrc,
@@ -34,13 +29,7 @@ export default function BG({
                     backgroundImage: "url(" + bgSrc + ")",
                 }}
                 className={`hero-bg inset-0 h-full  w-full  !transform-none  ${classNames?.bg}`}
-            >
-                {/* <Image
-                        src={bg}
-                        alt="tall luminescent pillars background "
-                        className=" object-cover"
-                    /> */}
-            </div>
+            ></div>
         </m.div>
     );
 }

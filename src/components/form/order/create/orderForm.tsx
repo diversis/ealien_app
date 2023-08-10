@@ -7,14 +7,13 @@ import { AnimatePresence, m } from "framer-motion";
 import { useSession } from "next-auth/react";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import {
-    Controller,
     FieldValues,
     FormProvider,
     SubmitErrorHandler,
     SubmitHandler,
     useForm,
 } from "react-hook-form";
-import z, { ZodError, ZodIssue } from "zod";
+import z, { ZodIssue } from "zod";
 import { zodResolver } from "@hookform/resolvers/zod";
 import { useSnackbar } from "notistack";
 import Stepper from "@mui/material/Stepper";
@@ -25,15 +24,12 @@ import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { StepIconProps } from "@mui/material/StepIcon";
 
 import { useCart } from "@/lib/hooks/use-cart";
-import COUNTRIES_DATA from "@/lib/rest-countries/countries.json";
 import useWindowSize from "@/lib/hooks/use-window-size";
-// import SelectCountryItem from "./selectCountryItem";
+
 import { CartItem } from "@/lib/prisma/types";
 
 import { OPACITY_VARIANTS } from "@/lib/constants";
-import { ControlledTextField } from "../../fields/controlledTextField";
-import { ControlledCountrySelect } from "../../fields/controlledCountrySelect";
-import { ControlledRadioGroup } from "../../fields/controlledRadioGroup";
+
 import {
     Box,
     CircularProgress,
@@ -145,11 +141,9 @@ export default function OrderForm() {
     });
     const {
         control,
-        register,
         handleSubmit,
         setError,
         reset,
-        setFocus,
         getValues,
         trigger,
         setValue,
@@ -228,6 +222,7 @@ export default function OrderForm() {
                 variant: "success",
                 autoHideDuration: 6000,
             });
+            reset();
             router.push(
                 `/order/${response.data.orderId || "#"}`,
             );
@@ -373,33 +368,6 @@ export default function OrderForm() {
                 : current;
         });
     };
-    // useEffect(() => {
-    //     console.log(active);
-    // }, [active]);
-
-    // useEffect(() => {
-    //     console.log(errors);
-    // }, [errors]);
-
-    // useEffect(() => {
-    //     console.log(
-    //         `\n-----\n name:  ${getValues(
-    //             "name",
-    //         )}\n-----\n email:  ${getValues(
-    //             "email",
-    //         )}\n-----\n address:  ${getValues(
-    //             "address",
-    //         )}\n-----\n city:  ${getValues(
-    //             "city",
-    //         )}\n-----\n country:  ${getValues(
-    //             "country",
-    //         )}\n-----\n postalCode:  ${getValues(
-    //             "postalCode",
-    //         )}\n-----\n paymentMethod:  ${getValues(
-    //             "paymentMethod",
-    //         )}\n-----\n`,
-    //     );
-    // });
 
     useEffect(() => {
         // console.log(
@@ -417,10 +385,6 @@ export default function OrderForm() {
             current > 0 ? current - 1 : current,
         );
 
-    // const { isMobile, isTablet, isDesktop } = useWindowSize();
-    const handleProceed = () => {
-        setFormVisible(true);
-    };
     return (
         <>
             <AnimatePresence mode="wait">

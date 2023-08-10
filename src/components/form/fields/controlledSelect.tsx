@@ -1,8 +1,6 @@
 import Select, { SelectProps } from "@mui/material/Select";
 import { Controller, useController } from "react-hook-form";
 import type {
-    SubmitHandler,
-    DefaultValues,
     FieldValues,
     FieldPath,
     UseControllerProps,

@@ -5,16 +5,13 @@ import {
     useMemo,
     useState,
 } from "react";
-import Image from "next/image";
 import Link from "next/link";
-import Drawer from "@mui/material/Drawer";
 import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import axios, { AxiosError, AxiosResponse } from "axios";
 import { useSnackbar } from "notistack";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import Badge from "@mui/material/Badge";
-import Box from "@mui/material/Box";
 import { SwipeableDrawer } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 

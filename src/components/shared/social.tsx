@@ -14,9 +14,6 @@ interface LinkItem {
     icon: ReactNode;
 }
 
-const classSvg =
-    "svg-icon-fasolid svg-icon-fasolid-interactive h-6 w-6 group-hover/a:scale-110 group-focus/a:scale-105 group-active/a:scale-90 lg:h-8 lg:w-8";
-
 const socialLinks: LinkItem[] = [
     {
         name: "GitHub",

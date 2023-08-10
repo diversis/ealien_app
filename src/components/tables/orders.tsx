@@ -1,4 +1,3 @@
-import Image from "next/image";
 import {
     Table,
     TableBody,
@@ -6,7 +5,6 @@ import {
     TableContainer,
     TableHead,
     TableRow,
-    Typography,
 } from "@mui/material";
 import CancelIcon from "@mui/icons-material/Cancel";
 import EditIcon from "@mui/icons-material/Edit";
