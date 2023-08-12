@@ -1,7 +1,7 @@
 "use client";
 import { Suspense } from "react";
 import { CircularProgress } from "@mui/material";
-import PageTransition from "../pageTransition";
+import PageTransition from "@/components/layout/pageTransition";
 import Footer from "@/components/layout/footer";
 import Header from "@/components/layout/header";
 
