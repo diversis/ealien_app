@@ -6,13 +6,9 @@ import { Metadata, ResolvingMetadata } from "next";
 
 import {
     Product,
-    getBestProducts,
     getProductListItems,
 } from "@/lib/prisma/product";
-import {
-    serializeCompactProduct,
-    serializeProduct,
-} from "@/lib/prisma/serialization";
+import { serializeProduct } from "@/lib/prisma/serialization";
 import { SerializedPrisma } from "@/lib/prisma/types";
 
 const logger = require("@/lib/utils/logger");

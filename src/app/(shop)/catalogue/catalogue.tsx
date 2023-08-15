@@ -1,10 +1,8 @@
 "use client";
 import {
     Breadcrumbs,
-    Button,
     Pagination,
     PaginationItem,
-    SwipeableDrawer,
     Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -12,25 +10,14 @@ import {
     usePathname,
     useSearchParams,
 } from "next/navigation";
-import {
-    ReactNode,
-    useCallback,
-    useEffect,
-    useState,
-} from "react";
+import { useCallback } from "react";
 import Link from "next/link";
-import { m, useInView } from "framer-motion";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { m } from "framer-motion";
 
 import { Product } from "@prisma/client";
 import ProductCard from "@/components/catalogue/productCard";
 import { SerializedPrisma } from "@/lib/prisma/types";
 
-import {
-    DRAWER_BLEEDING,
-    STAGGER_VARIANTS,
-} from "@/lib/constants";
 import ProductFilters from "@/components/catalogue/productFilters/productFilters";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import MUISwipeableDrawer from "@/components/mui/swipeableDrawer";
@@ -84,25 +71,6 @@ export default function Catalogue({
             ? Number(searchParams.get("page"))
             : 1;
     const category = searchParams.get("category") ?? null;
-    // const nextLink = hasMore
-    //     ? `${pathname}?${new URLSearchParams(
-    //           searchParams.toString(),
-    //       ).set("page", "" + (page + 1))}`
-    //     : `${pathname}?${searchParams}`;
-
-    //     const prevLink = page>1
-    //     ? `${pathname}?${new URLSearchParams(
-    //           searchParams.toString(),
-    //       ).set("page", "" + (page - 1))}`
-    //     : `${pathname}?${searchParams}`;
-
-    // console.log(searchParams);
-
-    // const [nextLink, setNextLink] = useState<string>(
-    //     pathname + "?page=2",
-    // );
-    // const [prevLink, setPrevLink] =
-    //     useState<string>(pathname);
 
     const getLinkWithSearchParams = useCallback(
         (linkPage: number | null) => {
@@ -115,35 +83,7 @@ export default function Catalogue({
         },
         [searchParams, pathname],
     );
-    // useEffect(() => {
-    //     const page = parseInt(
-    //         searchParams.get("page") || "1",
-    //         10,
-    //     );
 
-    //     const getNextPage = () => {
-    //         const searchString = new URLSearchParams(
-    //             searchParams.toString(),
-    //         );
-    //         searchString.set("page", "" + (page + 1));
-    //         // console.log(searchString);
-    //         return `${pathname}?${searchString}`;
-    //     };
-    //     const getPrevPage = () => {
-    //         const searchString = new URLSearchParams(
-    //             searchParams.toString(),
-    //         );
-    //         searchString.set("page", "" + (page - 1));
-    //         // console.log(searchString);
-    //         return `${pathname}?${searchString}`;
-    //     };
-    //     setNextLink(getNextPage());
-    //     if (page > 1) setPrevLink(getPrevPage());
-    // }, [pathname, searchParams]);
-
-    // console.log(products);
-    // console.log(newsData);
-    // if (products.length === 0) router.back();
     return (
         <div className="flex w-full flex-row">
             {isMobile ? (
