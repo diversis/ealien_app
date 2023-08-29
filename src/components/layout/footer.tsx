@@ -2,35 +2,14 @@
 import Link from "next/link";
 import { ReactNode } from "react";
 
-import GitHubIcon from '@mui/icons-material/GitHub';
+import GitHubIcon from "@mui/icons-material/GitHub";
 import Social from "../shared/social";
-
 
 interface LinkItem {
     name: string;
     url?: string;
     icon?: ReactNode;
 }
-
-const footerLinks: { name: string; links: LinkItem[] }[] = [
-    {
-        name: "Ссылки",
-        links: [
-            { name: "Ссылка 1" },
-            { name: "Ссылка 2" },
-            { name: "Ссылка 3" },
-        ],
-    },
-    { name: "Ресурсы", links: [{ name: "Блог" }, { name: "Поддержка" }] },
-    {
-        name: "Инфо",
-        links: [
-            { name: "О нас", url: "about" },
-            { name: "Наша миссия", url: "mission" },
-            { name: "Контакты" },
-        ],
-    },
-];
 
 const linkClassName =
     "h-6 w-6 lg:h-8 lg:w-8 svg-icon-fasolid svg-icon-fasolid-interactive";
@@ -41,7 +20,6 @@ const socialLinks: LinkItem[] = [
         url: "https://github.com/diversis",
         icon: <GitHubIcon />,
     },
-
 ];
 
 export default function Footer() {
@@ -50,21 +28,17 @@ export default function Footer() {
             <div className="flex w-full flex-col items-center gap-4 py-4">
                 <div className="xl:gap-[clamp(2rem,10vw + 2rem,8rem)] container mx-auto flex w-full flex-col items-center justify-center gap-4 px-5 py-6 text-center lg:py-12 xl:flex-row xl:justify-between xl:text-left">
                     <Link
-                        aria-label="Живой Дом - Главная страница"
-                        title="Логотип 'Живой Дом'"
+                        aria-label="AALIEN"
+                        title="AALIEN'"
                         href="/"
                         className="font-display flex place-items-center gap-x-6 font-bold xl:self-start"
                     >
-
-                        <p className="h5">
-                            AALIEN
-                        </p>
+                        <p className="h5">AALIEN</p>
                     </Link>
                     {/* <Contacts className="flex-col gap-4" /> */}
-
                 </div>
                 <div>
-                    <Social/>
+                    <Social />
                 </div>
                 <div className="container flex w-full items-center justify-center px-5 text-center ">
                     <p>© 2023 AALIEN</p>

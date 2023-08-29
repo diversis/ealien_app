@@ -30,7 +30,7 @@ export function getAlienGuitars() {
 }
 
 export function getAlienViolins() {
-    return new Array(24).fill({}).map((i, id) => {
+    return new Array(34).fill({}).map((i, id) => {
         return {
             name: `AAlien violin ${++id}`,
             image: "violin/r/" + id,
@@ -45,7 +45,7 @@ export function getAlienViolins() {
 }
 
 export function getAlienPianos() {
-    return new Array(21).fill({}).map((i, id) => {
+    return new Array(32).fill({}).map((i, id) => {
         return {
             name: `AAlien piano ${++id}`,
             image: "piano/r/" + id,

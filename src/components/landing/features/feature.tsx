@@ -13,7 +13,7 @@ export default function Feature({
     title,
     photo,
     text,
-    bg = "24",
+    bg = "guitarist",
 }: {
     id: number;
     title: string;
@@ -42,7 +42,7 @@ export default function Feature({
             <div className="absolute bottom-[-10%] left-[-20%] right-[-20%]   -z-10 h-[40rem]  self-end  xl:[grid-area:2/1/3/13] ">
                 <BG
                     testLabel={`feature-${id}`}
-                    bgSrc={`/images/bg/r/${bg}/2048.webp`}
+                    bgSrc={`/images/features/${bg}/2048.webp`}
                     classNames={{
                         root: `${
                             isEven
