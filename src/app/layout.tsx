@@ -18,19 +18,19 @@ export const metadata: Metadata = {
         icon: "/favicon.png",
     },
     description:
-        "simple show off ecommerce website for my dev portfolio",
+        "simple showcase ecommerce website for my dev portfolio",
     openGraph: {
-        images: ["/og.webp"],
+        images: ["/images/hero/2048.webp"],
         title: "AAlien Shop",
         description:
-            "simple show off ecommerce website for my dev portfolio",
+            "simple showcase ecommerce website for my dev portfolio",
         url: new URL(DOMAIN),
     },
     twitter: {
-        images: ["/og.webp"],
+        images: ["/images/hero/2048.webp"],
         title: "AAlien Shop",
         description:
-            "simple show off ecommerce website for my dev portfolio",
+            "simple showcase ecommerce website for my dev portfolio",
     },
 };
 
