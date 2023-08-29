@@ -43,8 +43,8 @@ export default function Social() {
                         >
                             <a
                                 href={item.url}
-                                aria-label={`наша страница ${item.name}`}
-                                title={`наша страница ${item.name}`}
+                                aria-label={`find us on ${item.name}`}
+                                title={`find us on ${item.name}`}
                                 className="group/a"
                             >
                                 {item.icon}

@@ -34,7 +34,6 @@
         /* overflow-y: auto; */
         /* background-image: url("/bg.jpg"); */
         text-rendering: optimizeSpeed;
-        position: relative;
 
         width: calc(
             100% + var(--removed-body-scroll-bar-size)
