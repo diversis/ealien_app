@@ -7,6 +7,6 @@ export default function robots(): MetadataRoute.Robots {
       allow: '/',
       disallow: ['/profile/', '/order/'],
     },
-    sitemap: 'https://aalien-app.vercel.app/sitemap.xml',
+    sitemap: 'https://ealien-app.vercel.app/sitemap.xml',
   }
 }

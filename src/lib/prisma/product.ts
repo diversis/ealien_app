@@ -301,7 +301,7 @@ export async function getBrandProducts(): Promise<{
         await prisma.product.findMany({
             where: {
                 brand: {
-                    equals: "AAlien",
+                    equals: "EAlien",
                 },
             },
             select: {
@@ -316,7 +316,7 @@ export async function getBrandProducts(): Promise<{
             orderBy: { rating: "desc" },
 
         });
-    // productLogger.info("aalien products: ", data);
+    // productLogger.info("EAlien products: ", data);
     return { productListItems: data };
 }
 

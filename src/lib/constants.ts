@@ -1,6 +1,6 @@
-import {  Variants } from "framer-motion";
+import { Variants } from "framer-motion";
 
-export const DOMAIN = "https://aalien-app.vercel.app/";
+export const DOMAIN = "https://ealien-app.vercel.app/";
 
 export const DRAWER_BLEEDING = 56;
 

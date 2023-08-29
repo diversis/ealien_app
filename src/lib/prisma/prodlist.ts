@@ -13,10 +13,10 @@ export function getCategories() {
 export function getAlienGuitars() {
     const list = new Array(27).fill({}).map((i, id) => {
         const item = {
-            name: `AAlien guitar ${++id}`,
+            name: `EAlien guitar ${++id}`,
             image: "guitar/r/" + id,
-            description: "AAlien guitar",
-            brand: "AAlien",
+            description: "EAlien guitar",
+            brand: "EAlien",
             price: Math.round(Math.random() * 4) + 2.99,
             countInStock: Math.round(Math.random() * 100),
             rating: (Math.random() * 5).toFixed(1),
@@ -32,10 +32,10 @@ export function getAlienGuitars() {
 export function getAlienViolins() {
     return new Array(34).fill({}).map((i, id) => {
         return {
-            name: `AAlien violin ${++id}`,
+            name: `EAlien violin ${++id}`,
             image: "violin/r/" + id,
-            description: "AAlien violin",
-            brand: "AAlien",
+            description: "EAlien violin",
+            brand: "EAlien",
             price: Math.round(Math.random() * 4) + 2.99,
             countInStock: Math.round(Math.random() * 100),
             rating: (Math.random() * 5).toFixed(1),
@@ -47,10 +47,10 @@ export function getAlienViolins() {
 export function getAlienPianos() {
     return new Array(32).fill({}).map((i, id) => {
         return {
-            name: `AAlien piano ${++id}`,
+            name: `EAlien piano ${++id}`,
             image: "piano/r/" + id,
-            description: "AAlien piano",
-            brand: "AAlien",
+            description: "EAlien piano",
+            brand: "EAlien",
             price: Math.round(Math.random() * 4) + 2.99,
             countInStock: Math.round(Math.random() * 100),
             rating: (Math.random() * 5).toFixed(1),

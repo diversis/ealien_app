@@ -13,7 +13,7 @@ const orbitron = Orbitron({
 
 export const metadata: Metadata = {
     metadataBase: new URL(DOMAIN),
-    title: "AAlien Shop",
+    title: "EAlien Shop",
     icons: {
         icon: "/favicon.png",
     },
@@ -21,14 +21,14 @@ export const metadata: Metadata = {
         "simple show off ecommerce website for my dev portfolio",
     openGraph: {
         images: ["/images/hero/2048.webp"],
-        title: "AAlien Shop",
+        title: "EAlien Shop",
         description:
             "simple show off ecommerce website for my dev portfolio",
         url: new URL(DOMAIN),
     },
     twitter: {
         images: ["/images/hero/2048.webp"],
-        title: "AAlien Shop",
+        title: "EAlien Shop",
         description:
             "simple show off ecommerce website for my dev portfolio",
     },

@@ -114,7 +114,7 @@ const Header = () => {
                                         component={Link}
                                         href="/"
                                     >
-                                        AALIEN
+                                        EAlien
                                     </Typography>
                                 </m.div>
                                 <Box

@@ -93,7 +93,7 @@ export default function MobileMenuContainer({
                 <m.div>
                     <Link href="/">
                         <div className="flex place-items-center gap-x-6">
-                            AALIEN
+                            EAlien
                         </div>
                     </Link>
                 </m.div>
