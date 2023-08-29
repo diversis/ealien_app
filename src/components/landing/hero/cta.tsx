@@ -103,7 +103,7 @@ export default function CTA({
                     tabIndex={0}
                     className="text-stroke title-bg linear-mask-heading relative bg-[size:200%_200%] bg-clip-text bg-no-repeat text-[15vw] font-black tracking-widest text-transparent transition-[background-position] delay-100 duration-[2s] ease-out  will-change-[background-position] lg:text-[12vw] "
                 >
-                    AALIEN
+                    EALIEN
                 </m.h1>
             </AnimatedDiv>
             <AnimatedDiv variants={SUBTITLE_VARIANTS}>
