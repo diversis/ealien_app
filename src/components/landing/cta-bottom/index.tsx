@@ -22,7 +22,7 @@ export default function CTABottom() {
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
             ref={ref}
-            className="container relative flex h-[100vh]  w-full flex-col items-center justify-center gap-y-24"
+            className="container relative flex h-screen w-full  flex-col items-center justify-center gap-y-24 "
         >
             <Typography
                 variant="h2"
@@ -31,20 +31,15 @@ export default function CTABottom() {
                 Go Shopping!
             </Typography>
             <CTALink id="ctalink" className="peer w-56 " />
-            <BG
-                bgSrc="/images/bg/r/28/2048.webp"
-                classNames={{
-                    root: "absolute  w-screen top-0 -bottom-[10%] h-[100dvh] -z-10 diagonal-mask-2   ",
-                    bg: "bg-[position:50%_70%!important]  bg-fixed linear-mask-borders ",
-                }}
-            />
-            <BG
-                bgSrc="/images/bg/r/28/2048.webp"
-                classNames={{
-                    root: " absolute w-screen top-0 -bottom-[10%] h-[100dvh] -z-10 diagonal-mask-2  peer-hover:[&>div]:[filter:url(#noise)]",
-                    bg: "bg-[position:50%_70%!important] bg-fixed linear-mask-frame ",
-                }}
-            />
+            <div className="absolute -bottom-[10%] top-0 -z-10 h-screen w-screen [mask:linear-gradient(to_bottom,transparent_0%,#000_25%)]">
+                <BG
+                    bgSrc="/images/bg/r/28/2048.webp"
+                    classNames={{
+                        root: "absolute inset-0 [filter:url(#noise)]",
+                        bg: "bg-[position:50%_70%!important] bg-fixed",
+                    }}
+                />
+            </div>
         </m.section>
     );
 }
