@@ -18,25 +18,23 @@ export const metadata: Metadata = {
         icon: "/favicon.png",
     },
     description:
-        "simple show off ecommerce website for my dev portfolio",
+        "simple showcase ecommerce website for my dev portfolio",
     openGraph: {
         images: ["/images/hero/2048.webp"],
         title: "EAlien Shop",
         description:
-            "simple show off ecommerce website for my dev portfolio",
+            "simple showcase ecommerce website for my dev portfolio",
         url: new URL(DOMAIN),
     },
     twitter: {
         images: ["/images/hero/2048.webp"],
         title: "EAlien Shop",
         description:
-            "simple show off ecommerce website for my dev portfolio",
+            "simple showcase ecommerce website for my dev portfolio",
     },
 };
 
 export default function RootLayout({
-    // Layouts must accept a children prop.
-    // This will be populated with nested layouts or pages
     children,
     session,
 }: {
@@ -46,7 +44,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={orbitron.className}>
-                <div className="absolute inset-0 -z-[11] bg-[url(/noise.svg)] bg-fixed bg-repeat lg:bg-[url(/noise-animated.svg)]" />
+                <div className="absolute inset-0 -z-[11] bg-[url(/noise.svg)] bg-cover bg-fixed bg-no-repeat" />
                 <Filters />
                 <a
                     key="skip-to-content"
