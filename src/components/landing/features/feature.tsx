@@ -49,7 +49,7 @@ export default function Feature({
                                 ? "clip-poly-right"
                                 : "clip-poly-left"
                         } h-[90%]  w-full `,
-                        bg: "bg-[position:50%_30%!important] bg-fixed",
+                        bg: "bg-[position:50%_30%!important] bg-fixed bg-cover",
                     }}
                 />
             </div>
