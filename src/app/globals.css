@@ -106,6 +106,10 @@
 @layer utilities {
     /* UI */
 
+    .title-bg {
+        background-image: url("/images/bg/r/26/1024.webp");
+    }
+
     .filter-noise {
         filter: url(#noise);
     }
