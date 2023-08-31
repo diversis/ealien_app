@@ -45,7 +45,7 @@ export default function ImageMagnifier({
                 src={src}
                 alt={alt}
                 priority
-                onMouseEnter={(e) => {
+                onPointerEnter={(e) => {
                     // update image size and turn-on magnifier
                     const elem = e.currentTarget;
                     const { width, height } =
@@ -54,13 +54,13 @@ export default function ImageMagnifier({
                     elem.classList.toggle("filter-noise");
                     setShowMagnifier(true);
                 }}
-                onMouseLeave={(e) => {
+                onPointerLeave={(e) => {
                     e.currentTarget.classList.toggle(
                         "filter-noise",
                     );
                     setShowMagnifier(false);
                 }}
-                onMouseMove={(e) => {
+                onPointerMove={(e) => {
                     // update cursor position
                     const elem = e.currentTarget;
                     const { top, left } =
