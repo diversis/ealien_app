@@ -66,9 +66,8 @@ export default function Feature({
                     {title}
                 </Typography>
                 <Typography
-                    variant="body1"
                     tabIndex={0}
-                    className="text-shadow"
+                    className="text-shadow !text-lg lg:!text-xl"
                 >
                     <Balancer ratio={0.5}>{text}</Balancer>
                 </Typography>
