@@ -84,25 +84,6 @@ export default function Catalogue({
             ? Number(searchParams.get("page"))
             : 1;
     const category = searchParams.get("category") ?? null;
-    // const nextLink = hasMore
-    //     ? `${pathname}?${new URLSearchParams(
-    //           searchParams.toString(),
-    //       ).set("page", "" + (page + 1))}`
-    //     : `${pathname}?${searchParams}`;
-
-    //     const prevLink = page>1
-    //     ? `${pathname}?${new URLSearchParams(
-    //           searchParams.toString(),
-    //       ).set("page", "" + (page - 1))}`
-    //     : `${pathname}?${searchParams}`;
-
-    // console.log(searchParams);
-
-    // const [nextLink, setNextLink] = useState<string>(
-    //     pathname + "?page=2",
-    // );
-    // const [prevLink, setPrevLink] =
-    //     useState<string>(pathname);
 
     const getLinkWithSearchParams = useCallback(
         (linkPage: number | null) => {
@@ -115,39 +96,11 @@ export default function Catalogue({
         },
         [searchParams, pathname],
     );
-    // useEffect(() => {
-    //     const page = parseInt(
-    //         searchParams.get("page") || "1",
-    //         10,
-    //     );
 
-    //     const getNextPage = () => {
-    //         const searchString = new URLSearchParams(
-    //             searchParams.toString(),
-    //         );
-    //         searchString.set("page", "" + (page + 1));
-    //         // console.log(searchString);
-    //         return `${pathname}?${searchString}`;
-    //     };
-    //     const getPrevPage = () => {
-    //         const searchString = new URLSearchParams(
-    //             searchParams.toString(),
-    //         );
-    //         searchString.set("page", "" + (page - 1));
-    //         // console.log(searchString);
-    //         return `${pathname}?${searchString}`;
-    //     };
-    //     setNextLink(getNextPage());
-    //     if (page > 1) setPrevLink(getPrevPage());
-    // }, [pathname, searchParams]);
-
-    // console.log(products);
-    // console.log(newsData);
-    // if (products.length === 0) router.back();
     return (
         <div className="flex w-full flex-row">
             {isMobile ? (
-                <MUISwipeableDrawer>
+                <MUISwipeableDrawer title="Filters">
                     <ProductFilters
                         handleSearch={handleSearch}
                         searchParams={searchParams}
