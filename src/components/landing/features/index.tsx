@@ -35,19 +35,10 @@ const features = [
 ];
 
 export default function FeaturesSection() {
-    const ref = useRef(null);
-    const { scrollY, scrollYProgress } = useScroll({
-        target: ref,
-        offset: ["end end", "end start"],
-    });
-    const isInView = useInView(ref);
-    // const scale = useTransform(scrollYProgress, [0.5, 0.8], [1, 0.5]);
-
     return (
         <m.section
             data-test="features-section"
             key="features-section"
-            ref={ref}
             className="container  flex min-h-screen w-full  flex-col gap-y-16 "
         >
             <Typography

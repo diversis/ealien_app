@@ -24,6 +24,7 @@ import {
 import MUIThemeProvider from "@/components/mui/muiThemeProvider";
 import SignInModal from "@/components/modals/signInModal";
 import { ReactNode, useState } from "react";
+import useWindowSize from "@/lib/hooks/use-window-size";
 
 export function Providers({
     children,
@@ -32,6 +33,7 @@ export function Providers({
     children: ReactNode;
     session: Session;
 }) {
+    const { isMobile, isDesktop } = useWindowSize();
     const [client] = useState(new QueryClient());
     return (
         <SessionProvider session={session}>
@@ -44,7 +46,14 @@ export function Providers({
                         themes={["light", "dark"]}
                     >
                         <MUIThemeProvider>
-                            <SnackbarProvider>
+                            <SnackbarProvider
+                                anchorOrigin={{
+                                    horizontal: "left",
+                                    vertical: isMobile
+                                        ? "top"
+                                        : "bottom",
+                                }}
+                            >
                                 <LazyMotion
                                     features={domMax}
                                     strict

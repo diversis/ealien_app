@@ -23,12 +23,8 @@ export default function Feature({
     bg?: string;
 }) {
     const ref = useRef(null);
-    // const { scrollY, scrollYProgress } = useScroll({
-    //     target: ref,
-    //     offset: ["end end", "end start"],
-    // });
+
     const isInView = useInView(ref);
-    // const scale = useTransform(scrollYProgress, [0.5, 0.8], [1, 0.5]);
     const isEven = id % 2 === 0;
     return (
         <m.section

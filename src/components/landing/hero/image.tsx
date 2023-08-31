@@ -88,18 +88,6 @@ export default function Hero({
         damping: 150,
     });
 
-    // useEffect(() => {
-    //     if (isInView) {
-    //         // const { newX, newY } = onMouseMove(
-    //         //     mousePosition,
-    //         // );
-    //         // console.log("new coords: ", newX, " | ", newY);
-    //         // setXY(newX, newY)
-    //         // console.log("new set coords: ", x.get(), " | ", y.get());
-    //         setImagePosition(onMouseMove(mousePosition))
-    //     }
-    // }, [mousePosition, isInView, onMouseMove]);
-
     useEffect(() => {
         {
             // console.log(scrollYProgress.get())
@@ -134,10 +122,6 @@ export default function Hero({
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
-            // style={{
-            //     x,
-            //     transition: "transform 100ms ease-out",
-            // }}
         >
             <svg
                 style={{
