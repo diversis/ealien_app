@@ -47,11 +47,11 @@ export default function NewOrder() {
             <div className="container flex grid-cols-2 flex-col-reverse gap-8  px-4 xl:grid">
                 <m.div
                     layout
-                    className="flex flex-col items-center rounded-xl bg-primary-50/20 dark:bg-primary-900/20"
+                    className="flex flex-col items-center gap-y-2 rounded-xl bg-primary-50/20 dark:bg-primary-900/20"
                 >
                     {items.length > 0 ? (
                         <>
-                            <Typography variant="h3">
+                            <Typography className="h3">
                                 Your Order
                             </Typography>
                             <ProductTable
@@ -64,7 +64,7 @@ export default function NewOrder() {
                         </>
                     ) : (
                         <div>
-                            <Typography variant="h5">
+                            <Typography className="h5">
                                 Your cart is empty
                             </Typography>
                             <Link

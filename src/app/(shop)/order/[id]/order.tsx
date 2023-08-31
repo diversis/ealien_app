@@ -129,7 +129,7 @@ export default function OrderPage({
                 >
                     {items.length > 0 ? (
                         <>
-                            <Typography variant="h3">
+                            <Typography className="h3">
                                 Your Order
                             </Typography>
                             <ProductTable
@@ -140,7 +140,7 @@ export default function OrderPage({
                         </>
                     ) : (
                         <div>
-                            <Typography variant="h5">
+                            <Typography className="h5">
                                 This order is empty
                             </Typography>
                         </div>

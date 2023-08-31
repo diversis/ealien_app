@@ -37,7 +37,7 @@ export default function Profile({
                     layout
                     className="flex flex-col items-center rounded-xl bg-primary-50/20 dark:bg-primary-900/20"
                 >
-                    <Typography variant="h3">
+                    <Typography className="h3">
                         Your Orders
                     </Typography>
                     {!!orders && orders.length > 0 ? (
@@ -46,7 +46,7 @@ export default function Profile({
                         </>
                     ) : (
                         <div>
-                            <Typography variant="h5">
+                            <Typography className="h5">
                                 This order is empty
                             </Typography>
                         </div>

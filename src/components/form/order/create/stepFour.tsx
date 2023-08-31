@@ -11,7 +11,7 @@ export default function StepFour() {
     const { getValues, reset, register, control } =
         useFormContext();
     return (
-        <Table>
+        <Table className="w-full max-w-full table-fixed">
             <TableBody>
                 {Object.entries(getValues()).map(
                     ([key, value]) => {

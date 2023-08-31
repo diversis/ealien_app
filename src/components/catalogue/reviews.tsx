@@ -1,26 +1,8 @@
-import {
-    useCallback,
-    useEffect,
-    useRef,
-    useState,
-} from "react";
-import {
-    Box,
-    Divider,
-    Paper,
-    Rating,
-    Typography,
-} from "@mui/material";
+import { useCallback, useEffect, useRef } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
-import { m, AnimatePresence } from "framer-motion";
-import Image from "next/image";
+import { AnimatePresence } from "framer-motion";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import {
-    type ZodString,
-    z,
-    ZodError,
-    ZodObject,
-} from "zod";
+
 import {
     useInfiniteQuery,
     useQueryClient,
@@ -37,28 +19,20 @@ import { REVIEWS_PER_PAGE } from "@/lib/constants";
 
 const endpoint = "/api/reviews";
 
-// const getReviewsSchema = z.object({
-//     productId: z.string(),
-//     page: z.number(),
-// });
-
 async function getReviews({
-    // data,
     url,
 }: {
-    // data: { productId: string; page: string };
     url: string;
 }): Promise<{
     reviews: SerializedPrisma<ReviewWithAuthor>[];
     nextId: string | undefined;
 } | null> {
     try {
-        // console.log("url: ", url);
         const res = await axios({
             method: "get",
             url: url,
         });
-        // console.log("res: ", res.data);
+
         if (
             res &&
             "reviews" in res.data &&
@@ -76,9 +50,6 @@ async function getReviews({
             };
         }
     } catch (error) {
-        // if (error instanceof AxiosError) {
-
-        // }
         console.error(error);
     }
     return null;
@@ -95,17 +66,6 @@ export default function Reviews({
     reviewsCount?: number;
     postedNewReview: boolean;
 }) {
-    // const [page, setPage] = useState<number>(1);
-    // const [loadedReviews, setLoadedReviews] = useState<
-    //     SerializedPrisma<
-    //         Review & {
-    //             user: {
-    //                 name: string | null;
-    //                 image: string | null;
-    //             };
-    //         }
-    //     >[]
-    // >(reviews);
     const queryClient = useQueryClient();
     const {
         status,
@@ -136,10 +96,6 @@ export default function Reviews({
             }),
         suspense: true,
         staleTime: 5 * 1000,
-        // getPreviousPageParam: (firstPage) =>
-        //     "previousId" in firstPage
-        //         ? firstPage.previousId
-        //         : undefined,
         getNextPageParam: (lastPage) =>
             lastPage && "nextId" in lastPage
                 ? lastPage.nextId
@@ -170,15 +126,6 @@ export default function Reviews({
     return (
         <>
             <AnimatePresence>
-                {/* {!!reviews && reviews.length > 0
-                    ? reviews.map((review) => (
-                          <Review
-                              key={`review-${review.id}`}
-                              review={review}
-                          />
-                      ))
-                    : null} */}
-
                 {!!fetchedReviews
                     ? fetchedReviews.pages.flatMap(
                           (page) => {

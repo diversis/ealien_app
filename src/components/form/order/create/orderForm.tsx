@@ -391,7 +391,7 @@ export default function OrderForm() {
                 {items.length > 0 && (
                     <m.div
                         key="order-form-wrapper"
-                        className="w-full [&>*]:!scale-100 "
+                        className="w-full max-w-full overflow-hidden [&>*]:!scale-100 "
                         layout="size"
                         transition={{
                             layout: {
@@ -416,7 +416,7 @@ export default function OrderForm() {
                                     initial="hidden"
                                     animate="visible"
                                     exit="exit"
-                                    className="flex flex-col gap-y-2 rounded-xl bg-primary-50/50 p-2 transition-[height] duration-1000 dark:bg-primary-900/50 md:gap-y-4"
+                                    className="flex max-w-full flex-col gap-y-2 rounded-xl bg-primary-50/50 p-2 transition-[height] duration-1000 dark:bg-primary-900/50 md:gap-y-4"
                                 >
                                     <Stepper
                                         activeStep={active}
@@ -431,10 +431,16 @@ export default function OrderForm() {
                                                             StepIconComponent={
                                                                 StepIcon
                                                             }
+                                                            className="flex flex-col items-center justify-between lg:flex-row"
                                                         >
-                                                            {
-                                                                label
-                                                            }
+                                                            <Typography
+                                                                variant="body2"
+                                                                className="text-center"
+                                                            >
+                                                                {
+                                                                    label
+                                                                }
+                                                            </Typography>
                                                         </StepLabel>
                                                     </Step>
                                                 );
@@ -450,6 +456,7 @@ export default function OrderForm() {
                                                 lg: "24px",
                                             },
                                         }}
+                                        className="w-full max-w-full"
                                     >
                                         {active === 0 ? (
                                             <StepOne

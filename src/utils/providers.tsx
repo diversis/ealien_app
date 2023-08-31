@@ -19,12 +19,14 @@ import { Provider as RWBProvider } from "react-wrap-balancer";
 import {
     SnackbarProvider,
     enqueueSnackbar,
+    closeSnackbar,
 } from "notistack";
 
 import MUIThemeProvider from "@/components/mui/muiThemeProvider";
 import SignInModal from "@/components/modals/signInModal";
 import { ReactNode, useState } from "react";
 import useWindowSize from "@/lib/hooks/use-window-size";
+import { Button } from "@mui/material";
 
 export function Providers({
     children,
@@ -53,6 +55,18 @@ export function Providers({
                                         ? "top"
                                         : "bottom",
                                 }}
+                                action={(snackbarId) => (
+                                    <Button
+                                        onClick={() =>
+                                            closeSnackbar(
+                                                snackbarId,
+                                            )
+                                        }
+                                        variant="text"
+                                    >
+                                        Dismiss
+                                    </Button>
+                                )}
                             >
                                 <LazyMotion
                                     features={domMax}

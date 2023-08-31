@@ -36,7 +36,6 @@ export const ControlledRating = <
                     className=""
                     precision={0.5}
                 />
-                // {!!error ? (<Typography>{error.message}</Typography>) : null}
             )}
         />
     );

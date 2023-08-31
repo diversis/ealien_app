@@ -136,24 +136,6 @@ export default function ProductPage({
                         )}
                     </div>
                     <Box className="flex w-full flex-col items-center gap-y-4">
-                        {/* {!!reviews && reviews.length > 0 ? (
-                            reviews.map((review) => (
-                                <ReviewCard
-                                    key={`review-${review.id}`}
-                                    review={review}
-                                />
-                            ))
-                        ) : (
-                            <div>
-                                <Typography
-                                    variant="body1"
-                                    className="text-center"
-                                >
-                                    No reviews yet
-                                </Typography>
-                            </div>
-                        )} */}
-
                         <Suspense
                             fallback={
                                 <>
@@ -168,7 +150,6 @@ export default function ProductPage({
                             }
                         >
                             <Reviews
-                                // reviews={reviews}
                                 productId={product.id}
                                 postedNewReview={
                                     postedNewReview
