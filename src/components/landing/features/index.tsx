@@ -11,6 +11,7 @@ import Feature from "./feature";
 import guitarPhoto from "@public/images/catalogue/guitar/r/18/1024.webp";
 import violinPhoto from "@public/images/catalogue/violin/r/2/1024.webp";
 import pianoPhoto from "@public/images/catalogue/piano/r/1/1024.webp";
+import { Typography } from "@mui/material";
 
 const features = [
     {
@@ -49,6 +50,13 @@ export default function FeaturesSection() {
             ref={ref}
             className="container  flex min-h-screen w-full  flex-col gap-y-16 "
         >
+            <Typography
+                variant="h2"
+                tabIndex={0}
+                className="h2 text-center"
+            >
+                Features
+            </Typography>
             <AnimatePresence>
                 {features.map((feature, id) => (
                     <Feature

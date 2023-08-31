@@ -39,14 +39,17 @@ export default function TestimonialsCard({
             <div className="flex max-h-full w-full justify-center lg:w-72 xl:w-96">
                 <Photo imgSrc={photo} />
             </div>
-            <article className="relative flex w-full flex-col items-center lg:max-w-[40rem] xl:gap-y-12 ">
-                <Typography
-                    variant="h3"
-                    tabIndex={isInView ? 0 : undefined}
-                    className="h3 text-center uppercase"
-                >
-                    {name}
-                </Typography>
+            <article className="relative flex w-full flex-col items-center gap-y-6 lg:max-w-[40rem] lg:gap-y-12 ">
+                <span className="w-full">
+                    <Typography
+                        variant="h3"
+                        tabIndex={isInView ? 0 : undefined}
+                        className="h3 text-center uppercase"
+                    >
+                        {name}
+                    </Typography>
+                </span>
+
                 <div className="flex flex-col items-center gap-0">
                     <m.blockquote
                         variants={SLIDE_Y_P_VARIANTS}
@@ -71,7 +74,7 @@ export default function TestimonialsCard({
                             tincidunt ornare massa eget
                             egestas purus viverra.
                         </Balancer>
-                        <FormatQuoteIcon className="absolute -top-12 left-0 z-[-1] h-12 w-12 fill-surface-500" />
+                        <FormatQuoteIcon className="absolute -top-6 left-0 z-[-1] h-12 w-12 fill-surface-500 lg:-top-12" />
                     </m.blockquote>
                 </div>
             </article>

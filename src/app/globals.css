@@ -112,26 +112,26 @@
 
     /* Typography */
     .h1 {
-        @apply font-orbitron text-[clamp(2rem,3vw+2rem,5.375rem)] uppercase !leading-tight lg:text-4xl xl:text-5xl 2xl:text-6xl;
+        @apply lg:!text-4xl xl:!text-5xl 2xl:!text-6xl font-orbitron !text-[clamp(2rem,3vw+2rem,5.375rem)] uppercase !leading-tight;
     }
 
     .h2 {
-        @apply text-shadow container px-2 text-center font-orbitron text-2xl font-bold !leading-tight md:text-3xl  xl:text-4xl;
+        @apply text-shadow container px-2 text-center font-orbitron !text-2xl font-bold !leading-tight md:!text-3xl  xl:!text-4xl;
     }
     .h3 {
-        @apply font-orbitron text-[1.5rem] font-semibold leading-normal md:text-2xl xl:text-3xl;
+        @apply font-orbitron !text-[1.5rem] font-semibold leading-normal md:!text-2xl xl:!text-3xl;
     }
     .h4 {
-        @apply font-orbitron text-[1.25rem] tracking-widest md:text-2xl;
+        @apply font-orbitron !text-[1.25rem] tracking-widest md:!text-2xl;
     }
     .h5 {
-        @apply font-orbitron text-base uppercase  md:text-[1.25rem] xl:text-xl;
+        @apply font-orbitron !text-base uppercase  md:!text-[1.25rem] xl:!text-xl;
     }
     .h6 {
-        @apply font-orbitron text-lg font-medium;
+        @apply font-orbitron !text-lg font-medium;
     }
     .h7 {
-        @apply font-orbitron text-xs tracking-wide;
+        @apply font-orbitron !text-xs tracking-wide;
     }
 
     .text-shadow {
