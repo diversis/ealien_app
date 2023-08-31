@@ -11,6 +11,7 @@ import {
 import OrderForm from "@/components/form/order/create/orderForm";
 import Link from "next/link";
 import { Typography } from "@mui/material";
+import useCartTotal from "@/lib/hooks/use-cart-total";
 
 export default function NewOrder() {
     const {
@@ -23,7 +24,6 @@ export default function NewOrder() {
         show,
         toggle,
         setEditable,
-        total,
     } = useCart((state) => ({
         items: state.items,
         addItem: state.addItem,
@@ -33,9 +33,11 @@ export default function NewOrder() {
         editable: state.editable,
         setEditable: state.setEditable,
         show: state.show,
-        total: state.total,
+
         toggle: state.toggleCart,
     }));
+    const total = useCartTotal();
+
     const [render, setRender] = useState(false);
     // const [editable, setEditable] = useState(true);
     useEffect(() => {
