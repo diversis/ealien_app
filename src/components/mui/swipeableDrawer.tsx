@@ -40,9 +40,11 @@ export default function MUISwipeableDrawer({
                     </Typography>
                 </Paper>
             </Box>
-            <Box className="h-full max-h-[calc(100vh-3.5rem)] overflow-y-auto overflow-x-hidden p-1">
-                {children}
-            </Box>
+            <Paper className="relative flex h-full max-h-[calc(100vh-3.5rem)] w-full justify-center overflow-auto">
+                <Box className="w-[calc(100%-10px)] ">
+                    {children}
+                </Box>
+            </Paper>
         </SwipeableDrawer>
     );
 }
