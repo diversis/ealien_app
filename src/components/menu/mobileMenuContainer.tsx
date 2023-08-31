@@ -23,7 +23,7 @@ import LogoutIcon from "@mui/icons-material/Logout";
 import { signOut } from "next-auth/react";
 import Social from "../shared/social";
 import SwitchTheme from "../shared/switchTheme";
-import Cart from "../cart/cart";
+import ToggleCart from "../cart/toggleCart";
 import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
 import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
 import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
@@ -108,7 +108,7 @@ export default function MobileMenuContainer({
                     ))}
                 </Box>
                 {/* <Contacts className="flex-col" /> */}
-                <Cart />
+                <ToggleCart />
                 <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                         <button

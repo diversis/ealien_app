@@ -21,103 +21,30 @@ import ProductTable from "../tables/products";
 
 import { CartItem } from "@/lib/prisma/types";
 import { isCartItem } from "@/lib/prisma/typeguards";
-
-const endpoint = "/api/catalogue/refresh/";
-
-async function getCountInStock({
-    data,
-    url,
-}: {
-    data: { items: CartItem[] };
-    url: string;
-}): Promise<AxiosResponse<any, any>> {
-    return await axios({
-        method: "post",
-        url: url,
-        data: data,
-    });
-}
+import useCartTotal from "@/lib/hooks/use-cart-total";
 
 export default function Cart() {
-    const [render, setRender] = useState(false);
-    const { enqueueSnackbar, closeSnackbar } =
-        useSnackbar();
     const {
         items,
-        addItem,
         removeItem,
-        clearCart,
         addQty,
         editable,
         show,
         toggle,
-        setTotal,
-        setCountInStock,
     } = useCart((state) => ({
         items: state.items,
-        addItem: state.addItem,
         removeItem: state.removeItem,
-        clearCart: state.clearCart,
         addQty: state.addQty,
         editable: state.editable,
         show: state.show,
         toggle: state.toggleCart,
-        setTotal: state.setTotal,
-        setCountInStock: state.setCountInStock,
     }));
+
+    const cartTotal = useCartTotal();
+
     const { isMobile, isTablet, isDesktop } =
         useWindowSize();
-    const cartTotal = useMemo(
-        () =>
-            items.reduce(
-                (sum, i) => sum + Number(i.price) * i.qty,
-                0,
-            ),
-        [items],
-    );
 
-    useEffect(() => {
-        setTotal(cartTotal);
-    }, [cartTotal, setTotal]);
-
-    const refresh = useCallback(async () => {
-        try {
-            const newCountInStock = await getCountInStock({
-                data: { items },
-                url: endpoint,
-            });
-            if (
-                "items" in newCountInStock &&
-                Array.isArray(newCountInStock.items)
-            ) {
-                newCountInStock.items.map(
-                    (item: unknown) => {
-                        if (isCartItem(item))
-                            setCountInStock({
-                                id: item.id,
-                                countInStock:
-                                    item.countInStock || 0,
-                            });
-                    },
-                );
-            }
-        } catch (error) {
-            if (error instanceof AxiosError) {
-                console.log(error);
-                enqueueSnackbar({
-                    message: `There was an error updating your cart`,
-                    variant: "error",
-                    autoHideDuration: 6000,
-                });
-            }
-            console.log(error);
-        }
-    }, [items, setCountInStock, enqueueSnackbar]);
-
-    useEffect(() => {
-        if (items && items.length > 0) refresh();
-        setRender(true);
-    }, []);
     return (
         <>
             <SwipeableDrawer
@@ -178,22 +105,6 @@ export default function Cart() {
                     <p>Cart is empty</p>
                 )}
             </SwipeableDrawer>
-            {render ? (
-                <Badge
-                    badgeContent={cartTotal.toFixed(2) || 0}
-                    className="mr-8 font-bold "
-                    max={99999.99}
-                >
-                    <Button
-                        aria-label="cart"
-                        onClick={() => {
-                            toggle(true);
-                        }}
-                    >
-                        <ShoppingCartIcon />
-                    </Button>
-                </Badge>
-            ) : null}
         </>
     );
 }

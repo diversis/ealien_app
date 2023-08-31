@@ -51,7 +51,6 @@ type CartState = {
     editable: boolean;
 
     show: boolean;
-    total: number;
 };
 
 type CartAction = {
@@ -84,7 +83,6 @@ type CartAction = {
     clearCart: () => void;
 
     toggleCart: (showState: boolean) => void;
-    setTotal: (total: number) => void;
 };
 
 const calculateTotal = ({ items }: { items: CartItem[] }) =>
@@ -101,7 +99,6 @@ export const useCart = create<CartState & CartAction>()(
 
                 editable: true,
                 show: false,
-                total: 0,
 
                 addItem: ({
                     product,
@@ -176,6 +173,11 @@ export const useCart = create<CartState & CartAction>()(
                             ],
                         };
                     });
+                    // set((state): { total: number } => ({
+                    //     total: calculateTotal({
+                    //         items: get().items,
+                    //     }),
+                    // }));
                 },
                 setCountInStock: ({
                     id,
@@ -320,14 +322,15 @@ export const useCart = create<CartState & CartAction>()(
                         editable: editableState,
                     })),
 
-                clearCart: () =>
-                    set((state) => ({ items: [] })),
+                clearCart: () => {
+                    if (!get().editable) {
+                        return;
+                    }
+                    set((state) => ({ items: [] }));
+                },
 
                 toggleCart: (showState: boolean) => {
                     set({ show: showState });
-                },
-                setTotal: (total: number) => {
-                    set({ total: total });
                 },
             }),
             {

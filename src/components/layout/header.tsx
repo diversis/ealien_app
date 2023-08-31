@@ -33,6 +33,7 @@ import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
 import SignInModal from "../modals/signInModal";
 import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
 import { MenuContext } from "@/lib/nav/menuContext";
+import ToggleCart from "../cart/toggleCart";
 
 const Header = () => {
     const { data: session, status } = useSession();
@@ -142,7 +143,7 @@ const Header = () => {
 
                                 {/* <Contacts /> */}
                                 <div className="flex flex-row gap-4">
-                                    <Cart />
+                                    <ToggleCart />
 
                                     <SwitchTheme />
                                 </div>
@@ -273,6 +274,7 @@ const Header = () => {
                     handleClose={hideSignInModal}
                 ></SignInModal>
             ) : null}
+            <Cart/>
         </header>
     );
 };
