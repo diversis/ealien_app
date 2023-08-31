@@ -32,7 +32,7 @@ export default function MUISwipeableDrawer({
                 paper: "!overflow-y-visible ",
             }}
         >
-            <Box className="visible absolute inset-x-0 -top-14 z-[9000] flex h-14 items-center">
+            <Box className="visible absolute inset-x-0 -top-14 z-[1100] flex h-14 items-center">
                 <Box className="absolute left-[calc(50%_-_32px)] top-1 h-2 w-8 rounded bg-surface-400 dark:bg-surface-600"></Box>
                 <Paper className="flex h-full w-full items-center px-2">
                     <Typography variant="h5">
