@@ -14,20 +14,7 @@ import Carousel from "@/components/shared/carousel/carousel";
 import FeaturesSection from "@/components/landing/features";
 import TestimonialsSection from "@/components/landing/testimonials";
 import CTABottom from "@/components/landing/cta-bottom";
-// import dynamic from "next/dynamic";
-// import Social from "@/components/shared/social";
-
-// const FeaturesSection = dynamic(
-//     () => import("@/components/landing/features/index"),
-// );
-// const HeroSection = dynamic(() => import("@/components/landing/hero"));
-// const BottomCTASection = dynamic(
-//     () => import("@/components/landing/bottomCTA"),
-// );
-// const CarouselSection = dynamic(() => import("@/components/landing/carousel"));
-// const MissionSection = dynamic(() => import("@/components/landing/mission"));
-// const AboutSection = dynamic(() => import("@/components/landing/about"));
-// const TopCTASection = dynamic(() => import("@/components/landing/topCTA"));
+import BestProductsCarousel from "@/components/landing/best-products";
 
 export default function Home({
     products,
@@ -46,19 +33,9 @@ export default function Home({
                     <HeroSection key="hero-section" />
                     <FeaturesSection key="features-section" />
                     <TestimonialsSection key="testimonials-section" />
-                    <div
-                        className="max-h-screen w-full !overflow-y-visible px-4"
-                        key="carousel-section"
-                    >
-                        <Carousel className="!overflow-y-visible px-4">
-                            {products.map((product) => (
-                                <ProductCard
-                                    key={`card-${product.id}`}
-                                    product={product}
-                                />
-                            ))}
-                        </Carousel>
-                    </div>
+                    <BestProductsCarousel
+                        products={products}
+                    />
                     <CTABottom key="cta-bottom-section" />
                 </AnimatePresence>
             </div>

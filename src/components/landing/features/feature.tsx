@@ -7,6 +7,7 @@ import { StaticImageData } from "next/image";
 import Balancer from "react-wrap-balancer";
 import BG from "@/components/shared/bg";
 import Photo from "@/components/shared/photo";
+import { Typography } from "@mui/material";
 
 export default function Feature({
     id,
@@ -61,15 +62,20 @@ export default function Feature({
                         : "xl:[grid-area:1/1/2/8]"
                 } dark:xl:bg-transparent`}
             >
-                <h2 tabIndex={0} className="h2">
-                    {title}
-                </h2>
-                <p
+                <Typography
+                    variant="h3"
                     tabIndex={0}
-                    className="text-shadow  text-lg xl:text-xl"
+                    className="h3 text-center"
+                >
+                    {title}
+                </Typography>
+                <Typography
+                    variant="body1"
+                    tabIndex={0}
+                    className="text-shadow"
                 >
                     <Balancer ratio={0.5}>{text}</Balancer>
-                </p>
+                </Typography>
             </article>
             <div
                 data-test={`feature-${id}-photo`}
