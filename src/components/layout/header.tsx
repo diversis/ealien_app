@@ -260,7 +260,7 @@ const Header = () => {
                     </m.div>
                 )}
             </AnimatePresence>
-            <ScrollTop>
+            <ScrollTop trigger={scrolled}>
                 <Fab
                     size="small"
                     aria-label="scroll back to top"
@@ -274,7 +274,7 @@ const Header = () => {
                     handleClose={hideSignInModal}
                 ></SignInModal>
             ) : null}
-            <Cart/>
+            <Cart />
         </header>
     );
 };

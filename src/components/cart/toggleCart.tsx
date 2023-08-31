@@ -1,19 +1,21 @@
 "use client";
 
-import { Badge, Button } from "@mui/material";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-
-import { useCart } from "@/lib/hooks/use-cart";
 import {
     useCallback,
     useEffect,
     useMemo,
     useState,
 } from "react";
-import { CartItem } from "@/lib/prisma/types";
 import axios, { AxiosError, AxiosResponse } from "axios";
-import { isCartItem } from "@/lib/prisma/typeguards";
+
+import { Badge, Button } from "@mui/material";
+import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { enqueueSnackbar } from "notistack";
+import { throttle } from "lodash";
+
+import { useCart } from "@/lib/hooks/use-cart";
+import { CartItem } from "@/lib/prisma/types";
+import { isCartItem } from "@/lib/prisma/typeguards";
 import useCartTotal from "@/lib/hooks/use-cart-total";
 
 const endpoint = "/api/catalogue/refresh/";
@@ -45,45 +47,53 @@ export default function ToggleCart() {
 
     const cartTotal = useCartTotal();
 
-    const refresh = useCallback(async () => {
-        try {
-            const newCountInStock = await getCountInStock({
-                data: { items },
-                url: endpoint,
-            });
-            if (
-                "items" in newCountInStock &&
-                Array.isArray(newCountInStock.items)
-            ) {
-                newCountInStock.items.map(
-                    (item: unknown) => {
-                        if (isCartItem(item))
-                            setCountInStock({
-                                id: item.id,
-                                countInStock:
-                                    item.countInStock || 0,
-                            });
-                    },
-                );
-            }
-        } catch (error) {
-            if (error instanceof AxiosError) {
-                console.log(error);
-                enqueueSnackbar({
-                    message: `There was an error updating your cart`,
-                    variant: "error",
-                    autoHideDuration: 6000,
-                });
-            }
-            console.log(error);
-        }
-    }, [items, setCountInStock, enqueueSnackbar]);
+    const refresh = useCallback(
+        async () =>
+            throttle(async () => {
+                try {
+                    const newCountInStock =
+                        await getCountInStock({
+                            data: { items },
+                            url: endpoint,
+                        });
+                    if (
+                        "items" in newCountInStock &&
+                        Array.isArray(newCountInStock.items)
+                    ) {
+                        newCountInStock.items.map(
+                            (item: unknown) => {
+                                if (isCartItem(item))
+                                    setCountInStock({
+                                        id: item.id,
+                                        countInStock:
+                                            item.countInStock ||
+                                            0,
+                                    });
+                            },
+                        );
+                    }
+                } catch (error) {
+                    if (error instanceof AxiosError) {
+                        console.log(error);
+                        enqueueSnackbar({
+                            message: `There was an error updating your cart`,
+                            variant: "error",
+                            autoHideDuration: 6000,
+                        });
+                    }
+                    console.log(error);
+                }
+            }, 1000),
+        [items, setCountInStock, enqueueSnackbar],
+    );
 
     useEffect(() => {
         if (items && items.length > 0) refresh();
         setRender(true);
     }, []);
+
     if (!render) return null;
+
     return (
         <Badge
             badgeContent={cartTotal.toFixed(2) || 0}
