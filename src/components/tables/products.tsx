@@ -128,6 +128,7 @@ export default function ProductTable({
                                     </TableCell>
                                     <TableCell
                                         scope="row"
+                                        align="center"
                                         className="  w-full   "
                                     >
                                         <Link
@@ -138,7 +139,7 @@ export default function ProductTable({
                                     </TableCell>
                                     <TableCell
                                         scope="row"
-                                        className=" text-center "
+                                        align="center"
                                     >
                                         {item.price?.toFixed(
                                             2,
@@ -146,7 +147,7 @@ export default function ProductTable({
                                     </TableCell>
                                     <TableCell
                                         scope="row"
-                                        className="text-center "
+                                        align="center"
                                     >
                                         <p className="inline-flex flex-col items-center">
                                             {!!addQty && (
@@ -184,7 +185,8 @@ export default function ProductTable({
                                     </TableCell>
                                     <TableCell
                                         scope="row"
-                                        className="   text-center "
+                                        align="center"
+                                        className="min-w-[10ch] "
                                     >
                                         {(
                                             item.qty *
@@ -195,6 +197,7 @@ export default function ProductTable({
 
                                     <TableCell
                                         scope="row"
+                                        align="center"
                                         className="w-0  !p-0 lg:w-0"
                                     >
                                         {!!removeItem && (
