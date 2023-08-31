@@ -9,7 +9,6 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useSession } from "next-auth/react";
 
-import useScrolled from "@/lib/hooks/use-scrolled";
 import MobileMenu from "./mobileMenu";
 import { OPACITY_VARIANTS } from "@/lib/constants";
 import useWindowSize from "@/lib/hooks/use-window-size";
@@ -26,6 +25,7 @@ import {
     Toolbar,
     Tooltip,
     Typography,
+    useScrollTrigger,
 } from "@mui/material";
 import Cart from "../cart/cart";
 import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
@@ -45,7 +45,7 @@ const Header = () => {
         useState<null | HTMLElement>(null);
     const { isMobile, isDesktop } = useWindowSize();
     const [menuOpen, setMenuOpen] = useState(false);
-    const scrolled = useScrolled(100);
+    // const scrolled = useScrolled(100);
     const { visible, hideSignInModal, showSignInModal } =
         useSignInModal((state) => ({
             visible: state.visible,
@@ -70,10 +70,10 @@ const Header = () => {
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-    // const trigger = useScrollTrigger({
-    //     target: window ? window : undefined,
-    //     threshold: 300,
-    // });
+    const scrolled = useScrollTrigger({
+        target: window ? window : undefined,
+        threshold: 300,
+    });
     // const MAppBar = m(AppBar);
     return (
         <header>
@@ -100,7 +100,7 @@ const Header = () => {
                         className={`${
                             scrolled
                                 ? "bg-surface-50/60 after:opacity-100 dark:bg-surface-900/60"
-                                : "after:opacity-0"
+                                : "bg-transparent after:opacity-0"
                         } fixed left-0 top-0 z-30 flex !h-24  w-screen items-center backdrop-blur-[8px] transition-colors duration-300 after:absolute after:inset-0  after:shadow-md after:shadow-surface-500/50 after:transition-opacity after:duration-500 `}
                     >
                         <Container maxWidth="xl">

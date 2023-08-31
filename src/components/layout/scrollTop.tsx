@@ -1,18 +1,7 @@
 "use client";
 import { AnimatePresence, m } from "framer-motion";
-// import Box from "@mui/material/Box";
-// import Fade from "@mui/material/Fade";
-// import useScrolled from "@/lib/hooks/use-scrolled";
-import { SCALE_BOUNCE_VARIANTS } from "@/lib/constants";
 
-// interface Props {
-//     /**
-//      * Injected by the documentation to work in an iframe.
-//      * You won't need it on your project.
-//      */
-//     window?: () => Window;
-//     children: React.ReactElement;
-// }
+import { SCALE_BOUNCE_VARIANTS } from "@/lib/constants";
 
 export default function ScrollTop({
     children,
@@ -21,12 +10,6 @@ export default function ScrollTop({
     children: React.ReactElement;
     trigger: boolean;
 }) {
-    // const { children, window } = props;
-    // Note that you normally won't need to set the window ref as useScrollTrigger
-    // will default to window.
-    // This is only being set here because the demo is in an iframe.
-    // const trigger = useScrolled(100);
-
     const handleClick = (
         event: React.MouseEvent<HTMLDivElement>,
     ) => {
