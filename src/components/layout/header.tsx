@@ -8,12 +8,6 @@ import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useSession } from "next-auth/react";
-
-import MobileMenu from "./mobileMenu";
-import { OPACITY_VARIANTS } from "@/lib/constants";
-import useWindowSize from "@/lib/hooks/use-window-size";
-import SwitchTheme from "../shared/switchTheme";
-import ScrollTop from "./scrollTop";
 import {
     AppBar,
     Avatar,
@@ -27,6 +21,14 @@ import {
     Typography,
     useScrollTrigger,
 } from "@mui/material";
+import { useIsMounted } from "usehooks-ts";
+
+import MobileMenu from "./mobileMenu";
+import { OPACITY_VARIANTS } from "@/lib/constants";
+import useWindowSize from "@/lib/hooks/use-window-size";
+import SwitchTheme from "../shared/switchTheme";
+import ScrollTop from "./scrollTop";
+
 import Cart from "../cart/cart";
 import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
 import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
@@ -38,6 +40,7 @@ import ToggleCart from "../cart/toggleCart";
 const Header = () => {
     const { data: session, status } = useSession();
     const { email, image, name } = session?.user || {};
+    const isMounted = useIsMounted();
     // const IsClient = useIsClient();
     const [anchorElNav, setAnchorElNav] =
         useState<null | HTMLElement>(null);
@@ -71,8 +74,9 @@ const Header = () => {
         setAnchorElUser(null);
     };
     const scrolled = useScrollTrigger({
-        target: window ? window : undefined,
+        target: isMounted() ? window : undefined,
         threshold: 300,
+        disableHysteresis: true,
     });
     // const MAppBar = m(AppBar);
     return (
