@@ -30,11 +30,42 @@ export default function ImageMagnifier({
     return (
         // the container
         <div
-            className="grid aspect-square w-full place-items-center"
+            className="grid aspect-square w-full cursor-none place-items-center"
             style={{
                 position: "relative",
                 height: width,
                 width: width,
+            }}
+            onPointerEnter={(e) => {
+                // update image size and turn-on magnifier
+                const elem = e.currentTarget;
+                const { width, height } =
+                    elem.getBoundingClientRect();
+                setSize([width, height]);
+                document.body.classList.toggle(
+                    "overflow-hidden",
+                );
+                setShowMagnifier(true);
+            }}
+            onPointerLeave={(e) => {
+                e.currentTarget.classList.toggle(
+                    "filter-noise",
+                );
+                document.body.classList.toggle(
+                    "overflow-hidden",
+                );
+                setShowMagnifier(false);
+            }}
+            onPointerMove={(e) => {
+                // update cursor position
+                const elem = e.currentTarget;
+                const { top, left } =
+                    elem.getBoundingClientRect();
+
+                // calculate cursor position on the image
+                const x = e.pageX - left - window.scrollX;
+                const y = e.pageY - top - window.scrollY;
+                setXY([x, y]);
             }}
         >
             <Image
@@ -45,35 +76,7 @@ export default function ImageMagnifier({
                 src={src}
                 alt={alt}
                 priority
-                onPointerEnter={(e) => {
-                    // update image size and turn-on magnifier
-                    const elem = e.currentTarget;
-                    const { width, height } =
-                        elem.getBoundingClientRect();
-                    setSize([width, height]);
-                    elem.classList.toggle("filter-noise");
-                    setShowMagnifier(true);
-                }}
-                onPointerLeave={(e) => {
-                    e.currentTarget.classList.toggle(
-                        "filter-noise",
-                    );
-                    setShowMagnifier(false);
-                }}
-                onPointerMove={(e) => {
-                    // update cursor position
-                    const elem = e.currentTarget;
-                    const { top, left } =
-                        elem.getBoundingClientRect();
-
-                    // calculate cursor position on the image
-                    const x =
-                        e.pageX - left - window.pageXOffset;
-                    const y =
-                        e.pageY - top - window.pageYOffset;
-                    setXY([x, y]);
-                }}
-                className="aspec-square h-auto w-full rounded-xl border border-primary-900 object-cover transition-[filter] duration-500 [grid-area:1/1] hover:blur-sm dark:border-primary-50"
+                className="aspec-square pointer-events-none h-auto w-full rounded-xl border border-primary-900 object-cover transition-[filter] duration-500 [grid-area:1/1] hover:blur-sm dark:border-primary-50"
                 fill
             />
             <div
