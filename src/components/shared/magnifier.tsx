@@ -96,14 +96,8 @@ export default function ImageMagnifier({
                 const { top, left } =
                     elem.getBoundingClientRect();
                 // calculate cursor position on the image
-                const x =
-                    e.touches[0].clientX -
-                    left -
-                    window.scrollX;
-                const y =
-                    e.touches[0].clientY -
-                    top -
-                    window.scrollY;
+                const x = e.touches[0].clientX - left;
+                const y = e.touches[0].clientY - top;
                 if (
                     (ref.current?.clientWidth &&
                         x > ref.current?.clientWidth) ||
@@ -116,7 +110,6 @@ export default function ImageMagnifier({
                     y < 0
                 )
                     handleTouchEnd();
-                // console.log(x, y);
                 setXY([x, y]);
             }}
             onPointerEnter={(e) => {
