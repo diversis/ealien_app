@@ -69,7 +69,7 @@ export default function ProductPage({
             exit="hidden"
             className="grid w-full place-items-center"
         >
-            <div className="container flex flex-col items-center gap-y-4 overflow-y-auto overflow-x-clip px-2 lg:gap-y-8">
+            <div className="container flex flex-col items-center gap-y-4 overflow-x-clip px-2 lg:gap-y-8">
                 <Breadcrumbs className="self-start">
                     <Link href={`/catalogue/`}>
                         Catalogue
