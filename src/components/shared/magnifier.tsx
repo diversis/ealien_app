@@ -51,10 +51,11 @@ export default function ImageMagnifier({
                 e.currentTarget.classList.toggle(
                     "filter-noise",
                 );
+                console.log("leave");
+                setShowMagnifier(false);
                 document.body.classList.toggle(
                     "overflow-hidden",
                 );
-                setShowMagnifier(false);
             }}
             onPointerMove={(e) => {
                 // update cursor position
@@ -78,6 +79,7 @@ export default function ImageMagnifier({
                 priority
                 className="aspec-square pointer-events-none h-auto w-full rounded-xl border border-primary-900 object-cover transition-[filter] duration-500 [grid-area:1/1] hover:blur-sm dark:border-primary-50"
                 fill
+                onContextMenu={(e) => e.preventDefault()}
             />
             <div
                 style={{
