@@ -1,6 +1,8 @@
 "use client";
 
 import {
+    Dispatch,
+    SetStateAction,
     useCallback,
     useEffect,
     useMemo,
@@ -34,7 +36,11 @@ async function getCountInStock({
     });
 }
 
-export default function ToggleCart() {
+export default function ToggleCart({
+    toggleMobileMenu,
+}: {
+    toggleMobileMenu?: Dispatch<SetStateAction<boolean>>;
+}) {
     const [render, setRender] = useState(false);
 
     const { items, toggle, setCountInStock } = useCart(
@@ -104,6 +110,8 @@ export default function ToggleCart() {
                 aria-label="cart"
                 onClick={() => {
                     toggle(true);
+                    if (toggleMobileMenu)
+                        toggleMobileMenu(false);
                 }}
             >
                 <ShoppingCartIcon />

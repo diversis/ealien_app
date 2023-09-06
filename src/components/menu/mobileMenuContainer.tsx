@@ -108,7 +108,7 @@ export default function MobileMenuContainer({
                     ))}
                 </Box>
                 {/* <Contacts className="flex-col" /> */}
-                <ToggleCart />
+                <ToggleCart toggleMobileMenu={toggle}/>
                 <Box sx={{ flexGrow: 0 }}>
                     <Tooltip title="Open settings">
                         <button
