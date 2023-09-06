@@ -13,7 +13,7 @@ export default function BestProductsCarousel({
 }) {
     return (
         <section
-            className="max-h-screen w-full !overflow-y-visible px-4"
+            className="max-h-screen w-full flex flex-col items-center !overflow-y-visible px-4"
             key="carousel-section"
         >
             <Typography

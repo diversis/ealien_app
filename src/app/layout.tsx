@@ -44,7 +44,7 @@ export default function RootLayout({
     return (
         <html lang="en" suppressHydrationWarning>
             <body className={orbitron.className}>
-                <div className="fixed right-0 top-0 -z-[11] h-screen w-screen bg-[url(/noise.svg)] bg-cover bg-fixed bg-center bg-no-repeat" />
+                <div className="fixed left-0 top-0 -z-[11] h-screen w-screen bg-[url(/noise.svg)] bg-cover bg-fixed bg-no-repeat" />
                 <Filters />
                 <a
                     key="skip-to-content"

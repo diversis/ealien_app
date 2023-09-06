@@ -27,7 +27,7 @@
     body {
         text-rendering: optimizeSpeed;
 
-        @apply relative grid min-h-screen w-screen max-w-[100vw] grid-cols-[1fr] grid-rows-[1fr_auto] overflow-y-auto overflow-x-clip break-words !bg-surface-50 font-orbitron text-lg font-normal text-surface-900 transition-colors duration-500 dark:!bg-surface-900 dark:text-surface-50;
+        @apply relative grid min-h-screen w-screen max-w-[100vw] grid-cols-[1fr] grid-rows-[1fr_auto] overflow-y-auto overflow-x-hidden break-words !bg-surface-50 font-orbitron text-lg font-normal text-surface-900 transition-colors duration-500 dark:!bg-surface-900 dark:text-surface-50;
     }
 
     svg {
@@ -84,11 +84,11 @@
     }
 
     ::-webkit-scrollbar-track {
-        @apply bg-primary-900/25 backdrop-blur-sm;
+        @apply bg-primary-900/25;
     }
 
     ::-webkit-scrollbar-thumb {
-        @apply bg-tertiary-500;
+        @apply bg-gradient-to-b from-tertiary-500 to-secondary-500;
         border-radius: 100px;
     }
 }
