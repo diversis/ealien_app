@@ -86,7 +86,7 @@ const Header = () => {
                     <m.div
                         variants={OPACITY_VARIANTS}
                         key="menu"
-                        className="fixed right-0 top-0 z-[120] grid w-0 grid-cols-1 grid-rows-[0fr] place-items-center "
+                        className="fixed right-0 top-0 z-[2000] grid w-0 grid-cols-1 grid-rows-[0fr] place-items-center "
                     >
                         <MenuContext.Provider
                             value={{
