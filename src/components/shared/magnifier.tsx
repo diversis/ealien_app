@@ -1,6 +1,6 @@
 "use client";
 import Image from "next/image";
-import { useRef, useState } from "react";
+import { useRef, useState, type TouchEvent } from "react";
 
 export default function ImageMagnifier({
     src,
@@ -27,6 +27,19 @@ export default function ImageMagnifier({
         0, 0,
     ]);
     const ref = useRef<HTMLImageElement>(null);
+
+    const getTouchPosition = (
+        e: TouchEvent<HTMLDivElement>,
+    ) => {
+        const elem = e.touches[0].target as EventTarget &
+            HTMLDivElement;
+        const { top, left } = elem.getBoundingClientRect();
+        // calculate cursor position on the image
+        const x = e.touches[0].clientX - left;
+        const y = e.touches[0].clientY - top;
+        return { x, y };
+    };
+
     const handleTouchStart = async () => {
         if (
             !document.body.classList.contains(
@@ -69,17 +82,7 @@ export default function ImageMagnifier({
                     elem.getBoundingClientRect();
                 setSize([width, height]);
 
-                const { top, left } =
-                    elem.getBoundingClientRect();
-                // calculate cursor position on the image
-                const x =
-                    e.touches[0].clientX -
-                    left -
-                    window.scrollX;
-                const y =
-                    e.touches[0].clientY -
-                    top -
-                    window.scrollY;
+                const { x, y } = getTouchPosition(e);
                 setXY([x, y]);
             }}
             onTouchEnd={async (e) => {
@@ -91,13 +94,7 @@ export default function ImageMagnifier({
             onTouchMove={(e) => {
                 // update cursor position
 
-                const elem = e.touches[0]
-                    .target as EventTarget & HTMLDivElement;
-                const { top, left } =
-                    elem.getBoundingClientRect();
-                // calculate cursor position on the image
-                const x = e.touches[0].clientX - left;
-                const y = e.touches[0].clientY - top;
+                const { x, y } = getTouchPosition(e);
                 if (
                     (ref.current?.clientWidth &&
                         x > ref.current?.clientWidth) ||
