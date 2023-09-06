@@ -16,7 +16,7 @@ export default function MainLayout({
             <main
                 key="main"
                 id="main"
-                className="mb-0 flex min-h-screen w-screen flex-col md:mt-24 md:min-h-[calc(100vh_-_6rem)] "
+                className="max-w-screen mb-0 flex min-h-screen w-screen flex-col md:mt-24 md:min-h-[calc(100vh_-_6rem)] "
             >
                 <Suspense fallback={<MUIProgress />}>
                     <PageTransition>

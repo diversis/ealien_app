@@ -34,7 +34,7 @@ export default function Feature({
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
-            className="align-items-start container relative flex  w-full flex-col-reverse overflow-visible  px-4 lg:px-8 xl:grid xl:grid-cols-12 xl:grid-rows-2 xl:px-12"
+            className="align-items-start container relative flex max-w-full flex-col-reverse overflow-x-clip overflow-y-visible  px-4 lg:px-8 xl:grid xl:grid-cols-12 xl:grid-rows-2 xl:px-12"
         >
             <div className="absolute bottom-[-10%] left-[-20%] right-[-20%]   -z-10 h-[40rem]  self-end  xl:[grid-area:2/1/3/13] ">
                 <BG
@@ -80,7 +80,7 @@ export default function Feature({
                         : "xl:[grid-area:1/8/2/13]"
                 } `}
             >
-                <div className="aspect-square h-auto w-full">
+                <div className="aspect-square h-auto">
                     <Photo imgSrc={photo} />
                 </div>
             </div>
