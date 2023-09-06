@@ -1,8 +1,6 @@
 "use client";
 import Image from "next/image";
 import { useRef, useState } from "react";
-import { AnimatePresence, m } from "framer-motion";
-import { Yesteryear } from "next/font/google";
 
 export default function ImageMagnifier({
     src,
@@ -23,7 +21,7 @@ export default function ImageMagnifier({
 }) {
     const [showMagnifier, setShowMagnifier] =
         useState(false);
-    const [tapDown, setTapDown] = useState(false);
+    const [touchDown, setTouchDown] = useState(false);
     const [[x, y], setXY] = useState([0, 0]);
     const [[imgWidth, imgHeight], setSize] = useState([
         0, 0,
@@ -37,7 +35,7 @@ export default function ImageMagnifier({
         )
             document.body.classList.add("overflow-hidden");
 
-        await setTapDown((state) => true);
+        await setTouchDown((state) => true);
         await setShowMagnifier((state) => true);
     };
 
@@ -50,12 +48,12 @@ export default function ImageMagnifier({
             document.body.classList.remove(
                 "overflow-hidden",
             );
-        await setTapDown((state) => false);
+        await setTouchDown((state) => false);
         await setShowMagnifier((state) => false);
     };
     return (
         // the container
-        <m.div
+        <div
             className="group/magnifier grid aspect-square w-full cursor-none place-items-center"
             style={{
                 position: "relative",
@@ -123,7 +121,7 @@ export default function ImageMagnifier({
             }}
             onPointerEnter={(e) => {
                 // update image size and turn-on magnifier
-                if (tapDown) return;
+                if (touchDown) return;
                 const elem = e.currentTarget;
                 const { width, height } =
                     elem.getBoundingClientRect();
@@ -132,14 +130,14 @@ export default function ImageMagnifier({
                 setShowMagnifier(true);
             }}
             onPointerLeave={(e) => {
-                if (tapDown) return;
+                if (touchDown) return;
 
                 setShowMagnifier(false);
             }}
             onPointerMove={(e) => {
                 // update cursor position
                 e.preventDefault();
-                if (tapDown) return;
+                if (touchDown) return;
                 const elem = e.currentTarget;
                 const { top, left } =
                     elem.getBoundingClientRect();
@@ -158,7 +156,9 @@ export default function ImageMagnifier({
                 src={src}
                 alt={alt}
                 priority
-                className="aspec-square pointer-events-none h-auto w-full rounded-xl border border-primary-900 object-cover transition-[filter] duration-500 [grid-area:1/1] group-hover/magnifier:blur-sm dark:border-primary-50"
+                className={`pointer-events-none aspect-square h-auto w-full rounded-xl border border-primary-900 object-cover transition-[filter] duration-500 [grid-area:1/1] group-hover/magnifier:blur-sm dark:border-primary-50 ${
+                    touchDown ? "blur-sm" : ""
+                }`}
                 fill
                 onContextMenu={(e) => e.preventDefault()}
             />
@@ -193,6 +193,6 @@ export default function ImageMagnifier({
                 }}
                 className="pointer-events-none absolute rounded-[50%] bg-no-repeat backdrop-blur-lg"
             ></div>
-        </m.div>
+        </div>
     );
 }
