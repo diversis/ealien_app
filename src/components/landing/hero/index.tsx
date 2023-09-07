@@ -34,9 +34,9 @@ export default function HeroSection() {
             key="hero-section"
             data-test="hero-section"
             ref={ref}
-            className=" relative grid min-h-screen w-screen grid-rows-[1fr] place-items-center overflow-hidden md:min-h-[calc(100vh_-_6rem)] "
+            className=" relative grid min-h-screen w-screen grid-rows-[1fr] place-items-center md:min-h-[calc(100vh_-_6rem)] "
         >
-            <article className="container relative flex grid-cols-1 grid-rows-[auto_minmax(0,1fr)_auto] flex-col items-center justify-center gap-8 overflow-hidden px-4 py-12 pb-24 md:px-8 lg:grid lg:grid-cols-12 lg:grid-rows-1 lg:gap-0 lg:px-12 xl:py-2">
+            <article className="container relative flex grid-cols-1 grid-rows-[auto_minmax(0,1fr)_auto] flex-col items-center justify-center gap-8  px-4 py-12 pb-24 md:px-8 lg:grid lg:grid-cols-12 lg:grid-rows-1 lg:gap-0 lg:px-12 xl:py-2">
                 <CTA
                     key="CTA"
                     mousePosition={mousePosition}

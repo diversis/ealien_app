@@ -101,7 +101,7 @@ export default function CTA({
                         }% ${resY.get() * 10 + 50}%`,
                     }}
                     tabIndex={0}
-                    className="text-stroke linear-mask-heading relative bg-[url(/images/bg/r/26/1024.webp)] bg-[size:200%_200%] bg-clip-text bg-no-repeat text-[15vw] font-black tracking-widest text-transparent transition-[background-position] delay-100 duration-[2s] ease-out  will-change-[background-position] lg:text-[12vw] "
+                    className="text-stroke linear-mask-heading relative bg-[url(/images/bg/r/26/1024.webp)] bg-[size:200%_200%] bg-clip-text bg-no-repeat text-[clamp(3rem,15vmin,10rem)] font-black tracking-widest text-transparent transition-[background-position] delay-100 duration-[2s] ease-out  will-change-[background-position] lg:text-[clamp(5rem,20vmin,13rem)] "
                 >
                     EALIEN
                 </m.h1>
