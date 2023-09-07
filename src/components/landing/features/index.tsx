@@ -39,7 +39,7 @@ export default function FeaturesSection() {
         <m.section
             data-test="features-section"
             key="features-section"
-            className="container  flex min-h-screen max-w-full flex-col items-center gap-y-16  "
+            className="container flex min-h-screen max-w-full flex-col items-center gap-y-16 overflow-visible  "
         >
             <Typography
                 variant="h2"

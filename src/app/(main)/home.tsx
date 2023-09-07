@@ -25,8 +25,8 @@ export default function Home({
                 <title>AAlien</title>
                 <meta name="description" content="aalien" />
             </Head>
-            <div className=" flex w-full flex-col items-center justify-center gap-y-4 lg:gap-y-8 xl:gap-y-16">
-                <Waves />
+            <div className=" flex w-full flex-col items-center justify-center gap-y-4 overflow-hidden lg:gap-y-8 lg:[overflow:initial] xl:gap-y-16">
+                {/* <Waves /> */}
                 <AnimatePresence>
                     {/* <Social /> */}
                     <HeroSection key="hero-section" />

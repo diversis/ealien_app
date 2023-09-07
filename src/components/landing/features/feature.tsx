@@ -89,7 +89,7 @@ export default function Feature({
             </article>
             <div
                 data-test={`feature-${id}-photo`}
-                className={`flex aspect-square h-auto max-h-[50dvh] w-full justify-center lg:sticky lg:top-0 lg:mb-[5rem] lg:self-start lg:pt-40 ${
+                className={`flex aspect-square h-auto max-h-[50dvh] w-full justify-center lg:sticky lg:top-0 lg:mb-[5rem] lg:self-start lg:pt-24 ${
                     isEven
                         ? "xl:[grid-area:1/1/2/6]"
                         : "xl:[grid-area:1/8/2/13]"
