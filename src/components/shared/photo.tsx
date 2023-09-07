@@ -17,27 +17,23 @@ export default function Photo({
     const isInView = useInView(ref);
     return (
         <>
-            <AnimatePresence>
-                <m.div
-                    key={`photo-${imgSrc}`}
-                    ref={ref}
-                    className="circle-mask w-full max-w-[min(50vh,30rem)] !transform-none"
-                    variants={OPACITY_VARIANTS}
-                    initial="hidden"
-                    animate={
-                        isInView ? "visible" : "hidden"
-                    }
-                    exit="hidden"
-                >
-                    <div className=" h-full w-full !transform-none  ">
-                        <Image
-                            src={imgSrc}
-                            alt="photo! "
-                            className="blob  object-contain"
-                        />
-                    </div>
-                </m.div>
-            </AnimatePresence>
+            <m.div
+                key={`photo-${imgSrc}`}
+                ref={ref}
+                className="circle-mask w-full max-w-[min(50vh,30rem)] !transform-none"
+                variants={OPACITY_VARIANTS}
+                initial="hidden"
+                animate={isInView ? "visible" : "hidden"}
+                exit="hidden"
+            >
+                <div className=" h-full w-full !transform-none  ">
+                    <Image
+                        src={imgSrc}
+                        alt="photo! "
+                        className="blob  object-contain"
+                    />
+                </div>
+            </m.div>
         </>
     );
 }

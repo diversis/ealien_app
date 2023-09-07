@@ -93,12 +93,6 @@
     }
 }
 @layer utilities {
-    /* UI */
-
-    .title-bg {
-        background-image: url("/images/bg/r/26/1024.webp");
-    }
-
     /* Typography */
     .h1 {
         @apply !text-[clamp(2rem,3vw+2rem,5.375rem)] uppercase !leading-tight  lg:!text-4xl xl:!text-5xl 2xl:!text-6xl;
