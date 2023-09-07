@@ -16,7 +16,7 @@ export default function Waves() {
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
-            className="waves absolute inset-0 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-t before:from-primary-100/50 before:to-tertiary-100/50 before:leading-[0] before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-gradient-to-t after:from-primary-600/50 after:to-secondary-800/50 after:leading-[0] after:opacity-0 after:transition-opacity after:duration-500 dark:before:opacity-0 dark:after:opacity-100"
+            className="waves pointer-events-none absolute inset-0 z-10 overflow-hidden before:absolute before:inset-0 before:bg-gradient-to-t before:from-primary-200/10 before:to-accent-100/20 before:leading-[0] before:opacity-100 before:transition-opacity before:duration-500 after:absolute after:inset-0 after:bg-gradient-to-t after:from-tertiary-900/10 after:to-secondary-900/20 after:leading-[0] after:opacity-0 after:transition-opacity after:duration-500 dark:before:opacity-0 dark:after:opacity-100"
         />
     );
 }
