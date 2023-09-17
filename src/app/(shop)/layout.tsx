@@ -20,9 +20,9 @@ export default function CatalogueLayout({
                 className="mb-12 mt-8 flex min-h-screen w-screen flex-col md:mt-24 md:min-h-[calc(100vh_-_6rem)] lg:mb-20 lg:mt-24 xl:mb-24 xl:mt-32"
             >
                 <Suspense fallback={<MUIProgress />}>
-                    <PageTransition>
-                        {children}
-                    </PageTransition>
+                    {/* <PageTransition> */}
+                    {children}
+                    {/* </PageTransition> */}
                 </Suspense>
             </main>
             <Footer />

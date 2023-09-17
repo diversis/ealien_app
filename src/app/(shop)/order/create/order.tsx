@@ -12,6 +12,7 @@ import OrderForm from "@/components/form/order/create/orderForm";
 import Link from "next/link";
 import { Typography } from "@mui/material";
 import useCartTotal from "@/lib/hooks/use-cart-total";
+import PageTransition from "@/app/pageTransition";
 
 export default function NewOrder() {
     const {
@@ -46,46 +47,48 @@ export default function NewOrder() {
     if (!render) return null;
     return (
         <>
-            <div className="container flex grid-cols-2 flex-col-reverse gap-8  px-4 xl:grid">
-                <m.div
-                    layout
-                    className="flex flex-col items-center gap-y-2 rounded-xl bg-primary-50/20 dark:bg-primary-900/20"
-                >
-                    {items.length > 0 ? (
-                        <>
-                            <Typography className="h3">
-                                Your Order
-                            </Typography>
-                            <ProductTable
-                                editable={editable}
-                                items={items}
-                                addQty={addQty}
-                                removeItem={removeItem}
-                                total={total}
-                            />
-                        </>
-                    ) : (
-                        <div>
-                            <Typography className="h5">
-                                Your cart is empty
-                            </Typography>
-                            <Link
-                                href="/catalogue"
-                                className="link-border font-semi-bold lg:nase p-1 text-sm xl:text-lg"
-                            >
-                                Continue Shopping
-                            </Link>
-                        </div>
-                    )}
-                </m.div>
+            <PageTransition>
+                <div className="container flex grid-cols-2 flex-col-reverse gap-8  px-4 xl:grid">
+                    <m.div
+                        layout
+                        className="flex flex-col items-center gap-y-2 rounded-xl bg-primary-50/20 dark:bg-primary-900/20"
+                    >
+                        {items.length > 0 ? (
+                            <>
+                                <Typography className="h3">
+                                    Your Order
+                                </Typography>
+                                <ProductTable
+                                    editable={editable}
+                                    items={items}
+                                    addQty={addQty}
+                                    removeItem={removeItem}
+                                    total={total}
+                                />
+                            </>
+                        ) : (
+                            <div>
+                                <Typography className="h5">
+                                    Your cart is empty
+                                </Typography>
+                                <Link
+                                    href="/catalogue"
+                                    className="link-border font-semi-bold lg:nase p-1 text-sm xl:text-lg"
+                                >
+                                    Continue Shopping
+                                </Link>
+                            </div>
+                        )}
+                    </m.div>
 
-                <m.div
-                    layout
-                    className="grid h-min w-full grid-cols-1 place-items-start justify-items-center lg:sticky lg:top-24"
-                >
-                    <OrderForm></OrderForm>
-                </m.div>
-            </div>
+                    <m.div
+                        layout
+                        className="grid h-min w-full grid-cols-1 place-items-start justify-items-center lg:sticky lg:top-24"
+                    >
+                        <OrderForm></OrderForm>
+                    </m.div>
+                </div>
+            </PageTransition>
         </>
     );
 }

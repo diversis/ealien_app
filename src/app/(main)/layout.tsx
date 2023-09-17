@@ -19,9 +19,9 @@ export default function MainLayout({
                 className="max-w-screen mb-0 flex min-h-screen w-screen flex-col md:mt-24 md:min-h-[calc(100vh_-_6rem)] "
             >
                 <Suspense fallback={<MUIProgress />}>
-                    <PageTransition>
-                        {children}
-                    </PageTransition>
+                    {/* <PageTransition> */}
+                    {children}
+                    {/* </PageTransition> */}
                 </Suspense>
             </main>
             <Footer />

@@ -37,6 +37,7 @@ import {
 } from "@prisma/client";
 import PaymentModal from "@/components/modals/paymentModal";
 import { hasKey } from "@/lib/utils/tsutils";
+import PageTransition from "@/app/pageTransition";
 
 const orderEndpoint = "/api/order";
 const shippingEndpoint = "/api/shipping";
@@ -122,118 +123,122 @@ export default function OrderPage({
     // const [editable, setEditable] = useState(true);
     return (
         <>
-            <div className="container flex grid-cols-2 flex-col-reverse gap-8  px-4 xl:grid">
-                <m.div
-                    layout
-                    className="flex flex-col items-center rounded-xl bg-primary-50/20 dark:bg-primary-900/20"
-                >
-                    {items.length > 0 ? (
-                        <>
-                            <Typography className="h3">
-                                Your Order
-                            </Typography>
-                            <ProductTable
-                                editable={false}
-                                items={items}
-                                total={totalPrice}
-                            />
-                        </>
-                    ) : (
-                        <div>
-                            <Typography className="h5">
-                                This order is empty
-                            </Typography>
-                        </div>
-                    )}
-                </m.div>
-                <m.div
-                    layout
-                    className="flex h-min flex-col items-center gap-2 rounded-xl bg-primary-50/20 p-2 dark:bg-primary-900/20 lg:sticky lg:top-24"
-                >
-                    {shippingAddress ? (
-                        <Paper className="w-full p-2">
-                            <Box className="flex w-full flex-col">
-                                {shippingAddressFields.map(
-                                    (field) => {
-                                        const camelField =
-                                            camelCase(
-                                                field,
-                                            );
-                                        if (
-                                            hasKey(
-                                                shippingAddress,
-                                                camelField,
+            <PageTransition>
+                <div className="container flex grid-cols-2 flex-col-reverse gap-8  px-4 xl:grid">
+                    <m.div
+                        layout
+                        className="flex flex-col items-center rounded-xl bg-primary-50/20 dark:bg-primary-900/20"
+                    >
+                        {items.length > 0 ? (
+                            <>
+                                <Typography className="h3">
+                                    Your Order
+                                </Typography>
+                                <ProductTable
+                                    editable={false}
+                                    items={items}
+                                    total={totalPrice}
+                                />
+                            </>
+                        ) : (
+                            <div>
+                                <Typography className="h5">
+                                    This order is empty
+                                </Typography>
+                            </div>
+                        )}
+                    </m.div>
+                    <m.div
+                        layout
+                        className="flex h-min flex-col items-center gap-2 rounded-xl bg-primary-50/20 p-2 dark:bg-primary-900/20 lg:sticky lg:top-24"
+                    >
+                        {shippingAddress ? (
+                            <Paper className="w-full p-2">
+                                <Box className="flex w-full flex-col">
+                                    {shippingAddressFields.map(
+                                        (field) => {
+                                            const camelField =
+                                                camelCase(
+                                                    field,
+                                                );
+                                            if (
+                                                hasKey(
+                                                    shippingAddress,
+                                                    camelField,
+                                                )
                                             )
-                                        )
-                                            return (
-                                                <Box
-                                                    key={`shipping-${field}`}
-                                                    className="grid grid-cols-2 gap-2 py-1 [&:not(:last-of-type)]:border-b"
-                                                >
-                                                    <Typography variant="body1">
-                                                        {
-                                                            field
-                                                        }
-                                                    </Typography>
-                                                    <Typography variant="body1">
-                                                        {
-                                                            shippingAddress[
-                                                                camelField
-                                                            ]
-                                                        }
-                                                    </Typography>
-                                                </Box>
-                                            );
-                                    },
-                                )}
-                            </Box>
-                        </Paper>
-                    ) : null}
-                    {renderedOrder.isPaid ? (
-                        <Paper className="w-full p-2">
-                            <Box className="flex flex-row gap-2 rounded bg-tertiary-300 px-1 dark:bg-tertiary-800 lg:px-2">
+                                                return (
+                                                    <Box
+                                                        key={`shipping-${field}`}
+                                                        className="grid grid-cols-2 gap-2 py-1 [&:not(:last-of-type)]:border-b"
+                                                    >
+                                                        <Typography variant="body1">
+                                                            {
+                                                                field
+                                                            }
+                                                        </Typography>
+                                                        <Typography variant="body1">
+                                                            {
+                                                                shippingAddress[
+                                                                    camelField
+                                                                ]
+                                                            }
+                                                        </Typography>
+                                                    </Box>
+                                                );
+                                        },
+                                    )}
+                                </Box>
+                            </Paper>
+                        ) : null}
+                        {renderedOrder.isPaid ? (
+                            <Paper className="w-full p-2">
+                                <Box className="flex flex-row gap-2 rounded bg-tertiary-300 px-1 dark:bg-tertiary-800 lg:px-2">
+                                    <Typography variant="body1">
+                                        Paid on{" "}
+                                        {renderedOrder.paidAt
+                                            ? dateFormat.format(
+                                                  new Date(
+                                                      renderedOrder.paidAt,
+                                                  ),
+                                              )
+                                            : ""}
+                                    </Typography>
+                                </Box>
+                            </Paper>
+                        ) : (
+                            <Paper className="flex w-full flex-row items-center justify-between p-2">
                                 <Typography variant="body1">
-                                    Paid on{" "}
-                                    {renderedOrder.paidAt
-                                        ? dateFormat.format(
-                                              new Date(
-                                                  renderedOrder.paidAt,
-                                              ),
-                                          )
-                                        : ""}
+                                    Not paid
                                 </Typography>
-                            </Box>
-                        </Paper>
-                    ) : (
-                        <Paper className="flex w-full flex-row items-center justify-between p-2">
-                            <Typography variant="body1">
-                                Not paid
-                            </Typography>
-                            <PaymentModal
-                                order={order}
-                                refreshOrder={refreshOrder}
-                            />
-                        </Paper>
-                    )}
-                    {renderedOrder.isDelivered ? (
-                        <Paper className="w-full p-2">
-                            <Box className="flex flex-row gap-2 rounded bg-tertiary-300 px-1 dark:bg-tertiary-800 lg:px-2">
+                                <PaymentModal
+                                    order={order}
+                                    refreshOrder={
+                                        refreshOrder
+                                    }
+                                />
+                            </Paper>
+                        )}
+                        {renderedOrder.isDelivered ? (
+                            <Paper className="w-full p-2">
+                                <Box className="flex flex-row gap-2 rounded bg-tertiary-300 px-1 dark:bg-tertiary-800 lg:px-2">
+                                    <Typography variant="body1">
+                                        Delivered on{" "}
+                                        {renderedOrder.deliveredAt ||
+                                            ""}
+                                    </Typography>
+                                </Box>
+                            </Paper>
+                        ) : (
+                            <Paper className="w-full flex-row items-center justify-between p-2">
                                 <Typography variant="body1">
-                                    Delivered on{" "}
-                                    {renderedOrder.deliveredAt ||
-                                        ""}
+                                    Not delivered
                                 </Typography>
-                            </Box>
-                        </Paper>
-                    ) : (
-                        <Paper className="w-full flex-row items-center justify-between p-2">
-                            <Typography variant="body1">
-                                Not delivered
-                            </Typography>
-                        </Paper>
-                    )}
-                </m.div>
-            </div>
+                            </Paper>
+                        )}
+                    </m.div>
+                </div>
+            </PageTransition>
         </>
     );
 }
