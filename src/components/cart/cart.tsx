@@ -12,7 +12,7 @@ import { useSnackbar } from "notistack";
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
 import Badge from "@mui/material/Badge";
-import { SwipeableDrawer } from "@mui/material";
+import { SwipeableDrawer, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { useCart } from "@/lib/hooks/use-cart";
@@ -48,7 +48,7 @@ export default function Cart() {
         <>
             <SwipeableDrawer
                 classes={{
-                    paper: "lg:max-w-[50vw] w-screen max-w-screen pl-0.5 pr-1.5 lg:p-2 lg:min-w-[40rem] w-sreen",
+                    paper: "lg:max-w-[50vw] w-screen max-w-screen py-2 pl-0.5 pr-1.5 lg:p-2 lg:min-w-[40rem] w-sreen",
                 }}
                 anchor={`${
                     width >= 1024 ? "right" : "bottom"
@@ -105,7 +105,9 @@ export default function Cart() {
                         )}
                     </>
                 ) : (
-                    <p>Cart is empty</p>
+                    <Typography className="inline-flex pl-12 pr-4 text-center">
+                        Cart is empty
+                    </Typography>
                 )}
             </SwipeableDrawer>
         </>
