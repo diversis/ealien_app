@@ -48,7 +48,7 @@ export default function Cart() {
         <>
             <SwipeableDrawer
                 classes={{
-                    paper: "lg:max-w-[50vw] w-screen max-w-screen py-2 pl-0.5 pr-1.5 lg:p-2 lg:min-w-[40rem] w-sreen",
+                    paper: "lg:max-w-[50vw] w-screen max-w-screen py-3 pl-0.5 pr-1.5 lg:p-2 lg:min-w-[40rem] w-sreen",
                 }}
                 anchor={`${
                     width >= 1024 ? "right" : "bottom"
