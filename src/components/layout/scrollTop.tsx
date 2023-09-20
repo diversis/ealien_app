@@ -24,7 +24,6 @@ export default function ScrollTop({
             });
         }
     };
-    // const MBox = m(Box);
     return (
         <AnimatePresence>
             {trigger && (

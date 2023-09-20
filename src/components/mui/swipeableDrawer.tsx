@@ -18,6 +18,7 @@ export default function MUISwipeableDrawer({
     };
     return (
         <SwipeableDrawer
+            SwipeAreaProps={{ sx: { zIndex: 100 } }}
             swipeAreaWidth={DRAWER_BLEEDING}
             anchor="bottom"
             disableSwipeToOpen={false}
@@ -28,7 +29,7 @@ export default function MUISwipeableDrawer({
                 keepMounted: true,
             }}
             classes={{
-                root: "",
+                root: "z-[1100]",
                 paper: "!overflow-y-visible ",
             }}
         >

@@ -1,25 +1,16 @@
 "use client";
-import {
-    useCallback,
-    useEffect,
-    useMemo,
-    useState,
-} from "react";
+
 import Link from "next/link";
-import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
-import axios, { AxiosError, AxiosResponse } from "axios";
-import { useSnackbar } from "notistack";
+
 import IconButton from "@mui/material/IconButton";
 import Button from "@mui/material/Button";
-import Badge from "@mui/material/Badge";
 import { SwipeableDrawer, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { useCart } from "@/lib/hooks/use-cart";
 import ProductTable from "../tables/products";
 
-import { CartItem } from "@/lib/prisma/types";
-import { isCartItem } from "@/lib/prisma/typeguards";
+
 import useCartTotal from "@/lib/hooks/use-cart-total";
 import { useWindowSize } from "usehooks-ts";
 

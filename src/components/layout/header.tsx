@@ -78,7 +78,6 @@ const Header = () => {
         threshold: 300,
         disableHysteresis: true,
     });
-    // const MAppBar = m(AppBar);
     return (
         <header>
             <AnimatePresence mode="sync">
