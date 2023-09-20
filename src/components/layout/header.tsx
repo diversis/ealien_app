@@ -36,14 +36,15 @@ import SignInModal from "../modals/signInModal";
 import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
 import { MenuContext } from "@/lib/nav/menuContext";
 import ToggleCart from "../cart/toggleCart";
+import useScrolled from "@/lib/hooks/use-scrolled";
 
 const Header = () => {
     const { data: session, status } = useSession();
     const { email, image, name } = session?.user || {};
-    const isMounted = useIsMounted();
+    // const isMounted = useIsMounted();
     // const IsClient = useIsClient();
-    const [anchorElNav, setAnchorElNav] =
-        useState<null | HTMLElement>(null);
+    // const [anchorElNav, setAnchorElNav] =
+    //     useState<null | HTMLElement>(null);
     const [anchorElUser, setAnchorElUser] =
         useState<null | HTMLElement>(null);
     const { isMobile, isDesktop } = useWindowSize();
@@ -55,29 +56,25 @@ const Header = () => {
             hideSignInModal: state.hideSignInModal,
             showSignInModal: state.showSignInModal,
         }));
-    const handleOpenNavMenu = (
-        event: React.MouseEvent<HTMLElement>,
-    ) => {
-        setAnchorElNav(event.currentTarget);
-    };
+    // const handleOpenNavMenu = (
+    //     event: React.MouseEvent<HTMLElement>,
+    // ) => {
+    //     setAnchorElNav(event.currentTarget);
+    // };
     const handleOpenUserMenu = (
         event: React.MouseEvent<HTMLElement>,
     ) => {
         setAnchorElUser(event.currentTarget);
     };
 
-    const handleCloseNavMenu = () => {
-        setAnchorElNav(null);
-    };
+    // const handleCloseNavMenu = () => {
+    //     setAnchorElNav(null);
+    // };
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);
     };
-    const scrolled = useScrollTrigger({
-        target: isMounted() ? window : undefined,
-        threshold: 300,
-        disableHysteresis: true,
-    });
+    const scrolled = useScrolled(300);
     return (
         <header>
             <AnimatePresence mode="sync">
