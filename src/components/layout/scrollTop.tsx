@@ -1,7 +1,7 @@
 "use client";
 import { AnimatePresence, m } from "framer-motion";
 
-import { SCALE_BOUNCE_VARIANTS } from "@/lib/constants";
+import { SCALE_BOUNCE_VARIANTS } from "@/lib/constants/variants";
 
 export default function ScrollTop({
     children,

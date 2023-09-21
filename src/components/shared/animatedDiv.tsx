@@ -1,5 +1,5 @@
 "use client";
-import { SPRING_LIGHT } from "@/lib/constants";
+import { SPRING_LIGHT } from "@/lib/constants/variants";
 import { Variants, m, useInView } from "framer-motion";
 import { ReactNode, useRef } from "react";
 

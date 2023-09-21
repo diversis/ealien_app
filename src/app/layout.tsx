@@ -3,8 +3,8 @@ import type { Session } from "next-auth";
 import { Orbitron } from "next/font/google";
 import { Metadata } from "next";
 import { Providers } from "../utils/providers";
-import Filters from "@/components/shared/filters";
-import { DOMAIN } from "@/lib/constants";
+import Filters from "@/components/shared/Filters";
+import { DOMAIN } from "@/lib/constants/constants";
 
 const orbitron = Orbitron({
     weight: ["400", "500", "700", "800"],

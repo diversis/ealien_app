@@ -23,19 +23,19 @@ import {
 } from "@mui/material";
 import { useIsMounted } from "usehooks-ts";
 
-import MobileMenu from "./mobileMenu";
-import { OPACITY_VARIANTS } from "@/lib/constants";
+import MobileMenu from "./MobileMenu";
+import { OPACITY_VARIANTS } from "@/lib/constants/variants";
 import useWindowSize from "@/lib/hooks/use-window-size";
-import SwitchTheme from "../shared/switchTheme";
-import ScrollTop from "./scrollTop";
+import SwitchTheme from "../shared/SwitchTheme";
+import ScrollTop from "./ScrollTop";
 
-import Cart from "../cart/cart";
+import Cart from "../cart/Cart";
 import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
 import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
-import SignInModal from "../modals/signInModal";
+import SignInModal from "../modals/SignInModal";
 import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
 import { MenuContext } from "@/lib/nav/menuContext";
-import ToggleCart from "../cart/toggleCart";
+import ToggleCart from "../cart/ToggleCart";
 import useScrolled from "@/lib/hooks/use-scrolled";
 
 const Header = () => {

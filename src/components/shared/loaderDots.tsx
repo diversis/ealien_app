@@ -1,5 +1,5 @@
 "use client";
-import { OPACITY_VARIANTS } from "@/lib/constants";
+import { OPACITY_VARIANTS } from "@/lib/constants/variants";
 import { HTMLMotionProps, m } from "framer-motion";
 
 interface LoaderDotsProps extends HTMLMotionProps<"div"> {

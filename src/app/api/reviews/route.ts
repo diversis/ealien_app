@@ -12,7 +12,7 @@ import {
 
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 import { Review, createProductReview, getProductReviews } from "@/lib/prisma/review";
-import { REVIEWS_PER_PAGE } from '@/lib/constants';
+import { REVIEWS_PER_PAGE } from '@/lib/constants/constants';
 
 const logger = require("@/lib/utils/logger");
 const reviewsLogger = logger.child({

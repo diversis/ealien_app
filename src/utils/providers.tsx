@@ -22,8 +22,8 @@ import {
     closeSnackbar,
 } from "notistack";
 
-import MUIThemeProvider from "@/components/mui/muiThemeProvider";
-import SignInModal from "@/components/modals/signInModal";
+import MUIThemeProvider from "@/components/mui/MuiThemeProvider";
+import SignInModal from "@/components/modals/SignInModal";
 import { ReactNode, useState } from "react";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import { Button } from "@mui/material";

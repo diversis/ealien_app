@@ -11,10 +11,10 @@ import FormatQuoteIcon from "@mui/icons-material/FormatQuote";
 // import { Blockquote } from "@mantine/core";
 
 import Balancer from "react-wrap-balancer";
-import Photo from "@/components/shared/photo";
+import Photo from "@/components/shared/Photo";
 import { Typography } from "@mui/material";
-import { SLIDE_Y_VARIANTS } from "@/lib/constants";
-import { SLIDE_Y_P_VARIANTS } from "@/components/shared/animatedDiv";
+import { SLIDE_Y_VARIANTS } from "@/lib/constants/variants";
+import { SLIDE_Y_P_VARIANTS } from "@/components/shared/AnimatedDiv";
 
 export default function TestimonialsCard({
     name,

@@ -6,7 +6,7 @@ import GitHubIcon from "@mui/icons-material/GitHub";
 import {
     SLIDE_Y_VARIANTS,
     STAGGER_VARIANTS,
-} from "@/lib/constants";
+} from "@/lib/constants/variants";
 
 interface LinkItem {
     name: string;

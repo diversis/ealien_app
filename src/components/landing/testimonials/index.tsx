@@ -6,9 +6,9 @@ import {
 } from "framer-motion";
 import { useRef } from "react";
 
-import TestimonialsCard from "./card";
+import TestimonialsCard from "./Card";
 
-import { OPACITY_VARIANTS } from "@/lib/constants";
+import { OPACITY_VARIANTS } from "@/lib/constants/variants";
 
 import guitaristPhoto from "@public/images/testimonials/guitarist/2048.webp";
 import violinistPhoto from "@public/images/testimonials/violinist/2048.webp";

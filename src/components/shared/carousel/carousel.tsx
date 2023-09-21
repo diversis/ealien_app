@@ -12,7 +12,7 @@ import {
 } from "swiper/modules";
 import "swiper/css/bundle";
 
-import { OPACITY_VARIANTS } from "@/lib/constants";
+import { OPACITY_VARIANTS } from "@/lib/constants/variants";
 import SwiperNav from "./swiperNav";
 import { SwiperOptions } from "swiper/types";
 

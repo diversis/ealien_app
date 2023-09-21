@@ -14,7 +14,7 @@ import { useSnackbar } from "notistack";
 import { useCart } from "@/lib/hooks/use-cart";
 import { SerializedPrisma } from "@/lib/prisma/types";
 import { Category, Product } from "@prisma/client";
-import { ControlledTextField } from "./fields/controlledTextField";
+import { ControlledTextField } from "./fields/ControlledTextField";
 
 interface FormValues {
     qty: string;

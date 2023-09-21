@@ -1,9 +1,9 @@
 "use client";
 import { Suspense } from "react";
 import PageTransition from "../pageTransition";
-import Footer from "@/components/layout/footer";
-import Header from "@/components/layout/header";
-import MUIProgress from "@/components/shared/muiProgress";
+import Footer from "@/components/layout/Footer";
+import Header from "@/components/layout/Header";
+import MUIProgress from "@/components/shared/MuiProgress";
 
 export default function MainLayout({
     children,

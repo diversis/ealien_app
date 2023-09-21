@@ -25,9 +25,9 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 
 import { signOut } from "next-auth/react";
-import Social from "../shared/social";
-import SwitchTheme from "../shared/switchTheme";
-import ToggleCart from "../cart/toggleCart";
+import Social from "../shared/Social";
+import SwitchTheme from "../shared/SwitchTheme";
+import ToggleCart from "../cart/ToggleCart";
 import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
 import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
 import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";

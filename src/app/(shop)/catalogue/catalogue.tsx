@@ -1,10 +1,8 @@
 "use client";
 import {
     Breadcrumbs,
-    Button,
     Pagination,
     PaginationItem,
-    SwipeableDrawer,
     Typography,
 } from "@mui/material";
 import { useRouter } from "next/navigation";
@@ -12,28 +10,17 @@ import {
     usePathname,
     useSearchParams,
 } from "next/navigation";
-import {
-    ReactNode,
-    useCallback,
-    useEffect,
-    useState,
-} from "react";
+import { useCallback } from "react";
 import Link from "next/link";
-import { m, useInView } from "framer-motion";
-import ArrowBackIcon from "@mui/icons-material/ArrowBack";
-import ArrowForwardIcon from "@mui/icons-material/ArrowForward";
+import { m } from "framer-motion";
 
 import { Product } from "@prisma/client";
-import ProductCard from "@/components/catalogue/productCard";
+import ProductCard from "@/components/catalogue/ProductCard";
 import { SerializedPrisma } from "@/lib/prisma/types";
 
-import {
-    DRAWER_BLEEDING,
-    STAGGER_VARIANTS,
-} from "@/lib/constants";
-import ProductFilters from "@/components/catalogue/productFilters/productFilters";
+import ProductFilters from "@/components/catalogue/productFilters/ProductFilters";
 import useWindowSize from "@/lib/hooks/use-window-size";
-import MUISwipeableDrawer from "@/components/mui/swipeableDrawer";
+import MUISwipeableDrawer from "@/components/mui/SwipeableDrawer";
 import PageTransition from "@/app/pageTransition";
 
 export default function Catalogue({

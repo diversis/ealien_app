@@ -13,7 +13,7 @@ import {
     SerializedPrisma,
     CompactProduct,
 } from "@/lib/prisma/types";
-import LoaderDots from "../shared/loaderDots";
+import LoaderDots from "../shared/LoaderDots";
 
 export default function PayPalButtonsComponent({
     order,

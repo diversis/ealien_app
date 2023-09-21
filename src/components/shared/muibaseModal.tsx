@@ -17,7 +17,7 @@ import {
 import {
     OPACITY_VARIANTS,
     SCALE_BOUNCE_VARIANTS,
-} from "@/lib/constants";
+} from "@/lib/constants/variants";
 
 interface ModalProps
     extends ComponentPropsWithoutRef<"div"> {

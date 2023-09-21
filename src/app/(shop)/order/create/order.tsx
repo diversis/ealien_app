@@ -1,14 +1,10 @@
 "use client";
-import ProductTable from "@/components/tables/products";
+import ProductTable from "@/components/tables/Products";
 import { useCart } from "@/lib/hooks/use-cart";
 import { useEffect, useMemo, useState } from "react";
 
-import {
-    AnimatePresence,
-    LayoutGroup,
-    m,
-} from "framer-motion";
-import OrderForm from "@/components/form/order/create/orderForm";
+import { m } from "framer-motion";
+import OrderForm from "@/components/form/order/create/OrderForm";
 import Link from "next/link";
 import { Typography } from "@mui/material";
 import useCartTotal from "@/lib/hooks/use-cart-total";

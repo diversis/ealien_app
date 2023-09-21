@@ -1,7 +1,7 @@
 "use client";
 import { m, useInView } from "framer-motion";
 import { useRef } from "react";
-import { OPACITY_VARIANTS } from "@/lib/constants";
+import { OPACITY_VARIANTS } from "@/lib/constants/variants";
 
 export default function BG({
     bgSrc,

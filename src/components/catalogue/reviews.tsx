@@ -13,9 +13,9 @@ import {
     SerializedPrisma,
 } from "@/lib/prisma/types";
 import { isSerializedReview } from "@/lib/prisma/typeguards";
-import ReviewCard from "./review";
-import ReviewPlaceholder from "@/components/placeholder/review";
-import { REVIEWS_PER_PAGE } from "@/lib/constants";
+import ReviewCard from "./Review";
+import ReviewPlaceholder from "@/components/placeholder/Review";
+import { REVIEWS_PER_PAGE } from "@/lib/constants/constants";
 
 const endpoint = "/api/reviews";
 
