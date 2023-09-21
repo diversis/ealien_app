@@ -2,11 +2,11 @@
 import { m, useInView } from "framer-motion";
 import { useRef } from "react";
 
-import { OPACITY_VARIANTS } from "@/lib/constants/variants";
+import { OPACITY_VARIANTS } from "@/lib/constants";
 import { StaticImageData } from "next/image";
 import Balancer from "react-wrap-balancer";
-import BG from "@/components/shared/Bg";
-import Photo from "@/components/shared/Photo";
+import BG from "@/components/shared/bg";
+import Photo from "@/components/shared/photo";
 import { Typography } from "@mui/material";
 
 export default function Feature({

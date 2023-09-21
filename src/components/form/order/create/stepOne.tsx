@@ -3,7 +3,7 @@ import { useFormContext } from "react-hook-form";
 
 import { signOut } from "next-auth/react";
 
-import { ControlledTextField } from "../../fields/ControlledTextField";
+import { ControlledTextField } from "../../fields/controlledTextField";
 import Button from "@mui/material/Button";
 import { Session } from "next-auth/core/types";
 import Box from "@mui/material/Box";

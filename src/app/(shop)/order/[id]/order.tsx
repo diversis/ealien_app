@@ -1,5 +1,5 @@
 "use client";
-import ProductTable from "@/components/tables/Products";
+import ProductTable from "@/components/tables/products";
 import { useCart } from "@/lib/hooks/use-cart";
 import {
     useCallback,
@@ -13,7 +13,7 @@ import {
     LayoutGroup,
     m,
 } from "framer-motion";
-import OrderForm from "@/components/form/order/create/OrderForm";
+import OrderForm from "@/components/form/order/create/orderForm";
 import Link from "next/link";
 import {
     Box,
@@ -35,7 +35,7 @@ import {
     OrderItem,
     ShippingAddress,
 } from "@prisma/client";
-import PaymentModal from "@/components/modals/PaymentModal";
+import PaymentModal from "@/components/modals/paymentModal";
 import { hasKey } from "@/lib/utils/tsutils";
 import PageTransition from "@/app/pageTransition";
 

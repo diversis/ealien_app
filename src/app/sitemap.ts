@@ -1,4 +1,4 @@
-import { DOMAIN } from "@/lib/constants/constants";
+import { DOMAIN } from "@/lib/constants";
 import { getProductListItems } from "@/lib/prisma/product";
 import { MetadataRoute } from "next";
 

@@ -1,8 +1,8 @@
 import { useFormContext } from "react-hook-form";
 
-import { ControlledTextField } from "../../fields/ControlledTextField";
+import { ControlledTextField } from "../../fields/controlledTextField";
 
-import { ControlledCountrySelect } from "../../fields/ControlledCountrySelect";
+import { ControlledCountrySelect } from "../../fields/controlledCountrySelect";
 import { Stack } from "@mui/material";
 
 export default function StepTwo() {

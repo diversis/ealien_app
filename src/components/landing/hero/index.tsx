@@ -5,9 +5,9 @@ import {
     useInView,
 } from "framer-motion";
 import { useRef, useState } from "react";
-import CTA from "./CTA";
-import HeroImage from "./HeroImage";
-import { OPACITY_VARIANTS } from "@/lib/constants/variants";
+import CTA from "./cta";
+import Hero from "./image";
+import { OPACITY_VARIANTS } from "@/lib/constants";
 
 export default function HeroSection() {
     const ref = useRef<HTMLDivElement>(null);
@@ -42,7 +42,7 @@ export default function HeroSection() {
                     mousePosition={mousePosition}
                     containerVisible={isInView}
                 />
-                <HeroImage
+                <Hero
                     key="hero-image"
                     mousePosition={mousePosition}
                 />

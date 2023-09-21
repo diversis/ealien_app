@@ -1,6 +1,6 @@
 import { useFormContext } from "react-hook-form";
 
-import { ControlledRadioGroup } from "../../fields/ControlledRadioGroup";
+import { ControlledRadioGroup } from "../../fields/controlledRadioGroup";
 import {
     FormControlLabel,
     Radio,

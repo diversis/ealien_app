@@ -2,8 +2,8 @@
 import { m } from "framer-motion";
 import { useRef, useState } from "react";
 
-import { MenuToggle } from "../menu/MenuToggle";
-import MobileMenuContainer from "../menu/MobileMenuContainer";
+import { MenuToggle } from "../menu/menuToggle";
+import MobileMenuContainer from "../menu/mobileMenuContainer";
 import { SwipeableDrawer } from "@mui/material";
 
 export default function MobileMenu() {

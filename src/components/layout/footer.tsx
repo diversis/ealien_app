@@ -3,7 +3,7 @@ import Link from "next/link";
 import { ReactNode } from "react";
 
 import GitHubIcon from "@mui/icons-material/GitHub";
-import Social from "../shared/Social";
+import Social from "../shared/social";
 
 interface LinkItem {
     name: string;

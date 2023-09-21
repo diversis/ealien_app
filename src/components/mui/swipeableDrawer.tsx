@@ -1,6 +1,6 @@
 import { ReactNode, useState } from "react";
 import SwipeableDrawer from "@mui/material/SwipeableDrawer";
-import { DRAWER_BLEEDING } from "@/lib/constants/constants";
+import { DRAWER_BLEEDING } from "@/lib/constants";
 import Box from "@mui/material/Box";
 import { Paper, Typography } from "@mui/material";
 

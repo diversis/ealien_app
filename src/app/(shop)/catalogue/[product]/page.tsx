@@ -27,7 +27,7 @@ import {
     getProductReviews,
     // getSerializableReviews,
 } from "@/lib/prisma/review";
-import { DOMAIN } from "@/lib/constants/constants";
+import { DOMAIN } from "@/lib/constants";
 
 export type ProductPageProps = {
     params: { product: string };

@@ -28,7 +28,7 @@ import useWindowSize from "@/lib/hooks/use-window-size";
 
 import { CartItem } from "@/lib/prisma/types";
 
-import { OPACITY_VARIANTS } from "@/lib/constants/variants";
+import { OPACITY_VARIANTS } from "@/lib/constants";
 
 import {
     Box,
@@ -38,10 +38,10 @@ import {
     StepLabel,
     Typography,
 } from "@mui/material";
-import StepOne from "./StepOne";
-import StepTwo from "./StepTwo";
-import StepThree from "./StepThree";
-import StepFour from "./StepFour";
+import StepOne from "./stepOne";
+import StepTwo from "./stepTwo";
+import StepThree from "./stepThree";
+import StepFour from "./stepFour";
 
 const schema = z.object({
     name: z

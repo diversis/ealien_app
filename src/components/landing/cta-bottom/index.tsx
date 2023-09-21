@@ -1,10 +1,10 @@
 "use client";
 import { m, useInView, useScroll } from "framer-motion";
 import { useRef } from "react";
-import BG from "@/components/shared/Bg";
-import CTALink from "../cta/CtaLink";
+import BG from "@/components/shared/bg";
+import CTALink from "../cta/ctaLink";
 import { Typography } from "@mui/material";
-import { OPACITY_VARIANTS } from "@/lib/constants/variants";
+import { OPACITY_VARIANTS } from "@/lib/constants";
 
 export default function CTABottom() {
     const ref = useRef(null);

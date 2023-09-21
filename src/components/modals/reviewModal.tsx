@@ -28,10 +28,10 @@ import {
 } from "react";
 import { TransitionProps } from "@mui/material/transitions";
 import Slide from "@mui/material/Slide";
-import { ControlledTextField } from "../form/fields/ControlledTextField";
+import { ControlledTextField } from "../form/fields/controlledTextField";
 import { Product } from "@prisma/client";
 import { SerializedPrisma } from "@/lib/prisma/types";
-import { ControlledRating } from "../form/fields/ControlledRating";
+import { ControlledRating } from "../form/fields/controlledRating";
 
 const endpoint = "/api/review";
 

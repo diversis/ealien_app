@@ -1,4 +1,4 @@
-import { REVIEWS_PER_PAGE } from '../constants/constants';
+import { REVIEWS_PER_PAGE } from './../constants';
 import type { Review } from "@prisma/client";
 import prisma from "./prisma";
 import { ReviewWithAuthor } from "./types";

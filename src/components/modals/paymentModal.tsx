@@ -16,7 +16,7 @@ import { TransitionProps } from "@mui/material/transitions";
 import Slide from "@mui/material/Slide";
 
 import { Order } from "@prisma/client";
-import PayPalButtonsComponent from "../paypal/Buttons";
+import PayPalButtonsComponent from "../paypal/buttons";
 import {
     CompactOrderItem,
     CompactProduct,

@@ -4,7 +4,7 @@ import {
     SetStateAction,
     useCallback,
 } from "react";
-import RangeSlider from "@/components/mui/RangeSlider";
+import RangeSlider from "@/components/mui/rangeSlider";
 
 function valuetext(value: number) {
     return `$${value}`;

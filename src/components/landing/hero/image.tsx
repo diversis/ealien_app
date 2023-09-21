@@ -7,10 +7,10 @@ import {
     useSpring,
     useTransform,
 } from "framer-motion";
-import { useCallback, useEffect, useRef } from "react";
+import { useEffect, useRef } from "react";
 import Image from "next/image";
 
-import { OPACITY_VARIANTS } from "@/lib/constants/variants";
+import { OPACITY_VARIANTS } from "@/lib/constants";
 
 import heroImage from "@public/images/hero/1024.webp";
 import useWindowSize from "@/lib/hooks/use-window-size";
@@ -19,7 +19,7 @@ import debounce from "lodash.debounce";
 const imageSizes =
     "(max-width:480px) 60vw, (max-width: 768px) 60vw, 600px";
 
-export default function HeroImage({
+export default function Hero({
     mousePosition,
 }: {
     mousePosition: { x: number; y: number };
@@ -88,30 +88,30 @@ export default function HeroImage({
         damping: 150,
     });
 
-    const playAnimation = useCallback(() => {
-        if (!isInView) return;
-        const displacementAnimation = debounce(async () => {
-            if (
-                isInView &&
-                displacementRef.current &&
-                turbulenceRef.current
-            ) {
-                await displacementRef.current.beginElement();
-                await turbulenceRef.current.beginElement();
-                await displacementRef.current.endElement();
-                await turbulenceRef.current.endElement();
-            }
-        }, 500);
-        displacementAnimation.cancel();
-        displacementAnimation();
-    }, [displacementRef, isInView]);
-
     useEffect(() => {
         {
+            // console.log(scrollYProgress.get())
+            const playAnimation = debounce(async () => {
+                if (
+                    isInView &&
+                    displacementRef.current &&
+                    turbulenceRef.current
+                ) {
+                    await displacementRef.current.beginElement();
+                    await turbulenceRef.current.beginElement();
+                    await displacementRef.current.endElement();
+                    await turbulenceRef.current.endElement();
+                }
+            }, 500);
+            playAnimation.cancel();
             playAnimation();
         }
-    }, [springScroll, mousePosition]);
-
+    }, [
+        displacementRef,
+        isInView,
+        springScroll,
+        mousePosition,
+    ]);
     return (
         <m.div
             data-test="hero-section-image"
