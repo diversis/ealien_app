@@ -51,6 +51,7 @@ export default function Cart() {
                     toggle(true);
                 }}
                 variant="temporary"
+                data-testid="cart-swipable-drawer"
             >
                 <IconButton
                     aria-label="close"
@@ -67,6 +68,7 @@ export default function Cart() {
                         color: (theme) =>
                             theme.palette.grey[500],
                     }}
+                    data-testid="cart-icon-close"
                 >
                     <CloseIcon />
                 </IconButton>
@@ -78,6 +80,7 @@ export default function Cart() {
                             addQty={addQty}
                             removeItem={removeItem}
                             total={cartTotal}
+                            data-testid="cart-product-table"
                         />
                         {items.filter((i) => i.qty > 0)
                             .length > 0 && (
@@ -89,13 +92,17 @@ export default function Cart() {
                                 }}
                                 className="mx-auto text-base  lg:text-lg"
                                 variant="contained"
+                                data-testid="cart-create-order"
                             >
                                 Checkout
                             </Button>
                         )}
                     </>
                 ) : (
-                    <Typography className="inline-flex pl-12 pr-4 text-center">
+                    <Typography
+                        className="inline-flex pl-12 pr-4 text-center"
+                        data-testid="cart-empty-text"
+                    >
                         Cart is empty
                     </Typography>
                 )}

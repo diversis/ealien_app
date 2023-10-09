@@ -52,7 +52,7 @@ export default function FeaturesSection() {
                 {features.map((feature, id) => (
                     <Feature
                         key={`feature-section-${id}`}
-                        id={id}
+                        featureId={id}
                         photo={feature.photo}
                         title={feature.title}
                         text={feature.text}

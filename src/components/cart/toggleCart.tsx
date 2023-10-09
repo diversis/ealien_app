@@ -105,6 +105,7 @@ export default function ToggleCart({
             badgeContent={cartTotal.toFixed(2) || 0}
             className="mr-8 font-bold "
             max={99999.99}
+            data-testid="togglecart-badge"
         >
             <Button
                 aria-label="cart"
@@ -113,8 +114,9 @@ export default function ToggleCart({
                     if (toggleMobileMenu)
                         toggleMobileMenu(false);
                 }}
+                data-testid="togglecart-button"
             >
-                <ShoppingCartIcon />
+                <ShoppingCartIcon data-testid="togglecart-cart-icon" />
             </Button>
         </Badge>
     );

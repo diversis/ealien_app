@@ -1,40 +1,48 @@
 "use client";
-import { m, useInView } from "framer-motion";
+import {
+    HTMLMotionProps,
+    m,
+    useInView,
+} from "framer-motion";
 import { useRef } from "react";
 
 import { OPACITY_VARIANTS } from "@/lib/constants/variants";
 import { StaticImageData } from "next/image";
 import Balancer from "react-wrap-balancer";
-import BG from "@/components/shared/Bg";
+import BG from "@/components/shared/BG";
 import Photo from "@/components/shared/Photo";
 import { Typography } from "@mui/material";
 
-export default function Feature({
-    id,
-    title,
-    photo,
-    text,
-    bg = "guitarist",
-}: {
-    id: number;
+interface FeatureProps extends HTMLMotionProps<"div"> {
+    featureId: number;
     title: string;
     photo: StaticImageData;
     text: string;
     bg?: string;
-}) {
+}
+
+export default function Feature({
+    featureId,
+    title,
+    photo,
+    text,
+    bg = "guitarist",
+    ...rest
+}: FeatureProps) {
     const ref = useRef(null);
 
     const isInView = useInView(ref);
-    const isEven = id % 2 === 0;
+    const isEven = featureId % 2 === 0;
     return (
         <m.div
-            data-test={`feature-${"" + id}`}
+            data-test={`feature-${"" + featureId}`}
             ref={ref}
             variants={OPACITY_VARIANTS}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
             className="container relative isolate flex max-w-full flex-col-reverse  items-start px-4 lg:grid lg:grid-cols-12 lg:grid-rows-[1fr_20rem] lg:px-8 xl:px-12"
+            {...rest}
         >
             <div className="absolute -left-[5%] -right-[5%] bottom-[-10%] isolate -z-10 h-[40rem] xl:[grid-area:2/1/3/13]">
                 <div
@@ -42,16 +50,16 @@ export default function Feature({
                 >
                     <div
                         className={`h-full w-full  ${
-                            id === 0
+                            featureId === 0
                                 ? "bg-tertiary-200/5"
-                                : id === 1
+                                : featureId === 1
                                 ? "bg-error-500/5"
                                 : "bg-accent-300/5"
                         } backdrop-blur-sm [mask:linear-gradient(to_left,transparent_0%,#000_10%,#000_90%,transparent_100%)]`}
                     />
                 </div>
                 <BG
-                    testLabel={`feature-${id}`}
+                    testLabel={`feature-${featureId}`}
                     bgSrc={`/images/features/${bg}/2048.webp`}
                     classNames={{
                         root: `${
@@ -64,7 +72,7 @@ export default function Feature({
                 />
             </div>
             <article
-                data-test={`feature-${id}-article`}
+                data-test={`feature-${featureId}-article`}
                 className={`flex w-full flex-col gap-y-12 rounded-xl bg-primary-50/50 px-6 py-2  dark:bg-primary-900/50 lg:bg-transparent  ${
                     isEven
                         ? "xl:[grid-area:1/6/2/13]"
@@ -88,7 +96,7 @@ export default function Feature({
                 <hr className="mx-auto h-0 w-0 lg:h-40 " />
             </article>
             <div
-                data-test={`feature-${id}-photo`}
+                data-test={`feature-${featureId}-photo`}
                 className={`flex aspect-square h-auto max-h-[50dvh] w-full justify-center lg:sticky lg:top-0 lg:mb-[5rem] lg:self-start lg:pt-24 ${
                     isEven
                         ? "xl:[grid-area:1/1/2/6]"
