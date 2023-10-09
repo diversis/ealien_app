@@ -10,8 +10,10 @@ const createJestConfig = nextJest({
 const customJestConfig = {
     // Add more setup options before each test is run
     setupFilesAfterEnv: ["<rootDir>/jest.setup.js"],
-
+    roots: ["<rootDir>"],
     testEnvironment: "jest-environment-jsdom",
+    modulePaths: ["<rootDir>"],
+    moduleDirectories: ["node_modules", "lib", "src"],
     moduleNameMapper: {
         "swiper/css/bundle": "swiper/swiper-bundle.min.css",
     },
