@@ -14,9 +14,13 @@ const customJestConfig = {
     testEnvironment: "jest-environment-jsdom",
     modulePaths: ["<rootDir>"],
     moduleDirectories: ["node_modules", "lib", "src"],
-    moduleNameMapper: {
-        "swiper/css/bundle": "swiper/swiper-bundle.min.css",
-    },
+    // moduleNameMapper: {
+    //     "swiper/css/bundle": "swiper/swiper-bundle.min.css",
+    // },
+    transformIgnorePatterns: [
+        "node_modules/(?!swiper|ssr-window|dom7).*/",
+    ],
+    transform: {},
 };
 
 // createJestConfig is exported in this way to ensure that next/jest can load the Next.js configuration, which is async

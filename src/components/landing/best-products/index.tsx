@@ -13,10 +13,12 @@ export default function BestProductsCarousel({
 }) {
     return (
         <section
+            data-testid="best-products-section"
             className="flex max-h-screen w-full flex-col items-center !overflow-y-visible px-4"
             key="carousel-section"
         >
             <Typography
+                data-testid="best-products-section-h2"
                 variant="h2"
                 tabIndex={0}
                 className="h2 text-center"

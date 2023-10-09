@@ -82,7 +82,7 @@ export default function CTA({
 
     return (
         <m.div
-            data-test="hero-section-cta"
+            data-testid="hero-section-cta"
             key="hero-text"
             ref={ref}
             className="peer/cta  max-w-screen z-10 flex max-h-full flex-col items-center justify-center gap-y-4 px-4 [grid-area:1/1/2/3] lg:h-[calc(100vh_-_7rem)] lg:gap-y-8 lg:py-[5%]  lg:[grid-area:1/1/2/8]"
@@ -91,8 +91,12 @@ export default function CTA({
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
         >
-            <AnimatedDiv variants={TITLE_VARIANTS}>
+            <AnimatedDiv
+                data-testid="hero-section-animated-div-title"
+                variants={TITLE_VARIANTS}
+            >
                 <m.h1
+                    data-testid="hero-section-h1"
                     style={{
                         translateZ: 0,
                         transform: "none",
@@ -106,12 +110,19 @@ export default function CTA({
                     EALIEN
                 </m.h1>
             </AnimatedDiv>
-            <AnimatedDiv variants={SUBTITLE_VARIANTS}>
+            <AnimatedDiv
+                data-testid="hero-section-animated-div-p"
+                variants={SUBTITLE_VARIANTS}
+            >
                 <m.p
+                    data-testid="hero-section-p"
                     tabIndex={0}
                     className="text-shadow max-w-[50ch] bg-white bg-clip-text text-center text-lg text-transparent mix-blend-difference  xl:text-left xl:text-xl"
                 >
-                    <Balancer ratio={0.5}>
+                    <Balancer
+                        data-testid="hero-section-p-balancer"
+                        ratio={0.5}
+                    >
                         Lorem ipsum dolor sit amet,
                         consectetur adipiscing elit, sed do
                         eiusmod tempor incididunt ut labore

@@ -1,5 +1,6 @@
 "use client";
 import {
+    HTMLMotionProps,
     m,
     useInView,
     useMotionValue,
@@ -16,16 +17,17 @@ import heroImage from "@public/images/hero/1024.webp";
 import useWindowSize from "@/lib/hooks/use-window-size";
 import debounce from "lodash.debounce";
 
+interface HeroImageProps extends HTMLMotionProps<"div"> {
+    mousePosition: { x: number; y: number };
+}
+
 const imageSizes =
     "(max-width:480px) 60vw, (max-width: 768px) 60vw, 600px";
 
 export default function HeroImage({
     mousePosition,
-}: {
-    mousePosition: { x: number; y: number };
-    // mouseX: number;
-    // mouseY: number;
-}) {
+    ...rest
+}: HeroImageProps) {
     const ref = useRef<HTMLDivElement>(null);
     const displacementRef =
         useRef<SVGAnimationElement>(null);
@@ -114,16 +116,17 @@ export default function HeroImage({
 
     return (
         <m.div
-            data-test="hero-section-image"
+            data-testid="hero-section-image-container"
             key="hero-image"
             ref={ref}
-            className="relative flex  max-h-full w-full max-w-[60%] items-center justify-center place-self-center [grid-area:2/1/3/2] lg:max-w-full lg:[grid-area:1/8/3/13]"
             variants={OPACITY_VARIANTS}
             initial="hidden"
             animate={isInView ? "visible" : "hidden"}
             exit="hidden"
+            {...rest}
         >
             <svg
+                data-testid="hero-section-image-svg"
                 style={{
                     display: "none",
                     opacity: 1,
@@ -133,8 +136,11 @@ export default function HeroImage({
                     width: 0,
                 }}
             >
-                <defs>
-                    <filter id="hero-noise">
+                <defs data-testid="hero-section-image-svg-defs">
+                    <filter
+                        data-testid="hero-section-image-svg-defs-filter"
+                        id="hero-noise"
+                    >
                         <feTurbulence
                             baseFrequency="0.6,0.8"
                             seed="0"
@@ -180,10 +186,17 @@ export default function HeroImage({
                     </filter>
                 </defs>
             </svg>
-            <div className="relative isolate flex aspect-square  max-h-full w-full">
+            <div
+                data-testid="hero-section-image-wrapper-1"
+                className="relative isolate flex aspect-square  max-h-full w-full"
+            >
                 {/* <div className="radial-mask absolute -bottom-[10%] -left-[10%] -right-[10%] -top-[10%] isolate -z-[1] bg-black bg-gradient-to-t from-tertiary-200 to-primary-100"></div> */}
-                <div className="relative isolate z-10 aspect-[640/951] h-auto w-full">
+                <div
+                    data-testid="hero-section-image-wrapper-2"
+                    className="relative isolate z-10 aspect-[640/951] h-auto w-full"
+                >
                     <m.div
+                        data-testid="hero-section-image-digits-wrapper"
                         style={{
                             fontSize: "20vmin",
                             x,
@@ -191,10 +204,15 @@ export default function HeroImage({
                         }}
                         className="radial-mask text-stroke absolute inset-0 flex flex-wrap break-all font-bold text-transparent"
                     >
-                        <m.span>{bgNumberX}</m.span>
-                        <m.span>{bgNumberY}</m.span>
+                        <m.span data-testid="hero-section-image-digits-x">
+                            {bgNumberX}
+                        </m.span>
+                        <m.span data-testid="hero-section-image-digits-y">
+                            {bgNumberY}
+                        </m.span>
                     </m.div>
                     <Image
+                        data-testid="hero-section-image-Image"
                         fill
                         sizes={imageSizes}
                         src={heroImage}

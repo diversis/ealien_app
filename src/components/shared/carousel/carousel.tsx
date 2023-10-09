@@ -4,6 +4,10 @@ import { ReactNode, useRef } from "react";
 import { m, useInView } from "framer-motion";
 
 import { Swiper, SwiperSlide } from "swiper/react";
+// import type {
+//     Swiper,
+//     SwiperSlide,
+// } from "swiper/swiper-react.d.ts";
 import {
     Autoplay,
     Keyboard,
@@ -35,7 +39,7 @@ export default function Carousel({
     className?: string;
 }) {
     const ref = useRef<HTMLDivElement>(null);
-    const isInView = useInView(ref);
+    // const isInView = useInView(ref);
     return (
         <m.div ref={ref} className="relative w-full">
             <Swiper

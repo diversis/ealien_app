@@ -10,7 +10,7 @@
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
         "postiiinstall": "prisma generate && prisma db push && prisma db seed",
-        "test": "jest --watch"
+        "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch"
     },
     "dependencies": {
         "@emotion/cache": "^11.11.0",

@@ -8,7 +8,7 @@ import {
 
 import Feature from "@/components/landing/features/Feature";
 import guitarPhoto from "@public/images/catalogue/guitar/r/18/1024.webp";
-import { setupIntersectionObserverMock } from "lib/jest/intersectionObserverMock";
+import { setupIntersectionObserverMock } from "__mocks__/lib/intersectionObserverMock";
 
 for (let i = 0; i < 5; i++) {
     describe("Feature", () => {

@@ -1,23 +1,26 @@
 import * as React from "react";
 import "@testing-library/jest-dom";
-import { render, screen } from "@testing-library/react";
+import {
+    fireEvent,
+    render,
+    screen,
+} from "@testing-library/react";
 
-import Features from "@/components/landing/features/";
+import HeroSection from "@/components/landing/hero/";
 import { setupIntersectionObserverMock } from "__mocks__/lib/intersectionObserverMock";
 
-describe("Feature", () => {
+describe("Hero", () => {
     beforeEach(() => {
         setupIntersectionObserverMock();
     });
-    it("renders Feature", () => {
-        render(<Features />);
-
+    it("renders Hero", () => {
+        render(<HeroSection />);
         expect(
-            screen.getByTestId("features-section"),
+            screen.getByTestId("hero-section"),
         ).toBeInTheDocument();
 
         expect(
-            screen.getByTestId("features-text"),
+            screen.getByTestId("hero-section-article"),
         ).toBeInTheDocument();
 
         // screen.debug();
