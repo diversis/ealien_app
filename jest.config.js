@@ -14,9 +14,10 @@ const customJestConfig = {
     testEnvironment: "jest-environment-jsdom",
     modulePaths: ["<rootDir>"],
     moduleDirectories: ["node_modules", "lib", "src"],
-    // moduleNameMapper: {
-    //     "swiper/css/bundle": "swiper/swiper-bundle.min.css",
-    // },
+    moduleNameMapper: {
+        "\\.(jpg|jpeg|png|gif|webp|webm)$":
+            "./__mocks__/staticImageMock.ts",
+    },
     transformIgnorePatterns: [
         "node_modules/(?!swiper|ssr-window|dom7).*/",
     ],
