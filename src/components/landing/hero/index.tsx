@@ -2,7 +2,7 @@
 import { m, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import CTA from "./CTA";
-import HeroImage from "./HeroImage";
+import HeroImage from "./Image";
 
 export default function HeroSection() {
     const ref = useRef<HTMLDivElement>(null);
@@ -40,7 +40,7 @@ export default function HeroSection() {
                     mousePosition={mousePosition}
                     containerVisible={isInView}
                 />
-                <Hero
+                <HeroImage
                     key="hero-image"
                     mousePosition={mousePosition}
                     className="relative flex  max-h-full w-full max-w-[60%] items-center justify-center place-self-center [grid-area:2/1/3/2] lg:max-w-full lg:[grid-area:1/8/3/13]"

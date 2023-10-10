@@ -11,7 +11,7 @@ import {
 import { useEffect, useRef } from "react";
 import Image from "next/image";
 
-import { OPACITY_VARIANTS } from "@/lib/constants";
+import { OPACITY_VARIANTS } from "@/lib/constants/variants";
 
 import heroImage from "@public/images/hero/1024.webp";
 import useWindowSize from "@/lib/hooks/use-window-size";

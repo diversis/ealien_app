@@ -12,22 +12,14 @@ import {
 
 import { SerializedPrisma } from "@/lib/prisma/types";
 import { Category, Product, Review } from "@prisma/client";
-import {
-    OPACITY_VARIANTS,
-    REVIEWS_PER_PAGE,
-} from "@/lib/constants";
-import ImageMagnifier from "@/components/shared/magnifier";
-
-import Reviews from "@/components/catalogue/reviews";
-import ReviewModal from "@/components/modals/reviewModal";
-import SignInModal from "@/components/modals/signInModal";
+import { OPACITY_VARIANTS } from "@/lib/constants/variants";
+import ImageMagnifier from "@/components/shared/Magnifier";
+import Reviews from "@/components/catalogue/Reviews";
+import ReviewModal from "@/components/modals/ReviewModal";
 import Link from "next/link";
-import { useSnackbar } from "notistack";
-import { useCart } from "@/lib/hooks/use-cart";
 import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
-import ReviewPlaceholder from "@/components/placeholder/review";
-import ReviewCard from "@/components/catalogue/review";
-import AddToCart from "@/components/form/addToCart";
+import ReviewPlaceholder from "@/components/placeholder/Review";
+import AddToCart from "@/components/form/AddToCart";
 import PageTransition from "@/app/pageTransition";
 
 export default function ProductPage({

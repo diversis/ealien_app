@@ -3,11 +3,11 @@ import { ReadonlyURLSearchParams } from "next/navigation";
 import { useDebounce } from "usehooks-ts";
 import { Box } from "@mui/material";
 
-import FilterCategories from "./categories";
-import FilterPrice from "./price";
-import FilterAccordion from "./filterAccordion";
-import FilterRating from "./rating";
-import FilterSearch from "./search";
+import FilterCategories from "./Categories";
+import FilterPrice from "./Price";
+import FilterAccordion from "./FilterAccordion";
+import FilterRating from "./Rating";
+import FilterSearch from "./Search";
 
 export type FiltersProps = {
     handleSearch: ({

@@ -14,7 +14,7 @@ import {
     Paper,
 } from "@mui/material";
 
-import LoaderDots from "../shared/loaderDots";
+import LoaderDots from "../shared/LoaderDots";
 import { TransitionProps } from "@mui/material/transitions";
 import GitHub from "@mui/icons-material/GitHub";
 import Google from "@mui/icons-material/Google";

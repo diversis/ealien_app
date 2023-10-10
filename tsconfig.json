@@ -31,6 +31,6 @@
         "**/*.tsx",
         // "react-email-starter/.react-email/emails/template.tsx",
         ".next/types/**/*.ts"
-    ],
+, "jest.setup.js"    ],
     "exclude": ["node_modules", ".next"]
 }

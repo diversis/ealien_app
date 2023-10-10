@@ -18,7 +18,7 @@ import {
     CompactProduct,
     SerializedPrisma,
 } from "@/lib/prisma/types";
-import { OPACITY_VARIANTS } from "@/lib/constants";
+import { OPACITY_VARIANTS } from "@/lib/constants/variants";
 import { useCart } from "@/lib/hooks/use-cart";
 import { useSnackbar } from "notistack";
 

@@ -6,14 +6,14 @@ import {
 } from "framer-motion";
 import { useRef } from "react";
 
-import TestimonialsCard from "./card";
+import TestimonialsCard from "./Card";
 
-import { OPACITY_VARIANTS } from "@/lib/constants";
+import { OPACITY_VARIANTS } from "@/lib/constants/variants";
 
 import guitaristPhoto from "@public/images/testimonials/guitarist/2048.webp";
 import violinistPhoto from "@public/images/testimonials/violinist/2048.webp";
 import pianistPhoto from "@public/images/testimonials/pianist/2048.webp";
-import Carousel from "@/components/shared/carousel/carousel";
+import Carousel from "@/components/shared/carousel/Carousel";
 import { Typography } from "@mui/material";
 
 const TESTIMONIALS = [

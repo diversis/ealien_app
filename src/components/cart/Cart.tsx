@@ -8,8 +8,7 @@ import { SwipeableDrawer, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
 import { useCart } from "@/lib/hooks/use-cart";
-import ProductTable from "../tables/products";
-
+import ProductTable from "../tables/Products";
 
 import useCartTotal from "@/lib/hooks/use-cart-total";
 import { useWindowSize } from "usehooks-ts";

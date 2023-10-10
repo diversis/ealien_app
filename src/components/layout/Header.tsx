@@ -9,7 +9,6 @@ import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
 import { useSession } from "next-auth/react";
 import {
-    AppBar,
     Avatar,
     Box,
     Button,
@@ -19,57 +18,43 @@ import {
     Toolbar,
     Tooltip,
     Typography,
-    useScrollTrigger,
 } from "@mui/material";
-import { useIsMounted } from "usehooks-ts";
 
-import MobileMenu from "./mobileMenu";
-import { OPACITY_VARIANTS } from "@/lib/constants";
+import MobileMenu from "./MobileMenu";
+import { OPACITY_VARIANTS } from "@/lib/constants/variants";
 import useWindowSize from "@/lib/hooks/use-window-size";
-import SwitchTheme from "../shared/switchTheme";
-import ScrollTop from "./scrollTop";
+import SwitchTheme from "../shared/SwitchTheme";
+import ScrollTop from "./ScrollTop";
 
-import Cart from "../cart/cart";
+import Cart from "../cart/Cart";
 import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
 import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
-import SignInModal from "../modals/signInModal";
+import SignInModal from "../modals/SignInModal";
 import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
 import { MenuContext } from "@/lib/nav/menuContext";
-import ToggleCart from "../cart/toggleCart";
+import ToggleCart from "../cart/ToggleCart";
 import useScrolled from "@/lib/hooks/use-scrolled";
 
 const Header = () => {
     const { data: session, status } = useSession();
     const { email, image, name } = session?.user || {};
-    // const isMounted = useIsMounted();
-    // const IsClient = useIsClient();
-    // const [anchorElNav, setAnchorElNav] =
-    //     useState<null | HTMLElement>(null);
+
     const [anchorElUser, setAnchorElUser] =
         useState<null | HTMLElement>(null);
     const { isMobile, isDesktop } = useWindowSize();
-    const [menuOpen, setMenuOpen] = useState(false);
-    // const scrolled = useScrolled(100);
+
     const { visible, hideSignInModal, showSignInModal } =
         useSignInModal((state) => ({
             visible: state.visible,
             hideSignInModal: state.hideSignInModal,
             showSignInModal: state.showSignInModal,
         }));
-    // const handleOpenNavMenu = (
-    //     event: React.MouseEvent<HTMLElement>,
-    // ) => {
-    //     setAnchorElNav(event.currentTarget);
-    // };
+
     const handleOpenUserMenu = (
         event: React.MouseEvent<HTMLElement>,
     ) => {
         setAnchorElUser(event.currentTarget);
     };
-
-    // const handleCloseNavMenu = () => {
-    //     setAnchorElNav(null);
-    // };
 
     const handleCloseUserMenu = () => {
         setAnchorElUser(null);

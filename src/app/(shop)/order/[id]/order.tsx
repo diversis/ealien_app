@@ -1,27 +1,12 @@
 "use client";
-import ProductTable from "@/components/tables/products";
-import { useCart } from "@/lib/hooks/use-cart";
-import {
-    useCallback,
-    useEffect,
-    useMemo,
-    useState,
-} from "react";
+import ProductTable from "@/components/tables/Products";
 
-import {
-    AnimatePresence,
-    LayoutGroup,
-    m,
-} from "framer-motion";
-import OrderForm from "@/components/form/order/create/orderForm";
-import Link from "next/link";
-import {
-    Box,
-    Button,
-    Paper,
-    Typography,
-} from "@mui/material";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import { useCallback, useEffect, useState } from "react";
+
+import { m } from "framer-motion";
+
+import { Box, Paper, Typography } from "@mui/material";
+import axios, { AxiosError } from "axios";
 import { useMutation } from "@tanstack/react-query";
 import { camelCase } from "lodash";
 
@@ -30,12 +15,8 @@ import {
     SerializedPrisma,
     CompactProduct,
 } from "@/lib/prisma/types";
-import {
-    Order,
-    OrderItem,
-    ShippingAddress,
-} from "@prisma/client";
-import PaymentModal from "@/components/modals/paymentModal";
+import { Order, ShippingAddress } from "@prisma/client";
+import PaymentModal from "@/components/modals/PaymentModal";
 import { hasKey } from "@/lib/utils/tsutils";
 import PageTransition from "@/app/pageTransition";
 

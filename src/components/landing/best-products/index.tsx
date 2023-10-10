@@ -1,5 +1,5 @@
-import ProductCard from "@/components/catalogue/productCard";
-import Carousel from "@/components/shared/carousel/carousel";
+import ProductCard from "@/components/catalogue/ProductCard";
+import Carousel from "@/components/shared/carousel/Carousel";
 import {
     CompactProduct,
     SerializedPrisma,

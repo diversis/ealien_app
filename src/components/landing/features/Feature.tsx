@@ -6,7 +6,7 @@ import {
 } from "framer-motion";
 import { useRef } from "react";
 
-import { OPACITY_VARIANTS } from "@/lib/constants";
+import { OPACITY_VARIANTS } from "@/lib/constants/variants";
 import { StaticImageData } from "next/image";
 import Balancer from "react-wrap-balancer";
 import BG from "@/components/shared/BG";

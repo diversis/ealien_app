@@ -1,8 +1,7 @@
 "use client";
 
 import Head from "next/head";
-import { m, AnimatePresence } from "framer-motion";
-import { Serializable } from "child_process";
+import { AnimatePresence } from "framer-motion";
 import {
     CompactProduct,
     SerializedPrisma,

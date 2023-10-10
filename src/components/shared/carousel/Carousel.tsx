@@ -1,13 +1,10 @@
 "use client";
 import { ReactNode, useRef } from "react";
 
-import { m, useInView } from "framer-motion";
+import { m } from "framer-motion";
 
 import { Swiper, SwiperSlide } from "swiper/react";
-// import type {
-//     Swiper,
-//     SwiperSlide,
-// } from "swiper/swiper-react.d.ts";
+
 import {
     Autoplay,
     Keyboard,
@@ -16,8 +13,7 @@ import {
 } from "swiper/modules";
 import "swiper/css/bundle";
 
-import { OPACITY_VARIANTS } from "@/lib/constants";
-import SwiperNav from "./swiperNav";
+import SwiperNav from "./SwiperNav";
 import { SwiperOptions } from "swiper/types";
 
 const imageSizes = "100vw, (min-width: 1280px) 50vw";

@@ -1,4 +1,4 @@
-import { OPACITY_VARIANTS } from "@/lib/constants";
+import { OPACITY_VARIANTS } from "@/lib/constants/variants";
 import {
     AnimatePresence,
     m,

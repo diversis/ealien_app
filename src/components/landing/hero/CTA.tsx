@@ -3,7 +3,7 @@ import {
     OPACITY_VARIANTS,
     SUBTITLE_VARIANTS,
     TITLE_VARIANTS,
-} from "@/lib/constants";
+} from "@/lib/constants/variants";
 import {
     useCallback,
     useEffect,
@@ -20,9 +20,9 @@ import {
 } from "framer-motion";
 import Link from "next/link";
 
-import CTALink from "../cta/ctaLink";
+import CTALink from "../cta/CtaLink";
 import Balancer from "react-wrap-balancer";
-import AnimatedDiv from "@/components/shared/animatedDiv";
+import AnimatedDiv from "@/components/shared/AnimatedDiv";
 import useWindowSize from "@/lib/hooks/use-window-size";
 
 export default function CTA({

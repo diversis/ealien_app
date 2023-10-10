@@ -1,9 +1,6 @@
 "use client";
-import { AnimatePresence, m } from "framer-motion";
-import {
-    usePathname,
-    useSearchParams,
-} from "next/navigation";
+import { m } from "framer-motion";
+import { usePathname } from "next/navigation";
 import { useEffect, useState } from "react";
 
 const PageTransition = ({
@@ -23,34 +20,34 @@ const PageTransition = ({
         //     mode="wait"
         //     // initial={false}
         // >
-            <m.div
-                key="main-wrap"
-                initial={{
-                    translateX: "-100%",
-                    opacity: 0,
-                }}
-                animate={{
-                    translateX: "0%",
-                    opacity: 1,
-                    transitionEnd: {
-                        // temp workaround to fix trailing opacity and transform
-                        transform: "none",
-                    },
-                }}
-                exit={{
-                    opacity: 0,
-                    transition: {
-                        duration: 0.5,
-                    },
-                }}
-                transition={{
-                    translateX: "100%",
+        <m.div
+            key="main-wrap"
+            initial={{
+                translateX: "-100%",
+                opacity: 0,
+            }}
+            animate={{
+                translateX: "0%",
+                opacity: 1,
+                transitionEnd: {
+                    // temp workaround to fix trailing opacity and transform
+                    transform: "none",
+                },
+            }}
+            exit={{
+                opacity: 0,
+                transition: {
                     duration: 0.5,
-                }}
-                className="flex h-full w-full max-w-full flex-col items-center"
-            >
-                {children}
-            </m.div>
+                },
+            }}
+            transition={{
+                translateX: "100%",
+                duration: 0.5,
+            }}
+            className="flex h-full w-full max-w-full flex-col items-center"
+        >
+            {children}
+        </m.div>
         // </AnimatePresence>
     );
 };

@@ -1,23 +1,10 @@
 "use client";
-import ProductTable from "@/components/tables/products";
-import { useCart } from "@/lib/hooks/use-cart";
-import { useEffect, useMemo, useState } from "react";
+import { m } from "framer-motion";
 
-import {
-    AnimatePresence,
-    LayoutGroup,
-    m,
-} from "framer-motion";
-import OrderForm from "@/components/form/order/create/orderForm";
-import Link from "next/link";
 import { Typography } from "@mui/material";
-import {
-    CompactOrderItem,
-    SerializedPrisma,
-    CompactProduct,
-} from "@/lib/prisma/types";
-import { Order, OrderItem } from "@prisma/client";
-import OrdersTable from "@/components/tables/orders";
+import { SerializedPrisma } from "@/lib/prisma/types";
+import { Order } from "@prisma/client";
+import OrdersTable from "@/components/tables/Orders";
 import PageTransition from "@/app/pageTransition";
 
 export default function Profile({

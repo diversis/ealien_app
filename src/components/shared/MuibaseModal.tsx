@@ -8,16 +8,7 @@ import {
     useEffect,
     useState,
 } from "react";
-import {
-    m,
-    AnimatePresence,
-    usePresence,
-    useAnimate,
-} from "framer-motion";
-import {
-    OPACITY_VARIANTS,
-    SCALE_BOUNCE_VARIANTS,
-} from "@/lib/constants";
+import { useAnimate } from "framer-motion";
 
 interface ModalProps
     extends ComponentPropsWithoutRef<"div"> {

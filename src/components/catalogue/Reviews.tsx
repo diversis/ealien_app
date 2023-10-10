@@ -1,7 +1,7 @@
 import { useCallback, useEffect, useRef } from "react";
 import { useIntersectionObserver } from "usehooks-ts";
 import { AnimatePresence } from "framer-motion";
-import axios, { AxiosError, AxiosResponse } from "axios";
+import axios from "axios";
 
 import {
     useInfiniteQuery,
@@ -13,8 +13,8 @@ import {
     SerializedPrisma,
 } from "@/lib/prisma/types";
 import { isSerializedReview } from "@/lib/prisma/typeguards";
-import ReviewCard from "./review";
-import ReviewPlaceholder from "@/components/placeholder/review";
+import ReviewCard from "./Review";
+import ReviewPlaceholder from "@/components/placeholder/Review";
 import { REVIEWS_PER_PAGE } from "@/lib/constants";
 
 const endpoint = "/api/reviews";
@@ -121,7 +121,7 @@ export default function Reviews({
     }, [reachedEnd, hasNextPage, fetchNextPage]);
     useEffect(() => {
         refreshReviews();
-    }, [postedNewReview]);
+    }, [postedNewReview, refreshReviews]);
 
     return (
         <>

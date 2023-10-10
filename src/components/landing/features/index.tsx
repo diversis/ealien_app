@@ -1,6 +1,6 @@
 import { AnimatePresence, m } from "framer-motion";
 
-import Feature from "./feature";
+import Feature from "./Feature";
 
 import guitarPhoto from "@public/images/catalogue/guitar/r/18/1024.webp";
 import violinPhoto from "@public/images/catalogue/violin/r/2/1024.webp";
