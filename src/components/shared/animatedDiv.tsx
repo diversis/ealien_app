@@ -1,7 +1,23 @@
 "use client";
-import { SPRING_LIGHT } from "@/lib/constants";
-import { Variants, m, useInView } from "framer-motion";
-import { ReactNode, useRef } from "react";
+import { SPRING_LIGHT } from "@/lib/constants/variants";
+import { HTMLMotionProps, Variants, m, useInView } from "framer-motion";
+import {
+    ReactNode,
+    useRef,
+} from "react";
+
+interface AnimatedDivProps
+    extends HTMLMotionProps<"div"> {
+    children?: ReactNode;
+    className?: string;
+    classNameWrapper?: string;
+    direction?: Direction;
+    animationType?: AnimationType;
+    duration?: number;
+    animateInView?: boolean;
+    variants?: Variants;
+    overflowHidden?: boolean;
+}
 
 export type Direction = "top" | "bottom" | "right" | "left";
 export type AnimationType = "slide" | "spring" | "opacity";
@@ -44,17 +60,8 @@ export default function AnimatedDiv({
     animateInView = true,
     variants,
     overflowHidden = true,
-}: {
-    children?: ReactNode;
-    className?: string;
-    classNameWrapper?: string;
-    direction?: Direction;
-    animationType?: AnimationType;
-    duration?: number;
-    animateInView?: boolean;
-    variants?: Variants;
-    overflowHidden?: boolean;
-}) {
+    ...rest
+}: AnimatedDivProps) {
     const ref = useRef(null);
     const isInView = useInView(ref);
 
@@ -128,6 +135,7 @@ export default function AnimatedDiv({
             className={`${
                 overflowHidden ? "overflow-hidden " : " "
             } ${classNameWrapper ? classNameWrapper : ""}`}
+            {...rest}
         >
             <m.div
                 variants={resultVariants}

@@ -33,6 +33,7 @@ export default function TestimonialsSection() {
 
     return (
         <m.section
+            data-testid="testimonials-section"
             ref={ref}
             variants={OPACITY_VARIANTS}
             initial="hidden"
@@ -41,6 +42,7 @@ export default function TestimonialsSection() {
             className="relative flex min-h-screen w-full flex-col items-center px-4 md:min-h-[calc(100vh_-_6rem)]"
         >
             <Typography
+                data-testid="testimonials-section-h2"
                 variant="h2"
                 tabIndex={0}
                 className="h2 text-center"

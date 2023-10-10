@@ -1,10 +1,4 @@
-import {
-    AnimatePresence,
-    m,
-    useInView,
-    useScroll,
-} from "framer-motion";
-import { useRef } from "react";
+import { AnimatePresence, m } from "framer-motion";
 
 import Feature from "./feature";
 
@@ -37,11 +31,12 @@ const features = [
 export default function FeaturesSection() {
     return (
         <m.section
-            data-test="features-section"
+            data-testid="features-section"
             key="features-section"
             className="container flex min-h-screen max-w-full flex-col items-center gap-y-16 overflow-visible  "
         >
             <Typography
+                data-testid="features-text"
                 variant="h2"
                 tabIndex={0}
                 className="h2 text-center"
@@ -51,8 +46,8 @@ export default function FeaturesSection() {
             <AnimatePresence>
                 {features.map((feature, id) => (
                     <Feature
-                        key={`feature-section-${id}`}
-                        id={id}
+                        key={`features-section-${id}`}
+                        featureId={id}
                         photo={feature.photo}
                         title={feature.title}
                         text={feature.text}

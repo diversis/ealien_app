@@ -16,7 +16,7 @@ export default function BG({
     const isInView = useInView(ref);
     return (
         <m.div
-            data-test={`${testLabel}-bg`}
+            data-testid={`${testLabel}-BG-root`}
             ref={ref}
             className={`!transform-none  ${classNames?.root}`}
             variants={OPACITY_VARIANTS}
@@ -25,6 +25,7 @@ export default function BG({
             exit="hidden"
         >
             <div
+            data-testid={`${testLabel}-BG-bg`}
                 style={{
                     backgroundImage: "url(" + bgSrc + ")",
                 }}
