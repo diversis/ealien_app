@@ -1,21 +1,19 @@
 "use client";
 import { SPRING_LIGHT } from "@/lib/constants/variants";
-import { HTMLMotionProps, Variants, m, useInView } from "framer-motion";
 import {
-    ReactNode,
-    useRef,
-} from "react";
+    HTMLMotionProps,
+    Variants,
+    m,
+    useInView,
+} from "framer-motion";
+import { ReactNode, useRef } from "react";
 
-interface AnimatedDivProps
-    extends HTMLMotionProps<"div"> {
-    children?: ReactNode;
-    className?: string;
+interface AnimatedDivProps extends HTMLMotionProps<"div"> {
     classNameWrapper?: string;
     direction?: Direction;
     animationType?: AnimationType;
     duration?: number;
     animateInView?: boolean;
-    variants?: Variants;
     overflowHidden?: boolean;
 }
 
