@@ -211,6 +211,8 @@ export default function ProductTable({
                                                 disabled={
                                                     !editable
                                                 }
+                                                color="secondary"
+                                                variant="text"
                                             >
                                                 <DeleteIcon />
                                             </Button>

@@ -61,10 +61,11 @@ const Header = () => {
     };
     const scrolled = useScrolled(300);
     return (
-        <header>
+        <header data-testid="header">
             <AnimatePresence mode="sync">
                 {isMobile ? (
                     <m.div
+                        data-testid="menu-mobile-portal"
                         variants={OPACITY_VARIANTS}
                         key="menu"
                         className="fixed right-0 top-0 z-[2000] grid w-0 grid-cols-1 grid-rows-[0fr] place-items-center "
@@ -80,6 +81,7 @@ const Header = () => {
                     </m.div>
                 ) : (
                     <m.div
+                        data-testid="menu-desktop-wrapper"
                         variants={OPACITY_VARIANTS}
                         key="menu"
                         className={`${
@@ -88,13 +90,18 @@ const Header = () => {
                                 : "bg-transparent after:opacity-0"
                         } fixed left-0 top-0 z-30 flex !h-24  w-screen items-center backdrop-blur-[8px] transition-colors duration-300 after:absolute after:inset-0  after:shadow-md after:shadow-surface-500/50 after:transition-opacity after:duration-500 `}
                     >
-                        <Container maxWidth="xl">
+                        <Container
+                            maxWidth="xl"
+                            data-testid="menu-desktop-container"
+                        >
                             <Toolbar
                                 disableGutters
                                 className="gap-x-4"
+                                data-testid="menu-desktop-toolbar"
                             >
-                                <m.div>
+                                <m.div data-testid="menu-desktop-logo-wrapper">
                                     <Typography
+                                        data-testid="menu-desktop-logo-h6"
                                         variant="h6"
                                         noWrap
                                         component={Link}
@@ -104,6 +111,7 @@ const Header = () => {
                                     </Typography>
                                 </m.div>
                                 <Box
+                                    data-testid="menu-desktop-links-box"
                                     sx={{
                                         flexGrow: 1,
                                         ml: "3rem",
@@ -114,6 +122,7 @@ const Header = () => {
                                     {MAIN_MENU_LINKS.map(
                                         (page) => (
                                             <Link
+                                                data-testid={`menu-desktop-links-${page.title}`}
                                                 key={`main-menu-${page.title}`}
                                                 href={
                                                     page.url ||
@@ -128,19 +137,30 @@ const Header = () => {
                                 </Box>
 
                                 {/* <Contacts /> */}
-                                <div className="flex flex-row gap-4">
+                                <div
+                                    data-testid="menu-desktop-buttons-container"
+                                    className="flex flex-row gap-4"
+                                >
                                     <ToggleCart />
 
                                     <SwitchTheme />
                                 </div>
-                                <Box sx={{ flexGrow: 0 }}>
-                                    <Tooltip title="Open settings">
+                                <Box
+                                    data-testid="menu-desktop-user-box"
+                                    sx={{ flexGrow: 0 }}
+                                >
+                                    <Tooltip
+                                        data-testid="menu-desktop-user-tooltip"
+                                        title="Open settings"
+                                    >
                                         <button
+                                            data-testid="menu-desktop-user-button"
                                             onClick={
                                                 handleOpenUserMenu
                                             }
                                         >
                                             <Avatar
+                                                data-testid="menu-desktop-user-avatar"
                                                 alt={
                                                     name ||
                                                     "User"
@@ -153,6 +173,7 @@ const Header = () => {
                                         </button>
                                     </Tooltip>
                                     <Menu
+                                        data-testid="menu-desktop-user-menu"
                                         sx={{ mt: "45px" }}
                                         id="menu-appbar"
                                         anchorEl={
@@ -185,10 +206,12 @@ const Header = () => {
                                                     return null;
                                                 return (
                                                     <MenuItem
+                                                        data-testid={`menu-desktop-user-menuitem-${setting.title}`}
                                                         key={`user-menu-${setting.title}`}
                                                         className="!p-0"
                                                     >
                                                         <Link
+                                                            data-testid={`menu-desktop-user-menuitem-link-${setting.title}`}
                                                             href={
                                                                 setting.url ||
                                                                 "#"
@@ -196,6 +219,7 @@ const Header = () => {
                                                             className="w-full"
                                                         >
                                                             <Typography
+                                                                data-testid={`menu-desktop-user-menuitem-link-title-${setting.title}`}
                                                                 textAlign="center"
                                                                 className="px-2 py-1"
                                                             >
@@ -210,10 +234,12 @@ const Header = () => {
                                         )}
                                         {!!email ? (
                                             <MenuItem
+                                                data-testid="menu-desktop-user-menuitem-logout"
                                                 key={`user-menu-logout`}
                                                 className="!p-0"
                                             >
                                                 <Button
+                                                    data-testid="menu-desktop-user-menuitem-logout-button"
                                                     variant="text"
                                                     onClick={() =>
                                                         signOut()
@@ -221,21 +247,29 @@ const Header = () => {
                                                     className="w-full"
                                                 >
                                                     Logout
-                                                    <LogoutIcon className="h-6 w-6" />
+                                                    <LogoutIcon
+                                                        data-testid="menu-desktop-user-menuitem-logout-icon"
+                                                        className="h-6 w-6"
+                                                    />
                                                 </Button>
                                             </MenuItem>
                                         ) : (
                                             <MenuItem
+                                                data-testid="menu-desktop-user-menuitem-login"
                                                 key={`user-menu-login`}
                                             >
                                                 <Button
+                                                    data-testid="menu-desktop-user-menuitem-login-button"
                                                     variant="text"
                                                     onClick={
                                                         showSignInModal
                                                     }
                                                 >
                                                     Sign In
-                                                    <LoginIcon className="h-6 w-6" />
+                                                    <LoginIcon
+                                                        data-testid="menu-desktop-user-menuitem-login-icon"
+                                                        className="h-6 w-6"
+                                                    />
                                                 </Button>
                                             </MenuItem>
                                         )}
@@ -246,12 +280,17 @@ const Header = () => {
                     </m.div>
                 )}
             </AnimatePresence>
-            <ScrollTop trigger={scrolled}>
+            <ScrollTop
+                data-testid="menu-scroll-top"
+                trigger={scrolled}
+                className="fixed bottom-16 right-4 z-[1000] lg:bottom-4"
+            >
                 <Fab
+                    data-testid="menu-scroll-top-fab"
                     size="small"
                     aria-label="scroll back to top"
                 >
-                    <KeyboardArrowUpIcon />
+                    <KeyboardArrowUpIcon data-testid="menu-scroll-top-icon" />
                 </Fab>
             </ScrollTop>
             {!session || !email ? (
