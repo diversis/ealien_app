@@ -24,7 +24,7 @@ export default function FilterAccordion({
     handleClearFilter: () => void;
 }) {
     return (
-        <Accordion>
+        <Accordion className="link-accordion">
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
             >
