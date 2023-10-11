@@ -11,6 +11,7 @@ export default function Waves() {
     const isInView = useInView(ref);
     return (
         <m.div
+            data-testid="waves"
             ref={ref}
             variants={OPACITY_VARIANTS}
             initial="hidden"

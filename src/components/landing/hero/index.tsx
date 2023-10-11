@@ -2,7 +2,7 @@
 import { m, useInView } from "framer-motion";
 import { useRef, useState } from "react";
 import CTA from "./CTA";
-import HeroImage from "./Image";
+import HeroImage from "./HeroImage";
 
 export default function HeroSection() {
     const ref = useRef<HTMLDivElement>(null);

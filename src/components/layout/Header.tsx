@@ -119,6 +119,7 @@ const Header = () => {
                                                     page.url ||
                                                     "#"
                                                 }
+                                                className="link"
                                             >
                                                 {page.title}
                                             </Link>
