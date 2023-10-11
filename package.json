@@ -9,7 +9,7 @@
         "lint": "next lint",
         "cypress:open": "cypress open",
         "cypress:run": "cypress run",
-        "postiiinstall": "prisma generate && prisma db push && prisma db seed",
+        "postinstall": "prisma generate",
         "test": "node --experimental-vm-modules node_modules/jest/bin/jest.js --watch"
     },
     "dependencies": {
