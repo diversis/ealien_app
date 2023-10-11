@@ -134,7 +134,7 @@
     }
 
     .link {
-        @apply text-stroke relative  [&:is(:hover,:focus)]:after:right-0;
+        @apply relative  [&:is(:hover,:focus)]:after:right-0;
     }
     .link::after {
         @apply absolute -bottom-2 left-0 right-full top-0 bg-transparent bg-gradient-to-r from-transparent via-primary-500 to-transparent bg-[size:100%_4px] bg-bottom bg-no-repeat transition-all duration-500 content-[""] dark:via-tertiary-400;

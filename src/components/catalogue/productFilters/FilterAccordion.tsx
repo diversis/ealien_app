@@ -28,7 +28,7 @@ export default function FilterAccordion({
             <AccordionSummary
                 expandIcon={<ExpandMoreIcon />}
             >
-                <Box className="flex flex-row items-center gap-4">
+                <Box className="flex w-full flex-row items-center justify-between gap-4">
                     <Typography
                         id={`filters-${label}-label`}
                     >

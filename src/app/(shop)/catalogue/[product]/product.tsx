@@ -65,11 +65,15 @@ export default function ProductPage({
             >
                 <div className="container flex flex-col items-center gap-y-4 overflow-x-clip px-2 lg:gap-y-8">
                     <Breadcrumbs className="self-start">
-                        <Link href={`/catalogue/`}>
+                        <Link
+                            href={`/catalogue/`}
+                            className="link"
+                        >
                             Catalogue
                         </Link>
                         <Link
                             href={`/catalogue/?category=${product.categories[0].name}`}
+                            className="link"
                         >
                             {product.categories[0].name}
                         </Link>

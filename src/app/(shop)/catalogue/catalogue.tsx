@@ -88,24 +88,27 @@ export default function Catalogue({
     return (
         <PageTransition>
             <div className="flex w-full flex-row">
-                {isMobile ? (
-                    <MUISwipeableDrawer title="Filters">
-                        <ProductFilters
-                            handleSearch={handleSearch}
-                            searchParams={searchParams}
-                        />
-                    </MUISwipeableDrawer>
-                ) : (
+                {isDesktop ? (
                     <aside className="sticky top-28 flex h-min flex-grow basis-16 flex-col pl-2  lg:basis-72 lg:pl-4">
                         <ProductFilters
                             handleSearch={handleSearch}
                             searchParams={searchParams}
                         />
                     </aside>
+                ) : (
+                    <MUISwipeableDrawer title="Filters">
+                        <ProductFilters
+                            handleSearch={handleSearch}
+                            searchParams={searchParams}
+                        />
+                    </MUISwipeableDrawer>
                 )}
                 <div className="container flex flex-col gap-y-4 px-4  lg:mx-4 lg:gap-y-8">
                     <Breadcrumbs className="self-start">
-                        <Link href={`/catalogue/`}>
+                        <Link
+                            href={`/catalogue/`}
+                            className="link"
+                        >
                             Catalogue
                         </Link>
                         {category ? (
