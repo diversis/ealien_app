@@ -36,9 +36,9 @@ import useScrolled from "@/lib/hooks/useScrolled";
 import { useSession } from "@/lib/utils/useSession";
 
 const Header = () => {
-    const { data: session, status } = useSession()();
+    const { data: session, status } = useSession();
     const { email, image, name } = session?.user || {};
-    console.log(name);
+    console.log(session);
     const [anchorElUser, setAnchorElUser] =
         useState<null | HTMLElement>(null);
     const { isMobile, isDesktop } = useWindowSize();

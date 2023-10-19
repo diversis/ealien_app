@@ -2,9 +2,9 @@ import { useSession as useNextAuthSession } from "next-auth/react";
 
 export const useSession = () => {
     // return ()=>useNextAuthSession
+    const session = useNextAuthSession()
     if (process.env.NEXT_PUBLIC_MOCK_NEXT_AUTH) {
-        return () =>
-        ({
+        return ({
             data: {
                 user: {
                     name: "admin",
@@ -16,7 +16,7 @@ export const useSession = () => {
             status: "authenticated"
         })
 
-    } else {
-        return useNextAuthSession
     }
+    return session
+
 }

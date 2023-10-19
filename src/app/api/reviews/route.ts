@@ -2,27 +2,13 @@
 import { ReviewWithAuthor, SerializedPrisma } from '@/lib/prisma/types';
 import { serializeReview } from '@/lib/prisma/serialization';
 import { NextRequest, NextResponse } from "next/server";
-import { getServerSession } from "next-auth/next";
-import {
-    type ZodString,
-    z,
-    ZodError,
-    ZodObject,
-} from "zod";
 
-import { authOptions } from "@/app/api/auth/[...nextauth]/route";
-import { Review, createProductReview, getProductReviews } from "@/lib/prisma/review";
+import { getProductReviews } from "@/lib/prisma/review";
 import { REVIEWS_PER_PAGE } from '@/lib/constants';
 
 const logger = require("@/lib/utils/logger");
 const reviewsLogger = logger.child({
     origin: "API reviews",
-});
-
-const getReviewsSchema = z.object({
-    productId: z
-        .string(),
-    page: z.number(),
 });
 
 export async function GET(request: NextRequest) {

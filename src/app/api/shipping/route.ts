@@ -4,7 +4,7 @@ import { NextRequest, NextResponse } from "next/server";
 
 const logger = require("@/lib/utils/logger");
 const shippingLogger = logger.child({
-    origin: "API reviews",
+    origin: "API shipping",
 });
 
 export async function GET(request: NextRequest) {

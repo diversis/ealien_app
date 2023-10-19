@@ -14,10 +14,6 @@ jest.mock("next-auth/react", () => {
         user: { username: "admin", email: "test@test.ts" },
     };
     let status = "authenticated";
-    const clearMockSession = () => {
-        mockSession = {};
-        status = "unauthenticated";
-    };
 
     return {
         __esModule: true,
@@ -25,9 +21,8 @@ jest.mock("next-auth/react", () => {
         useSession: jest.fn(() => {
             return {
                 data: mockSession,
-                status,
+                status:"authenticated",
             };
         }),
-        signOut: jest.fn(() => clearMockSession()),
     };
 });
