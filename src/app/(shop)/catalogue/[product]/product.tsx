@@ -41,7 +41,7 @@ export default function ProductPage({
           >[]
         | null;
 }) {
-    const { data: session, status } = useSession()();
+    const { data: session, status } = useSession();
     const { email, image } = session?.user || {};
     const ref = useRef(null);
     const isInView = useInView(ref);
