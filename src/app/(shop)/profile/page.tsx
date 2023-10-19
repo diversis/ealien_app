@@ -1,28 +1,14 @@
 import Profile from "./profile";
-import { getServerSession } from "next-auth/next";
+// import { getServerSession } from "next-auth/next";
 import { authOptions } from "@/app/api/auth/[...nextauth]/route";
 
-import { Metadata } from "next";
 import { redirect } from "next/navigation";
 
-import {
-    Product,
-    getBestProducts,
-    getProductListItems,
-} from "@/lib/prisma/product";
-import {
-    serializeCompactProduct,
-    serializeOrder,
-    serializeOrderWithItems,
-    serializeProduct,
-} from "@/lib/prisma/serialization";
+import { serializeOrder } from "@/lib/prisma/serialization";
 import { SerializedPrisma } from "@/lib/prisma/types";
-import {
-    getOrderById,
-    getOrderWithItemsById,
-    getOrdersByUserId,
-} from "@/lib/prisma/order";
+import { getOrdersByUserId } from "@/lib/prisma/order";
 import { Order } from "@prisma/client";
+import { getServerSession } from "@/lib/utils/getServerSession";
 
 export type ProfilePageProps = {
     searchParams: {

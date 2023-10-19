@@ -3,7 +3,7 @@ import Link from "next/link";
 import Button from "@mui/material/Button";
 import DeleteIcon from "@mui/icons-material/Delete";
 
-import { useCart } from "@/lib/hooks/use-cart";
+import { useCart } from "@/lib/hooks/useCart";
 
 import {
     CartItem,

@@ -23,7 +23,7 @@ import Link from "next/link";
 import CTALink from "../cta/CtaLink";
 import Balancer from "react-wrap-balancer";
 import AnimatedDiv from "@/components/shared/AnimatedDiv";
-import useWindowSize from "@/lib/hooks/use-window-size";
+import useWindowSize from "@/lib/hooks/useWindowSize";
 
 export default function CTA({
     containerVisible,

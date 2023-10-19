@@ -1,4 +1,4 @@
-import { MenuItem } from "../types/navMenu";
+import { MenuItem } from "@/lib/types/navMenu";
 
 export const MAIN_MENU_LINKS: readonly MenuItem[] = [
     {

@@ -7,10 +7,10 @@ import Button from "@mui/material/Button";
 import { SwipeableDrawer, Typography } from "@mui/material";
 import CloseIcon from "@mui/icons-material/Close";
 
-import { useCart } from "@/lib/hooks/use-cart";
+import { useCart } from "@/lib/hooks/useCart";
 import ProductTable from "../tables/Products";
 
-import useCartTotal from "@/lib/hooks/use-cart-total";
+import useCartTotal from "@/lib/hooks/useCartTotal";
 import { useWindowSize } from "usehooks-ts";
 
 export default function Cart() {

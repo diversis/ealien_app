@@ -19,7 +19,7 @@ import {
     SerializedPrisma,
 } from "@/lib/prisma/types";
 import { OPACITY_VARIANTS } from "@/lib/constants/variants";
-import { useCart } from "@/lib/hooks/use-cart";
+import { useCart } from "@/lib/hooks/useCart";
 import { useSnackbar } from "notistack";
 
 export default function ProductCard({

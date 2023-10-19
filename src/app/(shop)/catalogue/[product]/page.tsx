@@ -54,14 +54,14 @@ export async function generateMetadata(
         id: params.product,
     });
     return {
-        title: "AAlien | " + product?.name || "",
+        title: "EAlien | " + product?.name || "",
         description: product?.description || "",
         openGraph: {
             images: [
                 product?.image || "",
                 ...previousImages,
             ],
-            title: "AAlien | " + product?.name || "",
+            title: "EAlien | " + product?.name || "",
             description: product?.description || "",
             url: new URL(DOMAIN),
         },
@@ -70,7 +70,7 @@ export async function generateMetadata(
                 product?.image || "",
                 ...previousImages,
             ],
-            title: "AAlien | " + product?.name || "",
+            title: "EAlien | " + product?.name || "",
             description: product?.description || "",
         },
     };

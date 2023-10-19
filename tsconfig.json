@@ -23,14 +23,22 @@
         "paths": {
             "@/*": ["./src/*"],
             "@public/*": ["./public/*"]
-        }
+        },
+        "allowImportingTsExtensions": true
     },
     "include": [
         "next-env.d.ts",
         "**/*.ts",
         "**/*.tsx",
         // "react-email-starter/.react-email/emails/template.tsx",
-        ".next/types/**/*.ts"
-, "jest.setup.js"    ],
-    "exclude": ["node_modules", ".next"]
+        ".next/types/**/*.ts",
+        "./__tests__/*",
+        "./__mocks__/*",
+        "jest.setup.js"
+    ],
+    "exclude": ["node_modules", ".next"],
+    "ts-node": {
+        "esm": true,
+        "experimentalSpecifierResolution": "node"
+    }
 }

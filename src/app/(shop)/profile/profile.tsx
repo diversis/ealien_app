@@ -12,12 +12,6 @@ export default function Profile({
 }: {
     orders?: SerializedPrisma<Order>[];
 }) {
-    // const [render, setRender] = useState(false);
-    // const [editable, setEditable] = useState(true);
-    // useEffect(() => {
-    //     setRender(true);
-    // }, []);
-    // if (!render) return null;
     return (
         <>
             <PageTransition>

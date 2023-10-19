@@ -28,9 +28,9 @@ import { signOut } from "next-auth/react";
 import Social from "../shared/Social";
 import SwitchTheme from "../shared/SwitchTheme";
 import ToggleCart from "../cart/ToggleCart";
-import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
-import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
-import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
+import { MAIN_MENU_LINKS } from "@/lib/nav/main-menu";
+import { USER_MENU_LINKS } from "@/lib/nav/user-menu";
+import { useSignInModal } from "@/lib/hooks/useSignInModal";
 
 export default function MobileMenuContainer({
     toggle,

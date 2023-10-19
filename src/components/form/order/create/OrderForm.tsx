@@ -23,8 +23,8 @@ import LocationCityIcon from "@mui/icons-material/LocationCity";
 import CreditCardIcon from "@mui/icons-material/CreditCard";
 import { StepIconProps } from "@mui/material/StepIcon";
 
-import { useCart } from "@/lib/hooks/use-cart";
-import useWindowSize from "@/lib/hooks/use-window-size";
+import { useCart } from "@/lib/hooks/useCart";
+import useWindowSize from "@/lib/hooks/useWindowSize";
 
 import { CartItem } from "@/lib/prisma/types";
 

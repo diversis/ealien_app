@@ -2,7 +2,7 @@
 import { Suspense, useRef, useState } from "react";
 import { m, useInView } from "framer-motion";
 
-import { useSession } from "next-auth/react";
+// import { useSession } from "next-auth/react";
 import {
     Box,
     Breadcrumbs,
@@ -17,10 +17,11 @@ import ImageMagnifier from "@/components/shared/Magnifier";
 import Reviews from "@/components/catalogue/Reviews";
 import ReviewModal from "@/components/modals/ReviewModal";
 import Link from "next/link";
-import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
+import { useSignInModal } from "@/lib/hooks/useSignInModal";
 import ReviewPlaceholder from "@/components/placeholder/Review";
 import AddToCart from "@/components/form/AddToCart";
 import PageTransition from "@/app/pageTransition";
+import { useSession } from "@/lib/utils/useSession";
 
 export default function ProductPage({
     product,
@@ -40,7 +41,7 @@ export default function ProductPage({
           >[]
         | null;
 }) {
-    const { data: session, status } = useSession();
+    const { data: session, status } = useSession()();
     const { email, image } = session?.user || {};
     const ref = useRef(null);
     const isInView = useInView(ref);

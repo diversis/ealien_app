@@ -9,7 +9,7 @@ import { Session } from "next-auth/core/types";
 import Box from "@mui/material/Box";
 import Stack from "@mui/material/Stack";
 
-import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
+import { useSignInModal } from "@/lib/hooks/useSignInModal";
 
 export default function StepOne({
     session,

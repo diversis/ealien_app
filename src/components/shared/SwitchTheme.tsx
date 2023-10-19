@@ -19,16 +19,6 @@ const SwitchTheme = () => {
     }, []);
     useIsomorphicLayoutEffect(() => {
         setChecked(resolvedTheme === "light");
-        // if (
-        //     resolvedTheme === "light" ||
-        //     resolvedTheme === "dark"
-        // ) {
-        //     createTheme({
-        //         palette: {
-        //             mode: resolvedTheme,
-        //         },
-        //     });
-        // }
     }, [resolvedTheme]);
 
     if (!mounted) return null;

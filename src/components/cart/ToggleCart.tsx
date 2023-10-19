@@ -15,10 +15,10 @@ import ShoppingCartIcon from "@mui/icons-material/ShoppingCart";
 import { enqueueSnackbar } from "notistack";
 import { throttle } from "lodash";
 
-import { useCart } from "@/lib/hooks/use-cart";
+import { useCart } from "@/lib/hooks/useCart";
 import { CartItem } from "@/lib/prisma/types";
 import { isCartItem } from "@/lib/prisma/typeguards";
-import useCartTotal from "@/lib/hooks/use-cart-total";
+import useCartTotal from "@/lib/hooks/useCartTotal";
 
 const endpoint = "/api/catalogue/refresh/";
 

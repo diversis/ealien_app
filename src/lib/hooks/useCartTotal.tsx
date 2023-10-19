@@ -5,7 +5,7 @@ import {
     useMemo,
     useState,
 } from "react";
-import { useCart } from "./use-cart";
+import { useCart } from "./useCart";
 
 export default function useCartTotal() {
     const { items } = useCart((state) => ({

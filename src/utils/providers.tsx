@@ -25,7 +25,7 @@ import {
 import MUIThemeProvider from "@/components/mui/MuiThemeProvider";
 import SignInModal from "@/components/modals/SignInModal";
 import { ReactNode, useState } from "react";
-import useWindowSize from "@/lib/hooks/use-window-size";
+import useWindowSize from "@/lib/hooks/useWindowSize";
 import { Button } from "@mui/material";
 
 export function Providers({

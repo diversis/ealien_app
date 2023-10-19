@@ -19,7 +19,7 @@ import ProductCard from "@/components/catalogue/ProductCard";
 import { SerializedPrisma } from "@/lib/prisma/types";
 
 import ProductFilters from "@/components/catalogue/productFilters/ProductFilters";
-import useWindowSize from "@/lib/hooks/use-window-size";
+import useWindowSize from "@/lib/hooks/useWindowSize";
 import MUISwipeableDrawer from "@/components/mui/SwipeableDrawer";
 import PageTransition from "@/app/pageTransition";
 

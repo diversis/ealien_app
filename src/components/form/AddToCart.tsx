@@ -11,7 +11,7 @@ import {
 } from "@mui/material";
 import { useSnackbar } from "notistack";
 
-import { useCart } from "@/lib/hooks/use-cart";
+import { useCart } from "@/lib/hooks/useCart";
 import { SerializedPrisma } from "@/lib/prisma/types";
 import { Category, Product } from "@prisma/client";
 import { ControlledTextField } from "./fields/ControlledTextField";

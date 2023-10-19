@@ -2,12 +2,11 @@
 import { AnimatePresence, m } from "framer-motion";
 import { useState } from "react";
 import Link from "next/link";
-import { signOut } from "next-auth/react";
 import Fab from "@mui/material/Fab";
 import KeyboardArrowUpIcon from "@mui/icons-material/KeyboardArrowUp";
 import LoginIcon from "@mui/icons-material/Login";
 import LogoutIcon from "@mui/icons-material/Logout";
-import { useSession } from "next-auth/react";
+import { signOut } from "next-auth/react";
 import {
     Avatar,
     Box,
@@ -22,23 +21,24 @@ import {
 
 import MobileMenu from "./MobileMenu";
 import { OPACITY_VARIANTS } from "@/lib/constants/variants";
-import useWindowSize from "@/lib/hooks/use-window-size";
+import useWindowSize from "@/lib/hooks/useWindowSize";
 import SwitchTheme from "../shared/SwitchTheme";
 import ScrollTop from "./ScrollTop";
 
 import Cart from "../cart/Cart";
-import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
-import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
+import { MAIN_MENU_LINKS } from "@/lib/nav/main-menu";
+import { USER_MENU_LINKS } from "@/lib/nav/user-menu";
 import SignInModal from "../modals/SignInModal";
-import { useSignInModal } from "@/lib/hooks/use-sign-in-modal";
-import { MenuContext } from "@/lib/nav/menuContext";
+import { useSignInModal } from "@/lib/hooks/useSignInModal";
+import { MenuContext } from "@/lib/nav/menu-context";
 import ToggleCart from "../cart/ToggleCart";
-import useScrolled from "@/lib/hooks/use-scrolled";
+import useScrolled from "@/lib/hooks/useScrolled";
+import { useSession } from "@/lib/utils/useSession";
 
 const Header = () => {
-    const { data: session, status } = useSession();
+    const { data: session, status } = useSession()();
     const { email, image, name } = session?.user || {};
-
+    console.log(name);
     const [anchorElUser, setAnchorElUser] =
         useState<null | HTMLElement>(null);
     const { isMobile, isDesktop } = useWindowSize();
@@ -232,7 +232,10 @@ const Header = () => {
                                                 );
                                             },
                                         )}
-                                        {!!email ? (
+                                        {session &&
+                                        status ===
+                                            "authenticated" &&
+                                        !!email ? (
                                             <MenuItem
                                                 data-testid="menu-desktop-user-menuitem-logout"
                                                 key={`user-menu-logout`}

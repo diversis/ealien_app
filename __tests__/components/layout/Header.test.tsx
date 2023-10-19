@@ -1,41 +1,21 @@
 import * as React from "react";
 import "@testing-library/jest-dom";
 import { render, screen } from "@testing-library/react";
+import userEvent from "@testing-library/user-event";
 
+import "__mocks__/next-auth";
 import Header from "@/components/layout/Header";
 import { setupIntersectionObserverMock } from "__mocks__/lib/intersectionObserverMock";
-import { MAIN_MENU_LINKS } from "@/lib/nav/mainMenu";
-import { USER_MENU_LINKS } from "@/lib/nav/userMenu";
-
-jest.mock("next-auth/react", () => {
-    const originalModule = jest.requireActual(
-        "next-auth/react",
-    );
-    const mockSession = {
-        expires: new Date(
-            Date.now() + 2 * 86400,
-        ).toISOString(),
-        user: { username: "admin", email: "test@test.ts" },
-    };
-    return {
-        __esModule: true,
-        ...originalModule,
-        useSession: jest.fn(() => {
-            return {
-                data: mockSession,
-                status: "authenticated",
-            };
-        }),
-    };
-});
+import { MAIN_MENU_LINKS } from "@/lib/nav/main-menu";
+import { USER_MENU_LINKS } from "@/lib/nav/user-menu";
 
 describe("Header", () => {
     beforeEach(() => {
         setupIntersectionObserverMock();
     });
-    it("renders Header", () => {
+    it("renders Header", async () => {
+        const user = userEvent.setup();
         render(<Header />);
-        // screen.debug(undefined, Infinity);
 
         expect(
             screen.getByTestId("header"),
@@ -129,6 +109,14 @@ describe("Header", () => {
             ),
         ).toBeInTheDocument();
 
+        await user.click(
+            screen.getByTestId(
+                "menu-desktop-user-menuitem-logout-button",
+            ),
+        );
+
+        screen.debug(undefined, Infinity);
+
         // expect(
         //     screen.getByTestId(
         //         "menu-desktop-user-menuitem-login",
@@ -146,7 +134,5 @@ describe("Header", () => {
         //         "menu-desktop-user-menuitem-login-icon",
         //     ),
         // ).toBeInTheDocument();
-
-        screen.debug(undefined, Infinity);
     });
 });

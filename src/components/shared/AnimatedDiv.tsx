@@ -6,7 +6,7 @@ import {
     m,
     useInView,
 } from "framer-motion";
-import { ReactNode, useRef } from "react";
+import { useRef } from "react";
 
 interface AnimatedDivProps extends HTMLMotionProps<"div"> {
     classNameWrapper?: string;
