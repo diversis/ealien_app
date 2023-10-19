@@ -15,6 +15,11 @@ interface AnimatedDivProps extends HTMLMotionProps<"div"> {
     duration?: number;
     animateInView?: boolean;
     overflowHidden?: boolean;
+    delay?: {
+        visible?: number;
+        hidden?: number;
+        exit?: number;
+    };
 }
 
 export type Direction = "top" | "bottom" | "right" | "left";
@@ -58,6 +63,7 @@ export default function AnimatedDiv({
     animateInView = true,
     variants,
     overflowHidden = true,
+    delay,
     ...rest
 }: AnimatedDivProps) {
     const ref = useRef(null);
@@ -81,6 +87,7 @@ export default function AnimatedDiv({
                       type: "spring",
                       damping: 15,
                       stiffness: 120,
+                      delay: delay?.hidden,
                   },
               },
               visible: {
@@ -96,6 +103,7 @@ export default function AnimatedDiv({
                       type: "spring",
                       damping: 15,
                       stiffness: 120,
+                      delay: delay?.visible,
                   },
               },
               exit: {
@@ -113,6 +121,7 @@ export default function AnimatedDiv({
                       type: "spring",
                       damping: 15,
                       stiffness: 120,
+                      delay: delay?.exit,
                   },
               },
           };

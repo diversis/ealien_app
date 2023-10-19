@@ -21,7 +21,11 @@ export default function Profile({
             <PageTransition>
                 <div className="container flex flex-col gap-8 px-2">
                     <div className="flex flex-col gap-2 lg:gap-4">
-                        <AnimatedDiv className="flex flex-row flex-wrap items-center gap-2 lg:gap-4">
+                        <AnimatedDiv
+                            delay={{ visible: 0.2 }}
+                            direction="left"
+                            className="flex w-fit flex-row flex-wrap items-center gap-2 lg:gap-4"
+                        >
                             <Typography>
                                 Hello, {name}!
                             </Typography>
@@ -33,7 +37,11 @@ export default function Profile({
                                 }
                             />
                         </AnimatedDiv>
-                        <AnimatedDiv className="flex flex-row flex-wrap items-center">
+                        <AnimatedDiv
+                            delay={{ visible: 0.3 }}
+                            direction="right"
+                            className="flex w-fit flex-row flex-wrap items-center"
+                        >
                             <Typography>
                                 Your email: {email}
                             </Typography>
