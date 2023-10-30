@@ -82,9 +82,7 @@ export default function Reviews({
     } = useInfiniteQuery({
         queryKey: [`stream-hydrate-reviews-${productId}`],
         queryFn: async ({
-            pageParam = reviews
-                ? reviews[reviews.length - 1]?.id
-                : "",
+            pageParam
         }) =>
             getReviews({
                 url:
@@ -94,7 +92,9 @@ export default function Reviews({
                         ? `&cursor=${pageParam}`
                         : ""),
             }),
-        suspense: true,
+        initialPageParam:reviews
+        ? reviews[reviews.length - 1]?.id
+        : "",
         staleTime: 5 * 1000,
         getNextPageParam: (lastPage) =>
             lastPage && "nextId" in lastPage
