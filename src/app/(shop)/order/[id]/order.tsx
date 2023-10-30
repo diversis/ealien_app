@@ -54,7 +54,7 @@ export default function OrderPage({
         AxiosError,
         any,
         Response
-    >((url): any => axios.get(url));
+    >({ mutationFn: (url) => axios.get(url) });
 
     const { totalPrice, orderItems: items } = order;
     const dateFormat = new Intl.DateTimeFormat("en-US");
