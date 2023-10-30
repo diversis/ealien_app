@@ -38,10 +38,10 @@ export default function PayPalButtonsComponent({
         AxiosError,
         any,
         Response
-    >((data): any =>
+    >({mutationFn:(data): any =>
         axios.post("/api/paypal/createOrder", {
             data,
-        }),
+        })}
     );
 
     const captureMutation = useMutation<
@@ -49,8 +49,8 @@ export default function PayPalButtonsComponent({
         AxiosError,
         any,
         Response
-    >((data): any =>
-        axios.post("/api/paypal/captureOrder", data),
+    >({mutationFn:(data): any =>
+        axios.post("/api/paypal/captureOrder", data)}
     );
 
     if (!clientId) return null;
