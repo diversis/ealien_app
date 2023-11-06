@@ -39,7 +39,7 @@
         "axios": "^1.5.1",
         "dayjs": "^1.11.8",
         "eslint": "8.43.0",
-        "eslint-config-next": "13.4.7",
+        "eslint-config-next": "14.0.1",
         "framer-motion": "^10.16.4",
         "lodash": "^4.17.21",
         "next": "^13.5.6",
